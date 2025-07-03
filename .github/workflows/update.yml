@@ -12,8 +12,11 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
 
+    env:
+      R_LIBS_USER: ${{ github.workspace }}/R/library
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up R
@@ -23,13 +26,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: r-${{ runner.os }}-${{ hashFiles('**/update_report.R') }}
+          key: r-${{ runner.os }}-${{ hashFiles('update_report.R') }}
           restore-keys: |
             r-${{ runner.os }}-
 
       - name: Install dependencies
         run: |
-          Rscript -e 'install.packages(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"))'
+          install.packages(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"), repos = "https://cloud.r-project.org")
 
       - name: Run update script
         run: Rscript update_report.R
