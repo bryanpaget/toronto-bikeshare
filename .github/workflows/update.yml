@@ -30,9 +30,9 @@ jobs:
           restore-keys: |
             r-${{ runner.os }}-
 
-      - name: Install dependencies
+      - name: Install R packages
         run: |
-          install.packages(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"), repos = "https://cloud.r-project.org")
+          Rscript -e 'install.packages(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"), repos = "https://cloud.r-project.org")'
 
       - name: Run update script
         run: Rscript update_report.R
