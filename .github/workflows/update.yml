@@ -1,9 +1,6 @@
 name: Update COVID Report
 
 on:
-  push:
-    branches:
-      - main  # or your default branch (e.g. "master")
   schedule:
     - cron: '0 0 * * *'  # Every day at midnight UTC
   workflow_dispatch:
