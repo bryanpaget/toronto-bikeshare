@@ -6,7 +6,7 @@ on:
       - main
   schedule:
     - cron: '0 3 * * *'  # Every day at 03:00 UTC
-  workflow_dispatch:      # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   update-report:
@@ -48,7 +48,7 @@ jobs:
       - name: 📦 Install pak + dependencies
         run: |
           Rscript -e 'install.packages("pak", repos = "https://cloud.r-project.org")'
-          Rscript -e 'pak::pkg_install(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"))'
+          Rscript -e 'pak::pkg_install(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr", "curl"))'
 
       - name: 🧮 Run report update
         run: Rscript update_report.R
@@ -58,7 +58,8 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git checkout -b $BRANCH_NAME
+          git fetch origin main
+          git checkout -b $BRANCH_NAME origin/main
           git add README.md data/*.parquet plots/*.png || true
           if git diff --cached --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
