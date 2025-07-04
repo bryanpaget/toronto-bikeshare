@@ -1,22 +1,19 @@
-name: Update COVID Report
+name: Auto-update COVID Report
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 0 * * *'  # Every day at midnight UTC
+    - cron: '0 0 * * *'  # every night UTC
   workflow_dispatch:
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-
     env:
       R_LIBS_USER: ${{ github.workspace }}/R/library
+      BRANCH_NAME: auto/update-covid-${{ github.run_id }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up R
@@ -30,17 +27,41 @@ jobs:
           restore-keys: |
             r-${{ runner.os }}-
 
-      - name: Install R packages
+      - name: Install pak and dependencies
         run: |
-          Rscript -e 'install.packages(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"), repos = "https://cloud.r-project.org")'
+          Rscript -e 'install.packages("pak", repos = "https://cloud.r-project.org")'
+          Rscript -e 'pak::pkg_install(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr"))'
 
       - name: Run update script
         run: Rscript update_report.R
 
-      - name: Commit and push changes
+      - name: Check for changes
+        id: git-check
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add README.md data/*.parquet plots/*.png
-          git commit -m "🕒 Auto-update report [$(date)]" || echo "No changes"
-          git push
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout -b $BRANCH_NAME
+          git add README.md data/*.parquet plots/*.png || true
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "🕒 Auto-update COVID report"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create PR
+        if: steps.git-check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.BRANCH_NAME }}
+          title: "🕒 Auto-update COVID report"
+          body: "This PR updates the README, data, and plots with new COVID-19 data."
+          delete-branch: true
+          labels: automated
+
+      - name: Auto-merge PR
+        if: steps.git-check.outputs.changed == 'true'
+        uses: pascalgn/automerge-action@v0.16.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
