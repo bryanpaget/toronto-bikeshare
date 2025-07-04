@@ -1,10 +1,11 @@
-# Libraries
-library(readr)
+library(httr)
+library(jsonlite)
 library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(knitr)
 library(tidyr)
+library(ggmap)
 
 # Clean output folders
 unlink("data", recursive = TRUE)
@@ -12,93 +13,124 @@ unlink("plots", recursive = TRUE)
 dir.create("data", showWarnings = FALSE)
 dir.create("plots", showWarnings = FALSE)
 
-# Download and process bike share data
-bike_url <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/8a6ebe47-41a4-4f82-bfba-c3d4723d20f1/download/bike-share-toronto-ridership-2023.csv"
-bike_data <- read_csv(bike_url, 
-                     col_types = cols_only(
-                       start_time = col_character(),
-                       end_time = col_character(),
-                       start_station_id = col_integer(),
-                       end_station_id = col_integer(),
-                       user_type = col_character()
-                     ))
+# GBFS endpoints
+gbfs_endpoints <- fromJSON("https://tor.publicbikesystem.net/ube/gbfs/gbfs.json")
+feeds <- gbfs_endpoints$data$en$feeds
 
-# Process data
-processed <- bike_data %>%
-  mutate(
-    start_time = as.POSIXct(start_time, format = "%Y-%m-%d %H:%M:%S"),
-    end_time = as.POSIXct(end_time, format = "%Y-%m-%d %H:%M:%S"),
-    trip_duration = as.numeric(difftime(end_time, start_time, units = "mins")),
-    date = as.Date(start_time),
-    hour = hour(start_time),
-    day_type = ifelse(wday(date) %in% 2:6, "Weekday", "Weekend")
-  ) %>%
-  filter(trip_duration > 1 & trip_duration < 1440)  # Filter valid trips (1 min to 24 hrs)
+# Get station information
+station_info_url <- feeds$url[feeds$name == "station_information"]
+station_status_url <- feeds$url[feeds$name == "station_status"]
 
-# Key metrics
-total_trips <- nrow(processed)
-avg_duration <- mean(processed$trip_duration)
-member_pct <- mean(processed$user_type == "Member") * 100
+# Fetch station data
+station_info <- fromJSON(station_info_url)$data$stations
+station_status <- fromJSON(station_status_url)$data$stations
 
-# Time-based analysis
-hourly_trips <- processed %>%
-  count(hour, name = "trips") %>%
-  mutate(pct_of_total = trips / sum(trips) * 100)
+# Merge station data
+stations <- station_info %>%
+  left_join(station_status, by = "station_id") %>%
+  select(station_id, name, capacity, num_bikes_available, num_docks_available, 
+         last_reported, lat, lon, is_installed, is_renting, is_returning)
 
-daily_trips <- processed %>%
-  count(date, name = "trips")
+# Calculate metrics
+timestamp <- as.POSIXct(stations$last_reported[1], origin = "1970-01-01")
+total_bikes <- sum(stations$num_bikes_available)
+total_docks <- sum(stations$num_docks_available)
+utilization_rate <- total_bikes / (total_bikes + total_docks) * 100
+active_stations <- sum(stations$is_installed == 1 & stations$is_renting == 1 & stations$is_returning == 1)
 
-# Popular stations
-top_stations <- processed %>%
-  count(start_station_id, name = "departures") %>%
-  arrange(desc(departures)) %>%
-  slice_head(n = 5)
+# Top stations by bike availability
+top_bike_stations <- stations %>%
+  arrange(desc(num_bikes_available)) %>%
+  slice_head(n = 5) %>%
+  select(name, num_bikes_available, capacity)
 
-# Plots
-# 1. Daily trips trend
-daily_plot <- ggplot(daily_trips, aes(x = date, y = trips)) +
-  geom_line(color = "#1E88E5") +
-  labs(title = "Daily Bike Trips Trend (2023)",
-       x = "Date", y = "Number of Trips") +
+# Top stations by dock availability
+top_dock_stations <- stations %>%
+  arrange(desc(num_docks_available)) %>%
+  slice_head(n = 5) %>%
+  select(name, num_docks_available, capacity)
+
+# Station status summary
+status_summary <- stations %>%
+  mutate(status = case_when(
+    num_bikes_available == 0 ~ "Empty",
+    num_docks_available == 0 ~ "Full",
+    TRUE ~ "Available"
+  )) %>%
+  count(status)
+
+# Bike availability distribution
+availability_dist <- stations %>%
+  mutate(availability_pct = num_bikes_available / capacity * 100) %>%
+  filter(!is.na(availability_pct))
+
+# Map visualization
+toronto_bbox <- c(left = -79.45, bottom = 43.62, right = -79.35, top = 43.70)
+toronto_map <- get_stamenmap(bbox = toronto_bbox, zoom = 13, maptype = "toner-lite")
+
+availability_map <- ggmap(toronto_map) +
+  geom_point(data = stations, 
+             aes(x = lon, y = lat, 
+                 size = num_bikes_available,
+                 color = num_bikes_available),
+             alpha = 0.8) +
+  scale_color_gradient(low = "yellow", high = "red") +
+  labs(title = "Bike Availability Across Toronto",
+       subtitle = paste("Last updated:", format(timestamp, "%Y-%m-%d %H:%M")),
+       x = "Longitude", y = "Latitude") +
   theme_minimal()
 
-ggsave("plots/daily_trips.png", daily_plot, width = 10, height = 6)
+ggsave("plots/availability_map.png", availability_map, width = 10, height = 8)
 
-# 2. Hourly usage pattern
-hourly_plot <- ggplot(hourly_trips, aes(x = hour, y = pct_of_total)) +
-  geom_col(fill = "#FFC107") +
-  labs(title = "Hourly Bike Usage Pattern",
-       x = "Hour of Day", y = "% of Daily Trips") +
+# Availability distribution plot
+dist_plot <- ggplot(availability_dist, aes(x = availability_pct)) +
+  geom_histogram(fill = "#1E88E5", bins = 20) +
+  labs(title = "Station Bike Availability Distribution",
+       x = "Percentage of Bikes Available", y = "Number of Stations") +
   theme_minimal()
 
-ggsave("plots/hourly_usage.png", hourly_plot, width = 10, height = 6)
+ggsave("plots/availability_dist.png", dist_plot, width = 10, height = 6)
 
-# 3. Trip duration distribution
-duration_plot <- ggplot(processed, aes(x = trip_duration)) +
-  geom_density(fill = "#004D40", alpha = 0.7) +
-  scale_x_continuous(limits = c(0, 120)) +
-  labs(title = "Trip Duration Distribution",
-       x = "Duration (minutes)", y = "Density") +
+# Status distribution plot
+status_plot <- ggplot(status_summary, aes(x = status, y = n, fill = status)) +
+  geom_col() +
+  geom_text(aes(label = n), vjust = -0.3) +
+  labs(title = "Station Status Distribution", 
+       x = "Status", y = "Number of Stations") +
+  scale_fill_manual(values = c("Available" = "#4CAF50", "Empty" = "#F44336", "Full" = "#FFC107")) +
   theme_minimal()
 
-ggsave("plots/trip_duration.png", duration_plot, width = 10, height = 6)
+ggsave("plots/status_distribution.png", status_plot, width = 10, height = 6)
 
 # Generate README
 readme_content <- paste0(
   "# 🚲 Toronto Bike Share Analytics\n\n",
-  "Updated automatically with daily insights\n\n",
-  "## 📊 Key Metrics (2023 Data)\n",
-  "- **Total trips:** ", format(total_trips, big.mark = ","), "\n",
-  "- **Average trip duration:** ", round(avg_duration, 1), " minutes\n",
-  "- **Member rides:** ", round(member_pct, 1), "%\n\n",
-  "## 📈 Daily Trip Volume\n",
-  "![Daily Trips](plots/daily_trips.png)\n\n",
-  "## 🕒 Hourly Usage Pattern\n",
-  "![Hourly Usage](plots/hourly_usage.png)\n\n",
-  "## ⏱ Trip Duration Distribution\n",
-  "![Trip Duration](plots/trip_duration.png)\n\n",
-  "## 🏆 Top 5 Stations by Departures\n",
-  knitr::kable(top_stations, format = "markdown", col.names = c("Station ID", "Departures"))
+  "Updated: ", format(timestamp, "%Y-%m-%d %H:%M"), "\n\n",
+  "## 📊 System Overview\n",
+  "- **Total bikes available:** ", format(total_bikes, big.mark = ","), "\n",
+  "- **Total docks available:** ", format(total_docks, big.mark = ","), "\n",
+  "- **System utilization rate:** ", round(utilization_rate, 1), "%\n",
+  "- **Active stations:** ", active_stations, "/", nrow(stations), "\n\n",
+  
+  "## 🏆 Top 5 Stations by Bike Availability\n",
+  kable(top_bike_stations, format = "markdown", col.names = c("Station", "Bikes Available", "Capacity")),
+  "\n\n",
+  
+  "## 🏆 Top 5 Stations by Dock Availability\n",
+  kable(top_dock_stations, format = "markdown", col.names = c("Station", "Docks Available", "Capacity")),
+  "\n\n",
+  
+  "## 📍 Bike Availability Map\n",
+  "![Availability Map](plots/availability_map.png)\n\n",
+  
+  "## 📊 Station Status Distribution\n",
+  "![Status Distribution](plots/status_distribution.png)\n\n",
+  
+  "## 📈 Bike Availability Distribution\n",
+  "![Availability Distribution](plots/availability_dist.png)\n"
 )
 
 writeLines(readme_content, "README.md")
+
+# Save data for future analysis
+write_parquet(stations, "data/bike_stations.parquet")
