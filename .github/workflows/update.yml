@@ -1,6 +1,9 @@
 name: Auto-update COVID Report
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 0 * * *'  # every night UTC
   workflow_dispatch:
