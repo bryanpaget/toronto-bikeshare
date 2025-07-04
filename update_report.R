@@ -56,4 +56,10 @@ ggsave("plots/covid_plot.png", plot = p, width = 10, height = 6)
 readme <- paste0(
   "# 🦠 COVID-19 Daily Report\n\n",
   "Updated automatically every night.\n\n",
-  "## 📊 Top 10
+  "## 📊 Top 10 Countries by Total Cases\n\n",
+  kable(latest_data, format = "markdown"),
+  "\n\n## 📈 Trend Over Time\n\n",
+  "![COVID-19 Trend](plots/covid_plot.png)\n"
+)
+
+writeLines(readme, "README.md")
