@@ -1,87 +1,46 @@
-name: Auto-update COVID Report
-
+name: Update Data
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 3 * * *'  # Every day at 03:00 UTC
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
-  update-report:
+  update:
     runs-on: ubuntu-latest
-    env:
-      R_LIBS_USER: ${{ github.workspace }}/R/library
-      BRANCH_NAME: auto/update-covid-${{ github.run_id }}
 
+    if: github.ref == 'refs/heads/main'
+    
     steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        ref: main
 
-      - name: 🧱 Install system libraries
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libcurl4-openssl-dev \
-            libssl-dev \
-            libxml2-dev \
-            libgit2-dev \
-            libharfbuzz-dev \
-            libfribidi-dev \
-            libfreetype6-dev \
-            libpng-dev \
-            libtiff5-dev \
-            libjpeg-dev
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v1
 
-      - name: 🧰 Set up R
-        uses: r-lib/actions/setup-r@v2
+    - name: Update data
+      run: Rscript update_report.R
 
-      - name: 💾 Cache R packages
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: r-${{ runner.os }}-${{ hashFiles('update_report.R') }}
-          restore-keys: |
-            r-${{ runner.os }}-
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        # Generate unique branch name
+        BRANCH_NAME="auto/update-covid-$(date +%s)"
+        git checkout -B $BRANCH_NAME
+        git add .
+        git commit -m "Update covid data"
+        git push origin $BRANCH_NAME
 
-      - name: 📦 Install pak + dependencies
-        run: |
-          Rscript -e 'install.packages("pak", repos = "https://cloud.r-project.org")'
-          Rscript -e 'pak::pkg_install(c("arrow", "dplyr", "readr", "ggplot2", "lubridate", "knitr", "tidyr", "curl"))'
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.PAT }}
+        commit-message: Update covid data
+        title: 'Update covid data'
+        body: 'Automated update of covid data'
 
-      - name: 🧮 Run report update
-        run: Rscript update_report.R
+        branch: $BRANCH_NAME
 
-      - name: 🧪 Detect changes
-        id: changes
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git fetch origin main
-          git checkout -b $BRANCH_NAME origin/main
-          git add README.md data/*.parquet plots/*.png || true
-          if git diff --cached --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            git commit -m "🕒 Auto-update COVID report [$(date -u)]"
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: 🔁 Create pull request
-        if: steps.changes.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.BRANCH_NAME }}
-          title: "🕒 Auto-update COVID report"
-          body: "This PR updates the report data, plots, and README."
-          delete-branch: true
-          labels: |
-            automated
-
-      - name: ✅ Auto-merge pull request
-        if: steps.changes.outputs.changed == 'true'
-        uses: pascalgn/automerge-action@v0.16.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        base: main
