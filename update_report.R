@@ -1,65 +1,104 @@
-# update_report.R
-
-library(arrow)
-library(dplyr)
+# Libraries
 library(readr)
+library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(knitr)
 library(tidyr)
 
-# Create output folders
+# Clean output folders
+unlink("data", recursive = TRUE)
+unlink("plots", recursive = TRUE)
 dir.create("data", showWarnings = FALSE)
 dir.create("plots", showWarnings = FALSE)
 
-# Load data
-url <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
-covid_raw <- read_csv(url)
+# Download and process bike share data
+bike_url <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/8a6ebe47-41a4-4f82-bfba-c3d4723d20f1/download/bike-share-toronto-ridership-2023.csv"
+bike_data <- read_csv(bike_url, 
+                     col_types = cols_only(
+                       start_time = col_character(),
+                       end_time = col_character(),
+                       start_station_id = col_integer(),
+                       end_station_id = col_integer(),
+                       user_type = col_character()
+                     ))
 
-# Clean and transform
-covid_long <- covid_raw %>%
-  select(-Lat, -Long) %>%
-  group_by(`Country/Region`) %>%
-  summarise(across(where(is.numeric), sum), .groups = "drop") %>%
-  pivot_longer(
-    cols = -`Country/Region`,
-    names_to = "date",
-    values_to = "cases"
+# Process data
+processed <- bike_data %>%
+  mutate(
+    start_time = as.POSIXct(start_time, format = "%Y-%m-%d %H:%M:%S"),
+    end_time = as.POSIXct(end_time, format = "%Y-%m-%d %H:%M:%S"),
+    trip_duration = as.numeric(difftime(end_time, start_time, units = "mins")),
+    date = as.Date(start_time),
+    hour = hour(start_time),
+    day_type = ifelse(wday(date) %in% 2:6, "Weekday", "Weekend")
   ) %>%
-  mutate(date = mdy(date)) %>%
-  arrange(`Country/Region`, date)
+  filter(trip_duration > 1 & trip_duration < 1440)  # Filter valid trips (1 min to 24 hrs)
 
-# Save to Parquet
-write_parquet(covid_long, "data/covid_data.parquet")
+# Key metrics
+total_trips <- nrow(processed)
+avg_duration <- mean(processed$trip_duration)
+member_pct <- mean(processed$user_type == "Member") * 100
 
-# Get top 10 countries by latest total
-latest_data <- covid_long %>%
-  filter(date == max(date)) %>%
-  group_by(`Country/Region`) %>%
-  summarise(cases = sum(cases), .groups = "drop") %>%
-  arrange(desc(cases)) %>%
-  slice_head(n = 10)
+# Time-based analysis
+hourly_trips <- processed %>%
+  count(hour, name = "trips") %>%
+  mutate(pct_of_total = trips / sum(trips) * 100)
 
-# Plot trend
-plot_data <- covid_long %>%
-  filter(`Country/Region` %in% latest_data$`Country/Region`)
+daily_trips <- processed %>%
+  count(date, name = "trips")
 
-p <- ggplot(plot_data, aes(x = date, y = cases, color = `Country/Region`)) +
-  geom_line(size = 1) +
-  labs(title = "Top 10 Countries - COVID-19 Cases Over Time",
-       x = "Date", y = "Cumulative Cases") +
+# Popular stations
+top_stations <- processed %>%
+  count(start_station_id, name = "departures") %>%
+  arrange(desc(departures)) %>%
+  slice_head(n = 5)
+
+# Plots
+# 1. Daily trips trend
+daily_plot <- ggplot(daily_trips, aes(x = date, y = trips)) +
+  geom_line(color = "#1E88E5") +
+  labs(title = "Daily Bike Trips Trend (2023)",
+       x = "Date", y = "Number of Trips") +
   theme_minimal()
 
-ggsave("plots/covid_plot.png", plot = p, width = 10, height = 6)
+ggsave("plots/daily_trips.png", daily_plot, width = 10, height = 6)
 
-# Generate README.md
-readme <- paste0(
-  "# 🦠 COVID-19 Daily Report\n\n",
-  "Updated automatically every night.\n\n",
-  "## 📊 Top 10 Countries by Total Cases\n\n",
-  kable(latest_data, format = "markdown"),
-  "\n\n## 📈 Trend Over Time\n\n",
-  "![COVID-19 Trend](plots/covid_plot.png)\n"
+# 2. Hourly usage pattern
+hourly_plot <- ggplot(hourly_trips, aes(x = hour, y = pct_of_total)) +
+  geom_col(fill = "#FFC107") +
+  labs(title = "Hourly Bike Usage Pattern",
+       x = "Hour of Day", y = "% of Daily Trips") +
+  theme_minimal()
+
+ggsave("plots/hourly_usage.png", hourly_plot, width = 10, height = 6)
+
+# 3. Trip duration distribution
+duration_plot <- ggplot(processed, aes(x = trip_duration)) +
+  geom_density(fill = "#004D40", alpha = 0.7) +
+  scale_x_continuous(limits = c(0, 120)) +
+  labs(title = "Trip Duration Distribution",
+       x = "Duration (minutes)", y = "Density") +
+  theme_minimal()
+
+ggsave("plots/trip_duration.png", duration_plot, width = 10, height = 6)
+
+# Generate README
+readme_content <- paste0(
+  "# 🚲 Toronto Bike Share Analytics\n\n",
+  "Updated automatically with daily insights\n\n",
+  "## 📊 Key Metrics (2023 Data)\n",
+  "- **Total trips:** ", format(total_trips, big.mark = ","), "\n",
+  "- **Average trip duration:** ", round(avg_duration, 1), " minutes\n",
+  "- **Member rides:** ", round(member_pct, 1), "%\n\n",
+  "## 📈 Daily Trip Volume\n",
+  "![Daily Trips](plots/daily_trips.png)\n\n",
+  "## 🕒 Hourly Usage Pattern\n",
+  "![Hourly Usage](plots/hourly_usage.png)\n\n",
+  "## ⏱ Trip Duration Distribution\n",
+  "![Trip Duration](plots/trip_duration.png)\n\n",
+  "## 🏆 Top 5 Stations by Departures\n",
+  knitr::kable(top_stations, format = "markdown", col.names = c("Station ID", "Departures"))
 )
 
-writeLines(readme, "README.md")
+writeLines(readme_content, "README.md")
