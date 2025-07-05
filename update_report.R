@@ -8,8 +8,8 @@ library(tidyr)
 library(plotly)
 library(DT)
 library(htmltools)
-library(leaflet)  # Advanced mapping
-library(viridis)  # Professional color scales
+library(leaflet)
+library(viridis)
 
 # Clean output folders
 unlink("docs", recursive = TRUE)
