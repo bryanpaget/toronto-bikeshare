@@ -5,7 +5,7 @@ library(ggplot2)
 library(lubridate)
 library(knitr)
 library(tidyr)
-library(ggmap)
+library(arrow)
 
 # Clean output folders
 unlink("data", recursive = TRUE)
@@ -33,8 +33,8 @@ stations <- station_info %>%
 
 # Calculate metrics
 timestamp <- as.POSIXct(stations$last_reported[1], origin = "1970-01-01")
-total_bikes <- sum(stations$num_bikes_available)
-total_docks <- sum(stations$num_docks_available)
+total_bikes <- sum(stations$num_bikes_available, na.rm = TRUE)
+total_docks <- sum(stations$num_docks_available, na.rm = TRUE)
 utilization_rate <- total_bikes / (total_bikes + total_docks) * 100
 active_stations <- sum(stations$is_installed == 1 & stations$is_renting == 1 & stations$is_returning == 1)
 
@@ -64,23 +64,16 @@ availability_dist <- stations %>%
   mutate(availability_pct = num_bikes_available / capacity * 100) %>%
   filter(!is.na(availability_pct))
 
-# Map visualization
-toronto_bbox <- c(left = -79.45, bottom = 43.62, right = -79.35, top = 43.70)
-toronto_map <- get_stamenmap(bbox = toronto_bbox, zoom = 13, maptype = "toner-lite")
-
-availability_map <- ggmap(toronto_map) +
-  geom_point(data = stations, 
-             aes(x = lon, y = lat, 
-                 size = num_bikes_available,
-                 color = num_bikes_available),
-             alpha = 0.8) +
+# Simple location plot without ggmap
+location_plot <- ggplot(stations, aes(x = lon, y = lat, size = num_bikes_available, color = num_bikes_available)) +
+  geom_point(alpha = 0.7) +
   scale_color_gradient(low = "yellow", high = "red") +
   labs(title = "Bike Availability Across Toronto",
        subtitle = paste("Last updated:", format(timestamp, "%Y-%m-%d %H:%M")),
        x = "Longitude", y = "Latitude") +
   theme_minimal()
 
-ggsave("plots/availability_map.png", availability_map, width = 10, height = 8)
+ggsave("plots/location_plot.png", location_plot, width = 10, height = 8)
 
 # Availability distribution plot
 dist_plot <- ggplot(availability_dist, aes(x = availability_pct)) +
@@ -120,8 +113,8 @@ readme_content <- paste0(
   kable(top_dock_stations, format = "markdown", col.names = c("Station", "Docks Available", "Capacity")),
   "\n\n",
   
-  "## 📍 Bike Availability Map\n",
-  "![Availability Map](plots/availability_map.png)\n\n",
+  "## 📍 Bike Locations\n",
+  "![Bike Locations](plots/location_plot.png)\n\n",
   
   "## 📊 Station Status Distribution\n",
   "![Status Distribution](plots/status_distribution.png)\n\n",
