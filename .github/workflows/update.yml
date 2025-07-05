@@ -3,12 +3,12 @@ on:
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight UTC
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 permissions:
   contents: write
+
+env:
+  BRANCH_NAME: auto/update-bike-$(date +%s)
 
 jobs:
   update:
@@ -27,23 +27,19 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get install -y libcurl4-openssl-dev libssl-dev
-        R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow'), repos = 'https://cloud.r-project.org')"
+        R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow', 'plotly', 'DT', 'htmltools'), repos = 'https://cloud.r-project.org')"
 
     - name: Update data
       run: Rscript update_report.R
-
-    - name: Generate branch name
-      id: branch
-      run: echo "branch_name=auto/update-bike-$(date +%s)" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout -B ${{ steps.branch.outputs.branch_name }}
+        git checkout -B ${{ env.BRANCH_NAME }}
         git add .
-        git commit -m "Update bike share data"
-        git push origin ${{ steps.branch.outputs.branch_name }}
+        git commit -m "Update bike share data and dashboard"
+        git push origin ${{ env.BRANCH_NAME }}
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5
@@ -51,6 +47,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         title: 'Update bike share analytics'
         body: 'Automated update of Toronto bike share statistics'
-        branch: ${{ steps.branch.outputs.branch_name }}
+        branch: ${{ env.BRANCH_NAME }}
         base: main
         delete-branch: true
