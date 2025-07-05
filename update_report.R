@@ -10,6 +10,7 @@ library(DT)
 library(htmltools)
 library(leaflet)
 library(viridis)
+library(htmlwidgets)  # For saving widgets
 
 # Clean output folders
 unlink("docs", recursive = TRUE)
@@ -94,6 +95,9 @@ tryCatch({
       title = "Bikes Available"
     )
   
+  # Save leaflet map as HTML widget
+  saveWidget(bike_map, file = "docs/plots/bike_map.html", selfcontained = TRUE)
+  
   # Save static version for README
   static_map <- ggplot(stations, aes(x = lon, y = lat, size = num_bikes_available, color = num_bikes_available)) +
     geom_point(alpha = 0.7) +
@@ -113,7 +117,8 @@ tryCatch({
          x = "Percentage of Bikes Available", y = "Number of Stations") +
     theme_minimal()
   
-  ggsave("docs/plots/availability_dist.png", dist_plot, width = 10, height = 6)
+  dist_plotly <- ggplotly(dist_plot)
+  saveWidget(dist_plotly, "docs/plots/availability_dist.html", selfcontained = TRUE)
   
   # Interactive status plot
   status_plot <- ggplot(status_summary, aes(x = status, y = n, fill = status)) +
@@ -124,7 +129,33 @@ tryCatch({
     scale_fill_viridis_d(option = "D", end = 0.8) +
     theme_minimal()
   
-  ggsave("docs/plots/status_distribution.png", status_plot, width = 10, height = 6)
+  status_plotly <- ggplotly(status_plot)
+  saveWidget(status_plotly, "docs/plots/status_distribution.html", selfcontained = TRUE)
+  
+  # Generate tables
+  bike_table <- datatable(top_bike_stations, 
+                          colnames = c('Station', 'Bikes Available', 'Capacity'),
+                          options = list(pageLength = 10, dom = 'tip'),
+                          rownames = FALSE) %>%
+                formatStyle(columns = c(2), 
+                          background = styleColorBar(range(top_bike_stations$num_bikes_available), 'plasma'),
+                          backgroundSize = '98% 88%',
+                          backgroundRepeat = 'no-repeat',
+                          backgroundPosition = 'center')
+  
+  saveWidget(bike_table, "docs/plots/bike_table.html", selfcontained = TRUE)
+  
+  dock_table <- datatable(top_dock_stations, 
+                          colnames = c('Station', 'Docks Available', 'Capacity'),
+                          options = list(pageLength = 10, dom = 'tip'),
+                          rownames = FALSE) %>%
+                formatStyle(columns = c(2), 
+                          background = styleColorBar(range(top_dock_stations$num_docks_available), 'viridis'),
+                          backgroundSize = '98% 88%',
+                          backgroundRepeat = 'no-repeat',
+                          backgroundPosition = 'center')
+  
+  saveWidget(dock_table, "docs/plots/dock_table.html", selfcontained = TRUE)
   
   # Generate README
   readme_content <- paste0(
@@ -176,6 +207,8 @@ tryCatch({
         .header { background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); color: white; padding: 20px 0; margin-bottom: 30px; }
         .footer { background-color: #343a40; color: white; padding: 20px 0; margin-top: 40px; }
         .table-hover tbody tr:hover { background-color: rgba(37, 117, 252, 0.1); }
+        .iframe-container { height: 500px; border: none; }
+        .small-iframe { height: 400px; }
       "))
     ),
     tags$body(
@@ -224,7 +257,7 @@ tryCatch({
               div(class = "col-md-12",
                   div(class = "plot-container",
                       h3("📍 Live Bike Availability Map", class = "section-title"),
-                      leafletOutput(bike_map, width = "100%", height = "500px")
+                      tags$iframe(src = "plots/bike_map.html", class = "iframe-container w-100")
                   )
               )
           ),
@@ -233,13 +266,13 @@ tryCatch({
               div(class = "col-md-6",
                   div(class = "plot-container",
                       h3("📊 Station Status Distribution", class = "section-title"),
-                      renderPlot(status_plot)
+                      tags$iframe(src = "plots/status_distribution.html", class = "iframe-container w-100 small-iframe")
                   )
               ),
               div(class = "col-md-6",
                   div(class = "plot-container",
                       h3("📈 Bike Availability Distribution", class = "section-title"),
-                      renderPlot(dist_plot)
+                      tags$iframe(src = "plots/availability_dist.html", class = "iframe-container w-100 small-iframe")
                   )
               )
           ),
@@ -248,33 +281,13 @@ tryCatch({
               div(class = "col-md-6",
                   div(class = "plot-container",
                       h3("🏆 Top Stations by Bike Availability", class = "section-title"),
-                      renderDataTable({
-                        datatable(top_bike_stations, 
-                                  colnames = c('Station', 'Bikes Available', 'Capacity'),
-                                  options = list(pageLength = 10, dom = 'tip'),
-                                  rownames = FALSE) %>%
-                          formatStyle(columns = c(2), 
-                                    background = styleColorBar(range(top_bike_stations$num_bikes_available), 'plasma'),
-                                    backgroundSize = '98% 88%',
-                                    backgroundRepeat = 'no-repeat',
-                                    backgroundPosition = 'center')
-                      })
+                      tags$iframe(src = "plots/bike_table.html", class = "iframe-container w-100 small-iframe")
                   )
               ),
               div(class = "col-md-6",
                   div(class = "plot-container",
                       h3("🏆 Top Stations by Dock Availability", class = "section-title"),
-                      renderDataTable({
-                        datatable(top_dock_stations, 
-                                  colnames = c('Station', 'Docks Available', 'Capacity'),
-                                  options = list(pageLength = 10, dom = 'tip'),
-                                  rownames = FALSE) %>%
-                          formatStyle(columns = c(2), 
-                                    background = styleColorBar(range(top_dock_stations$num_docks_available), 'viridis'),
-                                    backgroundSize = '98% 88%',
-                                    backgroundRepeat = 'no-repeat',
-                                    backgroundPosition = 'center')
-                      })
+                      tags$iframe(src = "plots/dock_table.html", class = "iframe-container w-100 small-iframe")
                   )
               )
           )
@@ -286,15 +299,7 @@ tryCatch({
               p(paste("Last updated:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))),
               p("Data source: Toronto Bike Share GBFS API")
           )
-      ),
-      
-      # Initialize Leaflet map
-      tags$script(HTML(paste0(
-        "var map = L.map('map').setView([43.65, -79.38], 13);",
-        "L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {",
-        "  attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'",
-        "}).addTo(map);"
-      )))
+      )
     )
   )
   
@@ -302,7 +307,7 @@ tryCatch({
   save_html(dashboard, file = "docs/index.html")
   
   # Save data for future analysis
-  write_parquet(stations, "docs/data/bike_stations.parquet")
+  # write_parquet(stations, "docs/data/bike_stations.parquet")  # Requires arrow package
 }, error = function(e) {
   message("Error processing data: ", e$message)
   # Create error placeholder
