@@ -10,9 +10,6 @@ on:
 permissions:
   contents: write
 
-env:
-  BRANCH_NAME: auto/update-bike-$(date +%s)
-
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -36,6 +33,14 @@ jobs:
       run: |
         R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow', 'plotly', 'DT', 'htmltools', 'leaflet', 'viridis'), repos = 'https://cloud.r-project.org')"
 
+    - name: Generate branch name
+      id: branch
+      run: |
+        timestamp=$(date +%s)
+        branch_name="auto/update-bike-$timestamp"
+        echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
+        echo "Generated branch name: $branch_name"
+
     - name: Update data
       run: Rscript update_report.R
 
@@ -43,10 +48,10 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout -B ${{ env.BRANCH_NAME }}
+        git checkout -B ${{ steps.branch.outputs.branch_name }}
         git add .
         git commit -m "Update bike share dashboard"
-        git push origin ${{ env.BRANCH_NAME }}
+        git push origin ${{ steps.branch.outputs.branch_name }}
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5
@@ -54,6 +59,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         title: 'Update bike share analytics'
         body: 'Automated update of Toronto bike share statistics'
-        branch: ${{ env.BRANCH_NAME }}
+        branch: ${{ steps.branch.outputs.branch_name }}
         base: main
         delete-branch: true
