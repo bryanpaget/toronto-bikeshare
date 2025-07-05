@@ -1,11 +1,11 @@
 name: Update Bike Data
 on:
-  schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -27,10 +27,14 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
 
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
-        sudo apt-get install -y libcurl4-openssl-dev libssl-dev
-        R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow', 'plotly', 'DT', 'htmltools'), repos = 'https://cloud.r-project.org')"
+        sudo apt-get update
+        sudo apt-get install -y libcurl4-openssl-dev libssl-dev libudunits2-dev libgdal-dev
+        
+    - name: Install R packages
+      run: |
+        R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow', 'plotly', 'DT', 'htmltools', 'leaflet', 'viridis'), repos = 'https://cloud.r-project.org')"
 
     - name: Update data
       run: Rscript update_report.R
@@ -41,7 +45,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git checkout -B ${{ env.BRANCH_NAME }}
         git add .
-        git commit -m "Update bike share data and dashboard"
+        git commit -m "Update bike share dashboard"
         git push origin ${{ env.BRANCH_NAME }}
 
     - name: Create Pull Request
