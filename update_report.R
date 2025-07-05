@@ -13,17 +13,18 @@ unlink("plots", recursive = TRUE)
 dir.create("data", showWarnings = FALSE)
 dir.create("plots", showWarnings = FALSE)
 
-# GBFS endpoints
-gbfs_endpoints <- fromJSON("https://tor.publicbikesystem.net/ube/gbfs/gbfs.json")
-feeds <- gbfs_endpoints$data$en$feeds
-
-# Get station information
-station_info_url <- feeds$url[feeds$name == "station_information"]
-station_status_url <- feeds$url[feeds$name == "station_status"]
+# New GBFS endpoints (directly from the provided JSON)
+endpoints <- list(
+  system_regions = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/system_regions",
+  system_information = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/system_information",
+  station_information = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_information",
+  station_status = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status",
+  system_pricing_plans = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/system_pricing_plans"
+)
 
 # Fetch station data
-station_info <- fromJSON(station_info_url)$data$stations
-station_status <- fromJSON(station_status_url)$data$stations
+station_info <- fromJSON(endpoints$station_information)$data$stations
+station_status <- fromJSON(endpoints$station_status)$data$stations
 
 # Merge station data
 stations <- station_info %>%
@@ -64,7 +65,7 @@ availability_dist <- stations %>%
   mutate(availability_pct = num_bikes_available / capacity * 100) %>%
   filter(!is.na(availability_pct))
 
-# Simple location plot without ggmap
+# Location plot
 location_plot <- ggplot(stations, aes(x = lon, y = lat, size = num_bikes_available, color = num_bikes_available)) +
   geom_point(alpha = 0.7) +
   scale_color_gradient(low = "yellow", high = "red") +
