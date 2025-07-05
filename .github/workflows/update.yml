@@ -1,65 +1,69 @@
 name: Update Bike Data
 on:
+  schedule:
+    - cron: '0 0 * * *'
   push:
     branches:
       - main
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
-
-permissions:
-  contents: write
-  actions: write
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        ref: main
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
 
-    - name: Set up R
-      uses: r-lib/actions/setup-r@v2
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3'
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libcurl4-openssl-dev libssl-dev libudunits2-dev libgdal-dev
-        
-    - name: Install R packages
-      run: |
-        R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow', 'plotly', 'DT', 'htmltools', 'leaflet', 'viridis'), repos = 'https://cloud.r-project.org')"
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libudunits2-dev libgdal-dev
+          
+      - name: Install R packages
+        run: |
+          R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'arrow', 'plotly', 'DT', 'htmltools', 'leaflet', 'viridis'), repos = 'https://cloud.r-project.org')"
 
-    - name: Generate branch name
-      id: branch
-      run: |
-        timestamp=$(date +%s)
-        branch_name="auto/update-bike-$timestamp"
-        echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
-        echo "Generated branch name: $branch_name"
+      - name: Run R script
+        run: Rscript update_report.R
 
-    - name: Update data
-      run: Rscript update_report.R
+      - name: Create update branch
+        id: branch
+        run: |
+          branch_name="auto/update-bike-$(date +%s)"
+          echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
+          git checkout -b $branch_name
 
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git checkout -B ${{ steps.branch.outputs.branch_name }}
-        git add .
-        git commit -m "Update bike share dashboard"
-        git push origin ${{ steps.branch.outputs.branch_name }}
+      - name: Commit changes
+        if: success()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "action@github.com"
+          git add -A
+          git commit -m "Update bike share dashboard" || echo "No changes to commit"
 
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        title: 'Update bike share analytics'
-        body: 'Automated update of Toronto bike share statistics'
-        branch: ${{ steps.branch.outputs.branch_name }}
-        base: main
-        delete-branch: false
+      - name: Push changes
+        if: success() && length(git log origin/${{ steps.branch.outputs.branch_name }}..HEAD) > 0
+        run: git push origin ${{ steps.branch.outputs.branch_name }}
+
+      - name: Create Pull Request
+        if: success() && length(git log origin/${{ steps.branch.outputs.branch_name }}..HEAD) > 0
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.branch.outputs.branch_name }}
+          base: main
+          title: "Update bike share dashboard"
+          body: "Automated data update"
+          delete-branch: false
