@@ -4,7 +4,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:
@@ -62,4 +62,4 @@ jobs:
         body: 'Automated update of Toronto bike share statistics'
         branch: ${{ steps.branch.outputs.branch_name }}
         base: main
-        delete-branch: true
+        delete-branch: false
