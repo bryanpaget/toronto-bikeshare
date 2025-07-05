@@ -5,10 +5,12 @@ library(ggplot2)
 library(lubridate)
 library(knitr)
 library(tidyr)
+library(arrow)
 library(plotly)
 library(DT)
 library(flexdashboard)
 library(htmltools)
+
 
 # Clean output folders
 unlink("docs", recursive = TRUE)
@@ -20,7 +22,8 @@ endpoints <- list(
   system_regions = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/system_regions",
   system_information = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/system_information",
   station_information = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_information",
-  station_status = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status"
+  station_status = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status",
+  system_pricing_plans = "https://tor.publicbikesystem.net/ube/gbfs/v1/en/system_pricing_plans"
 )
 
 # Fetch station data
