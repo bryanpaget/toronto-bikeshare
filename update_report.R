@@ -211,7 +211,18 @@ tryCatch({
       tags$link(rel = "stylesheet", href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"),
       tags$script(src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"),
       tags$style(HTML("
-        /* ... existing styles ... */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; }
+        .card { border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; margin-bottom: 20px; }
+        .metric-card { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; text-align: center; }
+        .metric-value { font-size: 2.5rem; font-weight: bold; }
+        .metric-label { font-size: 1rem; opacity: 0.9; }
+        .section-title { border-bottom: 2px solid #2575fc; padding-bottom: 10px; margin-top: 30px; color: #2575fc; }
+        .plot-container { background-color: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .header { background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); color: white; padding: 20px 0; margin-bottom: 30px; }
+        .footer { background-color: #343a40; color: white; padding: 20px 0; margin-top: 40px; }
+        .table-hover tbody tr:hover { background-color: rgba(37, 117, 252, 0.1); }
+        .iframe-container { height: 500px; border: none; }
+        .small-iframe { height: 400px; }
       "))
     ),
     tags$body(
@@ -219,7 +230,83 @@ tryCatch({
           h1("🚲 Toronto Bike Share Dashboard", class = "display-4 fw-bold"),
           h3(paste("Last updated:", format(timestamp, "%Y-%m-%d %H:%M")), class = "fw-light")
       ),
-      # ... existing body content ...
+      
+      div(class = "container-fluid",
+          div(class = "row",
+              div(class = "col-lg-3 col-md-6",
+                  div(class = "card metric-card",
+                      div(class = "card-body",
+                          div(class = "metric-value", format(total_bikes, big.mark = ",")),
+                          div(class = "metric-label", "Bikes Available")
+                      )
+                  )
+              ),
+              div(class = "col-lg-3 col-md-6",
+                  div(class = "card metric-card",
+                      div(class = "card-body",
+                          div(class = "metric-value", format(total_docks, big.mark = ",")),
+                          div(class = "metric-label", "Docks Available")
+                      )
+                  )
+              ),
+              div(class = "col-lg-3 col-md-6",
+                  div(class = "card metric-card",
+                      div(class = "card-body",
+                          div(class = "metric-value", paste0(round(utilization_rate, 1), "%")),
+                          div(class = "metric-label", "Utilization Rate")
+                      )
+                  )
+              ),
+              div(class = "col-lg-3 col-md-6",
+                  div(class = "card metric-card",
+                      div(class = "card-body",
+                          div(class = "metric-value", paste0(active_stations, "/", nrow(stations))),
+                          div(class = "metric-label", "Active Stations")
+                      )
+                  )
+              )
+          ),
+          
+          div(class = "row",
+              div(class = "col-md-12",
+                  div(class = "plot-container",
+                      h3("📍 Live Bike Availability Map", class = "section-title"),
+                      tags$iframe(src = "plots/bike_map.html", class = "iframe-container w-100")
+                  )
+              )
+          ),
+          
+          div(class = "row",
+              div(class = "col-md-6",
+                  div(class = "plot-container",
+                      h3("📊 Station Status Distribution", class = "section-title"),
+                      tags$iframe(src = "plots/status_distribution.html", class = "iframe-container w-100 small-iframe")
+                  )
+              ),
+              div(class = "col-md-6",
+                  div(class = "plot-container",
+                      h3("📈 Bike Availability Distribution", class = "section-title"),
+                      tags$iframe(src = "plots/availability_dist.html", class = "iframe-container w-100 small-iframe")
+                  )
+              )
+          ),
+          
+          div(class = "row",
+              div(class = "col-md-6",
+                  div(class = "plot-container",
+                      h3("🏆 Top Stations by Bike Availability", class = "section-title"),
+                      tags$iframe(src = "plots/bike_table.html", class = "iframe-container w-100 small-iframe")
+                  )
+              ),
+              div(class = "col-md-6",
+                  div(class = "plot-container",
+                      h3("🏆 Top Stations by Dock Availability", class = "section-title"),
+                      tags$iframe(src = "plots/dock_table.html", class = "iframe-container w-100 small-iframe")
+                  )
+              )
+          )
+      ),
+      
       div(class = "footer text-center",
           div(class = "container",
               p("Automatically generated with ❤️ using R and GitHub Actions"),
@@ -241,6 +328,7 @@ tryCatch({
   
 }, error = function(e) {
   message("Error processing data: ", e$message)
+  # Create error placeholder
   error_content <- paste(
     "# 🚨 Error in Bike Share Dashboard",
     "The automated update failed to process the bike share data.",
