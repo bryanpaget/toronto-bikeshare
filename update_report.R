@@ -13,11 +13,15 @@ library(htmlwidgets)
 
 # Custom markdown table formatter
 format_markdown_table <- function(df, col_names) {
-  header <- paste0("|", paste(col_names, collapse = "|"), "|")
-  separator <- paste0("|", paste(rep("---", length(col_names)), collapse = "|"), "|")
+  # Create header
+  header <- paste0("| ", paste(col_names, collapse = " | "), " |")
+  # Create separator
+  separator <- paste0("|", paste(rep(" --- |", length(col_names)), collapse = ""))
+  # Create rows
   rows <- apply(df, 1, function(row) {
-    paste0("|", paste(row, collapse = "|"), "|")
+    paste0("| ", paste(row, collapse = " | "), " |")
   })
+  # Combine
   paste(c(header, separator, rows), collapse = "\n")
 }
 
@@ -27,8 +31,8 @@ if (!dir.exists("docs/plots")) dir.create("docs/plots")
 if (!dir.exists("docs/data")) dir.create("docs/data")
 
 # Clear existing plot files
-plot_files <- list.files("docs/plots", full.names = TRUE)
-if (length(plot_files) file.remove(plot_files)
+plot_files <- list.files("docs/plots", full.names = TRUE, pattern = "\\.(png|html)$")
+if (length(plot_files) > 0) file.remove(plot_files)
 
 # GBFS endpoints
 endpoints <- list(
@@ -221,7 +225,7 @@ tryCatch({
         .header { background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); color: white; padding: 20px 0; margin-bottom: 30px; }
         .footer { background-color: #343a40; color: white; padding: 20px 0; margin-top: 40px; }
         .table-hover tbody tr:hover { background-color: rgba(37, 117, 252, 0.1); }
-        .iframe-container { height: 500px; border: none; }
+        .iframe-container { height: 500px; border: none; width: 100%; }
         .small-iframe { height: 400px; }
       "))
     ),
@@ -310,7 +314,7 @@ tryCatch({
       div(class = "footer text-center",
           div(class = "container",
               p("Automatically generated with ❤️ using R and GitHub Actions"),
-              p(paste("Last updated:", format(with_tz(Sys.time(), "America/Toronto"), "%Y-%m-%d %H:%M:%S"))),
+              p(paste("Last updated:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))),
               p("Data source: Toronto Bike Share GBFS API")
           )
       )
@@ -319,12 +323,6 @@ tryCatch({
   
   # Save HTML dashboard
   htmltools::save_html(dashboard, file = "docs/index.html", background = "white")
-  
-  # Debug output
-  message("Files created:")
-  message(paste(list.files("docs", recursive = TRUE), collapse = "\n"))
-  message("README size: ", file.size("README.md"), " bytes")
-  message("Dashboard size: ", file.size("docs/index.html"), " bytes")
   
 }, error = function(e) {
   message("Error processing data: ", e$message)
