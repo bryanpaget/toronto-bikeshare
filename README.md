@@ -1,40 +1,40 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2025-07-06 09:02
+Updated: 2025-07-06 19:40
 
 ## 📊 System Overview
-- **Total bikes available:** 6,761
-- **Total docks available:** 9,827
-- **System utilization rate:** 40.8%
+- **Total bikes available:** 5,935
+- **Total docks available:** 10,504
+- **System utilization rate:** 36.1%
 - **Active stations:** 920/920
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 | --- | --- | --- |
-| Frederick St / King St E | 43 | 47 |
-| 2700 Eglinton Ave W | 41 | 43 |
-| 800 Fleet St (South) | 39 | 43 |
-| Niagara St / Richmond St W | 38 | 42 |
-| Queens Quay / Yonge St | 38 | 46 |
-| Fort York  Blvd / Capreol Ct | 36 | 47 |
-| 800 Fleet St (North) | 36 | 43 |
-| 439 Sherbourne St | 35 | 47 |
-| 265 Armadale Ave | 35 | 44 |
-| Hanna Ave / Liberty St | 30 | 32 |
+| Dundas St W / Crawford St | 45 | 47 |
+| Cherry Beach | 45 | 49 |
+| 144 Harrison St | 38 | 51 |
+| Frederick St / King St E | 37 | 47 |
+| Toronto Inukshuk Park | 37 | 47 |
+| 2700 Eglinton Ave W | 34 | 43 |
+| Centre Island Ferry Dock | 34 | 35 |
+| 265 Armadale Ave | 31 | 44 |
+| 800 Fleet St (North) | 31 | 43 |
+| 1 Shortt St | 28 | 38 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 | --- | --- | --- |
-| Humber Bay Shores Park / Marine Parade Dr | 55 | 63 |
-| Temperance St Station | 54 | 55 |
-| Simcoe St / Pullan Pl | 46 | 47 |
-| Bay St / Dundas St W | 43 | 55 |
-| Bay St / Albert St | 41 | 63 |
-| Wellington St W / Bay St | 41 | 55 |
-| Dundas St W / Crawford St | 39 | 47 |
-| 285 Victoria St | 37 | 39 |
-| King St W / University Ave | 36 | 39 |
+| Temperance St Station | 53 | 55 |
+| Bay St / Albert St | 51 | 63 |
+| Wellington St W / Bay St | 45 | 55 |
+| Simcoe St / Pullan Pl | 44 | 47 |
+| Hanlan's Point Beach | 43 | 47 |
+| York St / Queens Quay W | 42 | 57 |
+| Humber Bay Shores Park / Marine Parade Dr | 40 | 63 |
+| Dundonald St / Church St | 36 | 39 |
 | Brimley Rd / Lawrence Ave E  | 36 | 39 |
+| King St W / Bay St (West Side) | 35 | 38 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
