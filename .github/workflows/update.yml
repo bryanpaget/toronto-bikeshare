@@ -1,7 +1,7 @@
 name: Update Bike Data
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *'  # Runs at 00:00 UTC daily (8 PM Toronto time)
   workflow_dispatch:
 
 jobs:
@@ -37,6 +37,7 @@ jobs:
         run: Rscript update_report.R
 
       - name: Create Pull Request
+        id: create-pr
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -45,3 +46,16 @@ jobs:
           body: "Automated data update"
           branch: "auto/update-bike-${{ github.run_id }}"
           base: main
+          delete-branch: true
+
+      - name: Auto-Merge Pull Request
+        if: steps.create-pr.outputs.pull-request-number != ''
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: ${{ steps.create-pr.outputs.pull-request-number }},
+              merge_method: 'squash'
+            })
