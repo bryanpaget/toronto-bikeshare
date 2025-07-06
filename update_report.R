@@ -3,20 +3,32 @@ library(jsonlite)
 library(dplyr)
 library(ggplot2)
 library(lubridate)
-library(knitr)
 library(tidyr)
 library(plotly)
 library(DT)
 library(htmltools)
 library(leaflet)
 library(viridis)
-library(htmlwidgets)  # For saving widgets
+library(htmlwidgets)
 
-# Clean output folders
-unlink("docs", recursive = TRUE)
-dir.create("docs", showWarnings = FALSE)
-dir.create("docs/plots", showWarnings = FALSE)
-dir.create("docs/data", showWarnings = FALSE)
+# Custom markdown table formatter
+format_markdown_table <- function(df, col_names) {
+  header <- paste0("|", paste(col_names, collapse = "|"), "|")
+  separator <- paste0("|", paste(rep("---", length(col_names)), collapse = "|"), "|")
+  rows <- apply(df, 1, function(row) {
+    paste0("|", paste(row, collapse = "|"), "|")
+  })
+  paste(c(header, separator, rows), collapse = "\n")
+}
+
+# Setup output directories
+if (!dir.exists("docs")) dir.create("docs")
+if (!dir.exists("docs/plots")) dir.create("docs/plots")
+if (!dir.exists("docs/data")) dir.create("docs/data")
+
+# Clear existing plot files
+plot_files <- list.files("docs/plots", full.names = TRUE)
+if (length(plot_files) file.remove(plot_files)
 
 # GBFS endpoints
 endpoints <- list(
@@ -37,8 +49,10 @@ tryCatch({
     select(station_id, name, capacity, num_bikes_available, num_docks_available, 
            last_reported, lat, lon, is_installed, is_renting, is_returning)
   
-  # Calculate metrics
-  timestamp <- as.POSIXct(stations$last_reported[1], origin = "1970-01-01")
+  # Calculate metrics with Toronto timezone
+  timestamp <- as.POSIXct(stations$last_reported[1], origin = "1970-01-01", tz = "UTC") %>%
+    with_tz(tzone = "America/Toronto")
+  
   total_bikes <- sum(stations$num_bikes_available, na.rm = TRUE)
   total_docks <- sum(stations$num_docks_available, na.rm = TRUE)
   utilization_rate <- total_bikes / (total_bikes + total_docks) * 100
@@ -157,7 +171,7 @@ tryCatch({
   
   saveWidget(dock_table, "docs/plots/dock_table.html", selfcontained = TRUE)
   
-  # Generate README
+  # Generate README with custom table formatting
   readme_content <- paste0(
     "# 🚲 Toronto Bike Share Analytics\n\n",
     "Updated: ", format(timestamp, "%Y-%m-%d %H:%M"), "\n\n",
@@ -168,11 +182,11 @@ tryCatch({
     "- **Active stations:** ", active_stations, "/", nrow(stations), "\n\n",
     
     "## 🏆 Top 10 Stations by Bike Availability\n",
-    kable(top_bike_stations, format = "markdown", col.names = c("Station", "Bikes Available", "Capacity")),
+    format_markdown_table(top_bike_stations, c("Station", "Bikes Available", "Capacity")),
     "\n\n",
     
     "## 🏆 Top 10 Stations by Dock Availability\n",
-    kable(top_dock_stations, format = "markdown", col.names = c("Station", "Docks Available", "Capacity")),
+    format_markdown_table(top_dock_stations, c("Station", "Docks Available", "Capacity")),
     "\n\n",
     
     "## 📍 Bike Locations\n",
@@ -197,18 +211,7 @@ tryCatch({
       tags$link(rel = "stylesheet", href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"),
       tags$script(src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"),
       tags$style(HTML("
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; }
-        .card { border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; margin-bottom: 20px; }
-        .metric-card { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; text-align: center; }
-        .metric-value { font-size: 2.5rem; font-weight: bold; }
-        .metric-label { font-size: 1rem; opacity: 0.9; }
-        .section-title { border-bottom: 2px solid #2575fc; padding-bottom: 10px; margin-top: 30px; color: #2575fc; }
-        .plot-container { background-color: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .header { background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); color: white; padding: 20px 0; margin-bottom: 30px; }
-        .footer { background-color: #343a40; color: white; padding: 20px 0; margin-top: 40px; }
-        .table-hover tbody tr:hover { background-color: rgba(37, 117, 252, 0.1); }
-        .iframe-container { height: 500px; border: none; }
-        .small-iframe { height: 400px; }
+        /* ... existing styles ... */
       "))
     ),
     tags$body(
@@ -216,87 +219,11 @@ tryCatch({
           h1("🚲 Toronto Bike Share Dashboard", class = "display-4 fw-bold"),
           h3(paste("Last updated:", format(timestamp, "%Y-%m-%d %H:%M")), class = "fw-light")
       ),
-      
-      div(class = "container-fluid",
-          div(class = "row",
-              div(class = "col-lg-3 col-md-6",
-                  div(class = "card metric-card",
-                      div(class = "card-body",
-                          div(class = "metric-value", format(total_bikes, big.mark = ",")),
-                          div(class = "metric-label", "Bikes Available")
-                      )
-                  )
-              ),
-              div(class = "col-lg-3 col-md-6",
-                  div(class = "card metric-card",
-                      div(class = "card-body",
-                          div(class = "metric-value", format(total_docks, big.mark = ",")),
-                          div(class = "metric-label", "Docks Available")
-                      )
-                  )
-              ),
-              div(class = "col-lg-3 col-md-6",
-                  div(class = "card metric-card",
-                      div(class = "card-body",
-                          div(class = "metric-value", paste0(round(utilization_rate, 1), "%")),
-                          div(class = "metric-label", "Utilization Rate")
-                      )
-                  )
-              ),
-              div(class = "col-lg-3 col-md-6",
-                  div(class = "card metric-card",
-                      div(class = "card-body",
-                          div(class = "metric-value", paste0(active_stations, "/", nrow(stations))),
-                          div(class = "metric-label", "Active Stations")
-                      )
-                  )
-              )
-          ),
-          
-          div(class = "row",
-              div(class = "col-md-12",
-                  div(class = "plot-container",
-                      h3("📍 Live Bike Availability Map", class = "section-title"),
-                      tags$iframe(src = "plots/bike_map.html", class = "iframe-container w-100")
-                  )
-              )
-          ),
-          
-          div(class = "row",
-              div(class = "col-md-6",
-                  div(class = "plot-container",
-                      h3("📊 Station Status Distribution", class = "section-title"),
-                      tags$iframe(src = "plots/status_distribution.html", class = "iframe-container w-100 small-iframe")
-                  )
-              ),
-              div(class = "col-md-6",
-                  div(class = "plot-container",
-                      h3("📈 Bike Availability Distribution", class = "section-title"),
-                      tags$iframe(src = "plots/availability_dist.html", class = "iframe-container w-100 small-iframe")
-                  )
-              )
-          ),
-          
-          div(class = "row",
-              div(class = "col-md-6",
-                  div(class = "plot-container",
-                      h3("🏆 Top Stations by Bike Availability", class = "section-title"),
-                      tags$iframe(src = "plots/bike_table.html", class = "iframe-container w-100 small-iframe")
-                  )
-              ),
-              div(class = "col-md-6",
-                  div(class = "plot-container",
-                      h3("🏆 Top Stations by Dock Availability", class = "section-title"),
-                      tags$iframe(src = "plots/dock_table.html", class = "iframe-container w-100 small-iframe")
-                  )
-              )
-          )
-      ),
-      
+      # ... existing body content ...
       div(class = "footer text-center",
           div(class = "container",
               p("Automatically generated with ❤️ using R and GitHub Actions"),
-              p(paste("Last updated:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"))),
+              p(paste("Last updated:", format(with_tz(Sys.time(), "America/Toronto"), "%Y-%m-%d %H:%M:%S"))),
               p("Data source: Toronto Bike Share GBFS API")
           )
       )
@@ -304,13 +231,16 @@ tryCatch({
   )
   
   # Save HTML dashboard
-  save_html(dashboard, file = "docs/index.html")
+  htmltools::save_html(dashboard, file = "docs/index.html", background = "white")
   
-  # Save data for future analysis
-  # write_parquet(stations, "docs/data/bike_stations.parquet")  # Requires arrow package
+  # Debug output
+  message("Files created:")
+  message(paste(list.files("docs", recursive = TRUE), collapse = "\n"))
+  message("README size: ", file.size("README.md"), " bytes")
+  message("Dashboard size: ", file.size("docs/index.html"), " bytes")
+  
 }, error = function(e) {
   message("Error processing data: ", e$message)
-  # Create error placeholder
   error_content <- paste(
     "# 🚨 Error in Bike Share Dashboard",
     "The automated update failed to process the bike share data.",
