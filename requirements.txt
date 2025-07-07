@@ -1,0 +1,8 @@
+httr
+jsonlite
+dplyr
+ggplot2
+lubridate
+tidyr
+knitr
+viridis
