@@ -1,37 +1,37 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2025-07-06 19:40
+Updated: 2025-07-06 20:04
 
 ## 📊 System Overview
-- **Total bikes available:** 5,935
-- **Total docks available:** 10,504
-- **System utilization rate:** 36.1%
+- **Total bikes available:** 6,007
+- **Total docks available:** 10,408
+- **System utilization rate:** 36.6%
 - **Active stations:** 920/920
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 | --- | --- | --- |
-| Dundas St W / Crawford St | 45 | 47 |
-| Cherry Beach | 45 | 49 |
-| 144 Harrison St | 38 | 51 |
-| Frederick St / King St E | 37 | 47 |
-| Toronto Inukshuk Park | 37 | 47 |
+| Dundas St W / Crawford St | 44 | 47 |
+| Cherry Beach | 40 | 49 |
+| 144 Harrison St | 36 | 51 |
+| Frederick St / King St E | 34 | 47 |
 | 2700 Eglinton Ave W | 34 | 43 |
-| Centre Island Ferry Dock | 34 | 35 |
+| Toronto Inukshuk Park | 32 | 47 |
 | 265 Armadale Ave | 31 | 44 |
 | 800 Fleet St (North) | 31 | 43 |
-| 1 Shortt St | 28 | 38 |
+| Bathurst St/Queens Quay(Billy Bishop Airport) | 29 | 34 |
+| 800 Fleet St (South) | 28 | 43 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 | --- | --- | --- |
+| Bay St / Albert St | 54 | 63 |
 | Temperance St Station | 53 | 55 |
-| Bay St / Albert St | 51 | 63 |
+| Humber Bay Shores Park / Marine Parade Dr | 46 | 63 |
 | Wellington St W / Bay St | 45 | 55 |
-| Simcoe St / Pullan Pl | 44 | 47 |
-| Hanlan's Point Beach | 43 | 47 |
-| York St / Queens Quay W | 42 | 57 |
-| Humber Bay Shores Park / Marine Parade Dr | 40 | 63 |
+| Simcoe St / Pullan Pl | 45 | 47 |
+| York St / Queens Quay W | 39 | 57 |
+| Queens Quay / Yonge St | 37 | 46 |
 | Dundonald St / Church St | 36 | 39 |
 | Brimley Rd / Lawrence Ave E  | 36 | 39 |
 | King St W / Bay St (West Side) | 35 | 38 |
