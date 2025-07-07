@@ -1,7 +1,7 @@
 name: Update Bike Data
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs at 00:00 UTC daily (8 PM Toronto time)
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      actions: write
 
     steps:
       - name: Checkout repository
@@ -21,17 +20,9 @@ jobs:
         with:
           r-version: '4.3'
 
-      - name: Set up Pandoc
-        uses: r-lib/actions/setup-pandoc@v2
-
-      - name: Install system dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: r-lib/actions
-
       - name: Install R packages
         run: |
-          Rscript -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'plotly', 'DT', 'htmltools', 'leaflet', 'viridis', 'htmlwidgets', 'arrow'), repos = 'https://cloud.r-project.org')"
+          Rscript -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'viridis'), repos = 'https://cloud.r-project.org')"
 
       - name: Run R script
         run: Rscript update_report.R
@@ -59,3 +50,4 @@ jobs:
               pull_number: ${{ steps.create-pr.outputs.pull-request-number }},
               merge_method: 'squash'
             })
+            
