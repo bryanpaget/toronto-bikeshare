@@ -33,7 +33,7 @@ jobs:
 
       - name: Install R packages
         run: |
-          R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'viridis'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
+          R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'viridis', 'arrow', 'zoo'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
           
       - name: Run R script
         run: Rscript update_report.R
