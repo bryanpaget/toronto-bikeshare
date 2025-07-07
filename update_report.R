@@ -5,27 +5,14 @@ library(ggplot2)
 library(lubridate)
 library(tidyr)
 library(knitr)
+library(viridis)
 
-# Custom markdown table formatter
-format_markdown_table <- function(df, col_names) {
-  # Create header
-  header <- paste0("| ", paste(col_names, collapse = " | "), " |")
-  # Create separator
-  separator <- paste0("|", paste(rep(" --- |", length(col_names)), collapse = "")
-  # Create rows
-  rows <- apply(df, 1, function(row) {
-    paste0("| ", paste(row, collapse = " | "), " |")
-  })
-  # Combine
-  paste(c(header, separator, rows), collapse = "\n")
-}
-
-# Setup output directories
+# Simplified output directory setup
 if (!dir.exists("docs")) dir.create("docs")
 if (!dir.exists("docs/plots")) dir.create("docs/plots")
 
 # Clear existing plot files
-plot_files <- list.files("docs/plots", full.names = TRUE, pattern = "\\.(png)$")
+plot_files <- list.files("docs/plots", full.names = TRUE, pattern = "\\.png$")
 if (length(plot_files) > 0) file.remove(plot_files)
 
 # GBFS endpoints
@@ -130,18 +117,26 @@ tryCatch({
     "- **Total docks available:** ", format(total_docks, big.mark = ","), "\n",
     "- **System utilization rate:** ", round(utilization_rate, 1), "%\n",
     "- **Active stations:** ", active_stations, "/", nrow(stations), " (", 
-    round(active_stations/nrow(stations)*100, "%)", "\n",
+    round(active_stations/nrow(stations)*100, 1), "%)\n",
     "- **Average bikes per station:** ", round(avg_bikes_per_station, 1), "\n",
     "- **Median station capacity:** ", median_capacity, "\n",
-    "- **Empty stations:** ", empty_stations, " (", round(empty_stations/nrow(stations)*100, "%)\n",
-    "- **Full stations:** ", full_stations, " (", round(full_stations/nrow(stations)*100, "%)\n\n",
+    "- **Empty stations:** ", empty_stations, " (", round(empty_stations/nrow(stations)*100, 1), "%)\n",
+    "- **Full stations:** ", full_stations, " (", round(full_stations/nrow(stations)*100, 1), "%)\n\n",
     
     "## 🏆 Top 10 Stations by Bike Availability\n",
-    format_markdown_table(top_bike_stations, c("Station", "Bikes Available", "Capacity")),
+    "| Station | Bikes Available | Capacity |\n",
+    "|---------|-----------------|----------|\n",
+    paste(apply(top_bike_stations, 1, function(row) {
+      paste0("| ", row[1], " | ", row[2], " | ", row[3], " |")
+    }), collapse = "\n"),
     "\n\n",
     
     "## 🏆 Top 10 Stations by Dock Availability\n",
-    format_markdown_table(top_dock_stations, c("Station", "Docks Available", "Capacity")),
+    "| Station | Docks Available | Capacity |\n",
+    "|---------|-----------------|----------|\n",
+    paste(apply(top_dock_stations, 1, function(row) {
+      paste0("| ", row[1], " | ", row[2], " | ", row[3], " |")
+    }), collapse = "\n"),
     "\n\n",
     
     "## 📊 Station Status Distribution\n",
@@ -174,10 +169,10 @@ tryCatch({
     
     "### Statistical Notes\n",
     "- The distribution of bikes across stations follows a ", 
-    ifelse(skewness(availability_dist$availability_pct) > 0, "right", "left"), 
-    "-skewed distribution\n",
-    "- The mean availability is ", round(mean(availability_dist$availability_pct), "% ",
-    "with a standard deviation of ", round(sd(availability_dist$availability_pct)), "%\n",
+    ifelse(mean(availability_dist$availability_pct) > median(availability_dist$availability_pct), 
+           "right-skewed", "left-skewed"), " distribution\n",
+    "- The mean availability is ", round(mean(availability_dist$availability_pct), 1), "% ",
+    "with a standard deviation of ", round(sd(availability_dist$availability_pct), 1), "%\n",
     "- The system is currently operating at ", round(utilization_rate), "% capacity\n\n",
     
     "## ℹ️ Data Source\n",
