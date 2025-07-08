@@ -1,12 +1,13 @@
 name: Update Bike Data
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    container: rocker/tidyverse:4.3.0
     permissions:
       contents: write
       pull-requests: write
@@ -19,21 +20,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            libcurl4-openssl-dev \
-            libssl-dev \
-            libxml2-dev \
             libfontconfig1-dev \
             libharfbuzz-dev \
-            libfribidi-dev
-
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.3'
+            libfribidi-dev \
+            libarrow-dev
 
       - name: Install R packages
         run: |
-          R -e "install.packages(c('httr', 'jsonlite', 'dplyr', 'ggplot2', 'lubridate', 'knitr', 'tidyr', 'viridis', 'arrow', 'zoo'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
+          R -e "install.packages(c('httr', 'jsonlite', 'lubridate', 'viridis', 'arrow', 'zoo'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
           
       - name: Run R script
         run: Rscript update_report.R
