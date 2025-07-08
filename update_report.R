@@ -31,11 +31,16 @@ tryCatch({
   station_info <- fromJSON(endpoints$station_information)$data$stations
   station_status <- fromJSON(endpoints$station_status)$data$stations
   
-  # Merge station data
+  # Merge station data and convert numeric columns
   stations <- station_info %>%
     left_join(station_status, by = "station_id") %>%
     select(station_id, name, capacity, num_bikes_available, num_docks_available, 
-           last_reported, lat, lon, is_installed, is_renting, is_returning)
+           last_reported, lat, lon, is_installed, is_renting, is_returning) %>%
+    mutate(
+      capacity = as.numeric(capacity),
+      num_bikes_available = as.numeric(num_bikes_available),
+      num_docks_available = as.numeric(num_docks_available)
+    )
   
   # Calculate metrics with Toronto timezone
   timestamp <- as.POSIXct(stations$last_reported[1], origin = "1970-01-01", tz = "UTC") %>%
@@ -174,7 +179,7 @@ tryCatch({
     mutate(availability_pct = num_bikes_available / capacity * 100) %>%
     filter(!is.na(availability_pct))
   
-  # Save static map for README
+  # Save static map for README 
   static_map <- ggplot(stations, aes(x = lon, y = lat, size = num_bikes_available, color = num_bikes_available)) +
     geom_point(alpha = 0.7) +
     scale_color_viridis_c(option = "plasma") +
@@ -206,12 +211,12 @@ tryCatch({
   
   ggsave("docs/plots/availability_dist.png", dist_plot, width = 10, height = 6)
   
-  # Time series plots
+  # Time series plots with linewidth instead of size
   if (nrow(historical_metrics) > 1) {
     # Bike and dock trends
     bike_trend <- ggplot(historical_metrics, aes(x = timestamp)) +
-      geom_line(aes(y = total_bikes, color = "Bikes"), size = 1) +
-      geom_line(aes(y = total_docks, color = "Docks"), size = 1) +
+      geom_line(aes(y = total_bikes, color = "Bikes"), linewidth = 1) + 
+      geom_line(aes(y = total_docks, color = "Docks"), linewidth = 1) + 
       geom_line(aes(y = bikes_ma, color = "Bikes (7d MA)"), linetype = "dashed") +
       scale_color_manual(values = c("Bikes" = "#E41A1C", "Docks" = "#377EB8", "Bikes (7d MA)" = "#4DAF4A")) +
       labs(title = "Bike and Dock Availability Trend",
@@ -223,7 +228,7 @@ tryCatch({
     
     # Utilization trend
     util_trend <- ggplot(historical_metrics, aes(x = timestamp, y = utilization_rate)) +
-      geom_line(color = "#984EA3", size = 1) +
+      geom_line(color = "#984EA3", linewidth = 1) +
       geom_line(aes(y = utilization_ma), color = "#FF7F00", linetype = "dashed") +
       labs(title = "System Utilization Rate Trend",
            x = "Date", y = "Utilization Rate (%)") +
