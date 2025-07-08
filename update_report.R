@@ -6,7 +6,6 @@ library(lubridate)
 library(tidyr)
 library(knitr)
 library(viridis)
-library(arrow)
 library(zoo)
 
 # Create directories
@@ -41,6 +40,7 @@ tryCatch({
   # Calculate metrics with Toronto timezone
   timestamp <- as.POSIXct(stations$last_reported[1], origin = "1970-01-01", tz = "UTC") %>%
     with_tz(tzone = "America/Toronto")
+  timestamp_str <- format(timestamp, "%Y%m%d_%H%M%S")
   
   total_bikes <- sum(stations$num_bikes_available, na.rm = TRUE)
   total_docks <- sum(stations$num_docks_available, na.rm = TRUE)
@@ -71,13 +71,19 @@ tryCatch({
     full_pct = full_stations / total_stations * 100
   )
   
-  # Save current data
-  write_parquet(stations, file.path("data", paste0(format(timestamp, "%Y%m%d_%H%M%S"), "_stations.parquet")))
-  write_parquet(current_metrics, file.path("data", paste0(format(timestamp, "%Y%m%d_%H%M%S"), "_metrics.parquet")))
+  # Save current data as CSV
+  write.csv(stations, file.path("data", paste0(timestamp_str, "_stations.csv")), row.names = FALSE)
+  write.csv(current_metrics, file.path("data", paste0(timestamp_str, "_metrics.csv")), row.names = FALSE)
   
   # Load historical metrics
-  metrics_files <- list.files("data", pattern = "_metrics.parquet$", full.names = TRUE)
-  historical_metrics <- bind_rows(lapply(metrics_files, read_parquet))
+  metrics_files <- list.files("data", pattern = "_metrics.csv$", full.names = TRUE)
+  
+  if (length(metrics_files) > 0) {
+    historical_metrics <- bind_rows(lapply(metrics_files, read.csv)) %>%
+      mutate(timestamp = as.POSIXct(timestamp))
+  } else {
+    historical_metrics <- current_metrics
+  }
   
   # Process historical data
   historical_metrics <- historical_metrics %>%
@@ -108,6 +114,7 @@ tryCatch({
     
     # Format deltas for display
     format_delta <- function(x, is_pct = FALSE) {
+      if (is.na(x)) return("N/A")
       if (x > 0) {
         prefix <- "+"
       } else if (x < 0) {
