@@ -1,32 +1,32 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2025-07-08 03:10 (Toronto Time)
+Updated: 2025-07-08 04:10 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,865 | +111 |
-| **Total docks available** | 9,732 | -53 |
-| **System utilization rate** | 41.4% | +0.5% |
+| **Total bikes available** | 6,975 | +110 |
+| **Total docks available** | 9,698 | -34 |
+| **System utilization rate** | 41.8% | +0.5% |
 | **Active stations** | 921/921 (100%) |  |
-| **Average bikes per station** | 7.5 | +0 |
+| **Average bikes per station** | 7.6 | +0 |
 | **Median station capacity** | 19 | - |
-| **Empty stations** | 134 (14.5%) | -13 |
-| **Full stations** | 67 (7.3%) | -4 |
+| **Empty stations** | 126 (13.7%) | -8 |
+| **Full stations** | 70 (7.6%) | +3 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
 | Frederick St / King St E | 44 | 47 |
-| 265 Armadale Ave | 40 | 44 |
-| Fort York  Blvd / Capreol Ct | 36 | 47 |
-| 144 Harrison St | 36 | 51 |
+| Fort York  Blvd / Capreol Ct | 40 | 47 |
+| 144 Harrison St | 39 | 51 |
+| 265 Armadale Ave | 39 | 44 |
 | 439 Sherbourne St | 36 | 47 |
+| 800 Fleet St (South) | 36 | 43 |
 | 800 Fleet St (North) | 36 | 43 |
 | Lisgar Park | 35 | 35 |
 | Berkeley St / Dundas St E - SMART | 34 | 40 |
-| 800 Fleet St (South) | 33 | 43 |
-| Centre Island Ferry Dock | 33 | 35 |
+| Bloor St W / Manning Ave - SMART | 33 | 42 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
@@ -34,7 +34,7 @@ Updated: 2025-07-08 03:10 (Toronto Time)
 | Bay St / Albert St | 61 | 63 |
 | Temperance St Station | 55 | 55 |
 | Bay St / Dundas St W | 53 | 55 |
-| Wellington St W / Bay St | 51 | 55 |
+| Wellington St W / Bay St | 52 | 55 |
 | Simcoe St / Pullan Pl | 45 | 47 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 44 | 47 |
 | Hanlan's Point Beach | 42 | 47 |
@@ -45,9 +45,9 @@ Updated: 2025-07-08 03:10 (Toronto Time)
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 134 |
-| Full       | 67 |
-| Available  | 720 |
+| Empty      | 126 |
+| Full       | 70 |
+| Available  | 725 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 38% with a standard deviation of 31.2%
-- The system is currently operating at 41% capacity
+- The mean availability is 38.6% with a standard deviation of 31.3%
+- The system is currently operating at 42% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
