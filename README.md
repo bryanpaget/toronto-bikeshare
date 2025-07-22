@@ -1,52 +1,52 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2025-07-21 13:12 (Toronto Time)
+Updated: 2025-07-22 13:10 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 5,751 | -48 |
-| **Total docks available** | 10,861 | +116 |
-| **System utilization rate** | 34.6% | -0.4% |
+| **Total bikes available** | 5,534 | -217 |
+| **Total docks available** | 11,007 | +146 |
+| **System utilization rate** | 33.5% | -1.2% |
 | **Active stations** | 933/934 (99.9%) |  |
-| **Average bikes per station** | 6.2 | -0 |
+| **Average bikes per station** | 5.9 | -0 |
 | **Median station capacity** | 19 | - |
-| **Empty stations** | 179 (19.2%) | +35 |
-| **Full stations** | 26 (2.8%) | -6 |
+| **Empty stations** | 174 (18.6%) | -5 |
+| **Full stations** | 31 (3.3%) | +5 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| York St / Queens Quay W | 53 | 57 |
-| Temperance St Station | 51 | 55 |
-| Wellington St W / Bay St | 49 | 55 |
-| Bay St / Albert St | 46 | 63 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 43 | 47 |
-| 2700 Eglinton Ave W | 40 | 43 |
+| Bay St / Albert St | 51 | 63 |
+| Wellington St W / Bay St | 50 | 55 |
+| York St / Queens Quay W | 50 | 57 |
+| Temperance St Station | 44 | 55 |
+| Bremner Blvd / Rees St | 41 | 49 |
+| Simcoe St / Pullan Pl | 41 | 47 |
+| Queens Quay / Yonge St | 37 | 46 |
 | King St W / Bay St (West Side) | 36 | 39 |
-| Bay St / Queens Quay W (Ferry Terminal) | 34 | 35 |
-| St. George St / Willcocks St | 33 | 35 |
-| Bond St / Queen St E | 32 | 37 |
+| Simcoe St / Queen St W | 35 | 39 |
+| Bay St / Queens Quay W (Ferry Terminal) | 33 | 35 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Humber Bay Shores Park / Marine Parade Dr | 50 | 63 |
-| Fort York  Blvd / Capreol Ct | 44 | 47 |
-| Dundas St W / Crawford St | 44 | 47 |
-| Toronto Inukshuk Park | 42 | 47 |
-| Cherry Beach | 41 | 49 |
+| Humber Bay Shores Park / Marine Parade Dr | 57 | 63 |
+| Fort York  Blvd / Capreol Ct | 45 | 47 |
+| Dundas St W / Crawford St | 45 | 47 |
+| 144 Harrison St | 43 | 51 |
 | Bloor St W / Manning Ave - SMART | 39 | 42 |
 | Dundonald St / Church St | 38 | 39 |
-| 91 Via Italia | 37 | 39 |
-| Hanlan's Point Beach | 37 | 47 |
-| 439 Sherbourne St | 36 | 47 |
+| Brimley Rd / Lawrence Ave E  | 36 | 39 |
+| 91 Via Italia | 35 | 39 |
+| Berkeley St / Dundas St E - SMART | 35 | 40 |
+| 439 Sherbourne St | 34 | 47 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 179 |
-| Full       | 26 |
+| Empty      | 174 |
+| Full       | 31 |
 | Available  | 729 |
 
 ## 📍 Bike Locations
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 30.2% with a standard deviation of 28.5%
-- The system is currently operating at 35% capacity
+- The mean availability is 28.8% with a standard deviation of 28.3%
+- The system is currently operating at 33% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
