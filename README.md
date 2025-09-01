@@ -1,53 +1,53 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2025-08-25 13:04 (Toronto Time)
+Updated: 2025-09-01 13:05 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 5,935 | -235 |
-| **Total docks available** | 11,152 | +154 |
-| **System utilization rate** | 34.7% | -1.2% |
-| **Active stations** | 961/961 (100%) | +8 |
-| **Average bikes per station** | 6.2 | -0 |
+| **Total bikes available** | 5,853 | -82 |
+| **Total docks available** | 11,544 | +392 |
+| **System utilization rate** | 33.6% | -1.1% |
+| **Active stations** | 966/966 (100%) | +5 |
+| **Average bikes per station** | 6.1 | -0 |
 | **Median station capacity** | 18 | - |
-| **Empty stations** | 172 (17.9%) | +23 |
-| **Full stations** | 33 (3.4%) | -5 |
+| **Empty stations** | 134 (13.9%) | -38 |
+| **Full stations** | 26 (2.7%) | -7 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Temperance St Station | 54 | 55 |
-| Bay St / Albert St | 48 | 63 |
-| Bremner Blvd / Rees St | 45 | 49 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 41 | 47 |
-| Toronto Inukshuk Park | 40 | 47 |
-| Queens Quay / Yonge St | 34 | 47 |
-| 2700 Eglinton Ave W | 33 | 43 |
-| St. George St / Willcocks St | 33 | 35 |
-| Wellington St W / Bay St | 32 | 55 |
-| York St / Queens Quay W | 32 | 57 |
+| Niagara St / Richmond St W | 41 | 42 |
+| Toronto Inukshuk Park | 41 | 47 |
+| Queen St W / Ossington Ave | 38 | 43 |
+| Dundas St W / Crawford St | 35 | 47 |
+| York St / Queens Quay W | 34 | 57 |
+| 365 Lippincott St | 33 | 41 |
+| Queens Quay / Yonge St | 32 | 47 |
+| Beverley St / Dundas St W | 29 | 31 |
+| Lake Shore Blvd W / Ontario Dr | 29 | 35 |
+| 800 Fleet St (South) | 29 | 43 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Humber Bay Shores Park / Marine Parade Dr | 63 | 63 |
-| Hanlan's Point Beach | 47 | 47 |
-| Fort York  Blvd / Capreol Ct | 44 | 47 |
-| Dundas St W / Crawford St | 42 | 47 |
-| Niagara St / Richmond St W | 41 | 42 |
-| Hanlan's Point Ferry Dock | 39 | 39 |
-| Bloor St W / Manning Ave - SMART | 36 | 42 |
-| Gibraltar Point Beach | 35 | 35 |
-| Bathurst St / Front St W | 33 | 35 |
-| Dundonald St / Church St | 31 | 38 |
+| Humber Bay Shores Park / Marine Parade Dr | 56 | 63 |
+| Temperance St Station | 43 | 55 |
+| Bay St / Albert St | 43 | 63 |
+| Fort York  Blvd / Capreol Ct | 39 | 47 |
+| Cherry Beach | 39 | 48 |
+| Bay St / Dundas St W | 39 | 55 |
+| Brimley Rd / Lawrence Ave E  | 37 | 39 |
+| Bond St / Queen St E | 35 | 37 |
+| Wellington St W / Bay St | 35 | 55 |
+| Hanlan's Point Ferry Dock | 33 | 39 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 172 |
-| Full       | 32 |
-| Available  | 757 |
+| Empty      | 134 |
+| Full       | 26 |
+| Available  | 806 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 30.7% with a standard deviation of 28.5%
-- The system is currently operating at 35% capacity
+- The mean availability is 30.5% with a standard deviation of 26.5%
+- The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
