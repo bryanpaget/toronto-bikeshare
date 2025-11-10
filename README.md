@@ -1,53 +1,53 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2025-11-03 12:06 (Toronto Time)
+Updated: 2025-11-10 12:06 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,621 | +334 |
-| **Total docks available** | 11,135 | -166 |
-| **System utilization rate** | 37.3% | +1.5% |
-| **Active stations** | 982/982 (100%) | +2 |
-| **Average bikes per station** | 6.7 | +0 |
+| **Total bikes available** | 7,231 | +610 |
+| **Total docks available** | 10,573 | -562 |
+| **System utilization rate** | 40.6% | +3.3% |
+| **Active stations** | 986/986 (100%) | +4 |
+| **Average bikes per station** | 7.3 | +1 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 226 (23%) | -36 |
-| **Full stations** | 61 (6.2%) | +3 |
+| **Empty stations** | 171 (17.3%) | -55 |
+| **Full stations** | 44 (4.5%) | -17 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Humber Bay Shores Park / Marine Parade Dr | 60 | 63 |
-| Wellington St W / Bay St | 52 | 55 |
-| Bay St / Albert St | 50 | 63 |
-| York St / Queens Quay W | 48 | 57 |
-| Queens Quay / Yonge St | 47 | 47 |
-| Cherry Beach | 45 | 49 |
-| Bremner Blvd / Rees St | 44 | 49 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 43 | 47 |
-| King St W / University Ave | 37 | 39 |
-| Huron St / Harbord St | 36 | 39 |
+| Humber Bay Shores Park / Marine Parade Dr | 61 | 63 |
+| York St / Queens Quay W | 52 | 57 |
+| Bay St / Albert St | 49 | 63 |
+| Bremner Blvd / Rees St | 46 | 49 |
+| Frederick St / King St E | 46 | 47 |
+| Simcoe St / Pullan Pl | 43 | 47 |
+| Bloor St W / Manning Ave - SMART | 40 | 42 |
+| Cherry Beach | 39 | 49 |
+| Front St W / Yonge St (Hockey Hall of Fame) | 36 | 47 |
+| Mill St / Cherry St | 36 | 39 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| 439 Sherbourne St | 47 | 47 |
-| Dundas St W / Crawford St | 45 | 47 |
-| Bloor St W / Manning Ave - SMART | 41 | 42 |
-| Simcoe St / Pullan Pl | 39 | 47 |
 | Brimley Rd / Lawrence Ave E  | 37 | 39 |
-| Jarvis St / Isabella St | 35 | 39 |
-| Bloor St W / Shaw St - SMART | 34 | 34 |
-| Bathurst St / Front St W | 34 | 35 |
-| Lisgar Park | 33 | 35 |
-| Church St / Alexander St | 32 | 35 |
+| Wellington St W / Bay St | 36 | 55 |
+| Toronto Inukshuk Park | 34 | 47 |
+| 9 Willingdon Blvd | 34 | 39 |
+| Yonge St / Orchard View Blvd | 32 | 35 |
+| Lillian St / Soudan Ave - SMART | 32 | 32 |
+| Dundas St W / Crawford St | 30 | 47 |
+| Bond St / Queen St E | 28 | 37 |
+| Western Battery Rd / Pirandello St | 27 | 31 |
+| Jarvis St / Dundas St E | 26 | 27 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 226 |
-| Full       | 61 |
-| Available  | 695 |
+| Empty      | 171 |
+| Full       | 44 |
+| Available  | 771 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 32.5% with a standard deviation of 33.3%
-- The system is currently operating at 37% capacity
+- The mean availability is 35.5% with a standard deviation of 32.2%
+- The system is currently operating at 41% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
