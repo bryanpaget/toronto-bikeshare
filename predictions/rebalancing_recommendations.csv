@@ -1,4 +1,4 @@
 "station_id","station_name","predicted_demand_change_pct","recommended_action","event_impact"
-"7001","Wellesley Station Green P",35,"ADD_BIKES","Concert"
-"7000","Fort York Blvd / Capreol Ct",29,"ADD_BIKES","Concert"
-"7002","St. George St / Bloor St W",15,"ADD_BIKES","Art/Cultural Event"
+"7001","Wellesley Station Green P",27,"ADD_BIKES","Concert"
+"7000","Fort York Blvd / Capreol Ct",25,"ADD_BIKES","Concert"
+"7002","St. George St / Bloor St W",11,"ADD_BIKES","Art/Cultural Event"
