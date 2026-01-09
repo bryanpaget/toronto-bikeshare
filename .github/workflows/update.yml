@@ -22,11 +22,19 @@ jobs:
           sudo apt-get install -y \
             libfontconfig1-dev \
             libharfbuzz-dev \
-            libfribidi-dev
+            libfribidi-dev \
+            python3-dev \
+            python3-pip
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install spacy
+          python3 -m spacy download en_core_web_sm
 
       - name: Install R packages
         run: |
-          R -e "install.packages(c('httr', 'jsonlite', 'lubridate', 'viridis', 'zoo', 'xml2', 'dplyr', 'ggplot2', 'tidyr', 'knitr'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
+          R -e "install.packages(c('httr', 'jsonlite', 'lubridate', 'viridis', 'zoo', 'xml2', 'dplyr', 'ggplot2', 'tidyr', 'knitr', 'reticulate'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
           
       - name: Run R script
         run: Rscript update_report.R
