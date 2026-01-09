@@ -168,13 +168,31 @@ scrape_multi_source_events <- function() {
   return(all_events)
 }
 
-# Function to classify events using spaCy with optional LLM enhancement
+# Function to configure Python environment and classify events using spaCy with optional LLM enhancement
 classify_event_with_nlp <- function(event_title, event_description) {
-  # Import spaCy through reticulate (assumed to be available)
+  # Configure reticulate to use the virtual environment's Python if available
+  venv_path <- file.path(getwd(), "venv", "bin", "python")
+  if (file.exists(venv_path)) {
+    reticulate::use_python(venv_path, required = TRUE)
+  }
+
+  # Check if spaCy is available through reticulate
+  if (!reticulate::py_module_available("spacy")) {
+    cat("spaCy not available, using keyword classification\n")
+    return(classify_event_by_keywords(event_title, event_description))
+  }
+
+  # Import spaCy through reticulate
   spacy <- reticulate::import("spacy")
 
-  # Load English model
-  nlp <- spacy$load("en_core_web_sm")
+  # Check if the English model is available
+  tryCatch({
+    # Load English model
+    nlp <- spacy$load("en_core_web_sm")
+  }, error = function(e) {
+    cat("spaCy English model not available, using keyword classification\n")
+    return(classify_event_by_keywords(event_title, event_description))
+  })
 
   # Combine title and description for analysis
   full_text <- paste(event_title, event_description)
