@@ -1,53 +1,53 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-01-05 12:10 (Toronto Time)
+Updated: 2026-01-08 20:20 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,242 | +88 |
-| **Total docks available** | 12,175 | -21 |
-| **System utilization rate** | 33.9% | +0.4% |
-| **Active stations** | 1004/1004 (100%) | +3 |
-| **Average bikes per station** | 6.2 | +0 |
-| **Median station capacity** | 17 | - |
-| **Empty stations** | 120 (12%) | -36 |
-| **Full stations** | 31 (3.1%) | -7 |
+| **Total bikes available** | 6,225 | -17 |
+| **Total docks available** | 12,310 | +135 |
+| **System utilization rate** | 33.6% | -0.3% |
+| **Active stations** | 1007/1007 (100%) | +3 |
+| **Average bikes per station** | 6.2 | -0 |
+| **Median station capacity** | 18 | - |
+| **Empty stations** | 121 (12%) | +1 |
+| **Full stations** | 20 (2%) | -11 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Bay St / Albert St | 53 | 63 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 43 | 47 |
-| Bay St / Dundas St W | 40 | 55 |
-| 285 Victoria St | 38 | 39 |
-| Wellington St W / Bay St | 37 | 55 |
-| Toronto Inukshuk Park | 37 | 47 |
-| Bond St / Queen St E | 36 | 37 |
-| Bremner Blvd / Rees St | 33 | 49 |
-| King St E / Church St | 30 | 35 |
-| Frederick St / King St E | 30 | 47 |
+| Bremner Blvd / Rees St | 44 | 49 |
+| Queens Quay / Yonge St | 44 | 47 |
+| Bay St / Dundas St W | 42 | 55 |
+| Temperance St Station | 38 | 55 |
+| Front St W / Yonge St (Hockey Hall of Fame) | 37 | 47 |
+| 285 Victoria St | 36 | 39 |
+| Toronto Inukshuk Park | 34 | 47 |
+| Bay St / Albert St | 33 | 62 |
+| Balliol St / Yonge St - SMART | 32 | 36 |
+| Exhibition GO (Atlantic Ave) | 31 | 35 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 62 | 79 |
+| Simcoe St / Pullan Pl | 52 | 79 |
 | Humber Bay Shores Park / Marine Parade Dr | 51 | 63 |
 | 144 Harrison St | 48 | 51 |
-| Niagara St / Richmond St W | 41 | 42 |
-| York St / Queens Quay W | 41 | 57 |
-| Dundas St W / Crawford St | 40 | 47 |
+| 800 Fleet St (South) | 41 | 43 |
 | 2700 Eglinton Ave W | 40 | 43 |
+| 800 Fleet St (North) | 40 | 43 |
+| Wellington St W / Bay St | 39 | 55 |
+| Jarvis St / Isabella St | 38 | 39 |
 | 91 Via Italia | 37 | 39 |
-| Brimley Rd / Lawrence Ave E  | 37 | 39 |
-| 9 Willingdon Blvd | 37 | 39 |
+| 265 Armadale Ave | 37 | 45 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 120 |
-| Full       | 28 |
-| Available  | 856 |
+| Empty      | 121 |
+| Full       | 20 |
+| Available  | 866 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 31.6% with a standard deviation of 28.5%
+- The mean availability is 31.2% with a standard deviation of 27.8%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source

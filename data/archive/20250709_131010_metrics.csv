@@ -1,0 +1,2 @@
+"timestamp","total_bikes","total_docks","utilization_rate","active_stations","total_stations","active_pct","avg_bikes_per_station","median_capacity","empty_stations","empty_pct","full_stations","full_pct"
+2025-07-09 13:10:10,6056,10709,36.1228750372801,926,926,100,6.53995680345572,19,145,15.658747300216,23,2.48380129589633

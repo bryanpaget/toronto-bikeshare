@@ -76,15 +76,37 @@ tryCatch({
     full_pct = full_stations / total_stations * 100
   )
   
-  # Save current data as CSV
-  write.csv(stations, file.path("data", paste0(timestamp_str, "_stations.csv")), row.names = FALSE)
-  write.csv(current_metrics, file.path("data", paste0(timestamp_str, "_metrics.csv")), row.names = FALSE)
-  
-  # Load historical metrics
-  metrics_files <- list.files("data", pattern = "_metrics.csv$", full.names = TRUE)
-  
-  if (length(metrics_files) > 0) {
-    historical_metrics <- bind_rows(lapply(metrics_files, read.csv)) %>%
+  # Define consolidated file paths
+  consolidated_metrics_path <- "data/consolidated_metrics.csv"
+  consolidated_stations_path <- "data/consolidated_stations.csv"
+
+  # Check if consolidated files exist, if not create them
+  if (!file.exists(consolidated_metrics_path)) {
+    write.csv(current_metrics, consolidated_metrics_path, row.names = FALSE)
+    cat("Created new consolidated metrics file\n")
+  } else {
+    # Append current metrics to consolidated file
+    write.table(current_metrics, consolidated_metrics_path,
+                sep = ",", append = TRUE, col.names = FALSE, row.names = FALSE)
+    cat("Appended metrics to consolidated file\n")
+  }
+
+  # Add timestamp to stations data to identify when it was captured
+  stations$capture_timestamp <- timestamp
+
+  if (!file.exists(consolidated_stations_path)) {
+    write.csv(stations, consolidated_stations_path, row.names = FALSE)
+    cat("Created new consolidated stations file\n")
+  } else {
+    # Append current stations to consolidated file
+    write.table(stations, consolidated_stations_path,
+                sep = ",", append = TRUE, col.names = FALSE, row.names = FALSE)
+    cat("Appended stations to consolidated file\n")
+  }
+
+  # Load historical metrics from consolidated file
+  if (file.exists(consolidated_metrics_path)) {
+    historical_metrics <- read.csv(consolidated_metrics_path) %>%
       mutate(timestamp = as.POSIXct(timestamp))
   } else {
     historical_metrics <- current_metrics
