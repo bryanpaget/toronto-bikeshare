@@ -564,4 +564,61 @@ install.packages(c(
 ))
 ```
 
+## 10. Development Environment Setup
+
+To ensure consistent development and deployment environments, create a development setup:
+
+### Python Virtual Environment
+Create a virtual environment with required dependencies:
+
+1. **requirements.txt**:
+```
+# Python dependencies for Toronto Bike Share Analytics
+spacy>=3.4.0
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+lxml>=4.9.0
+numpy>=1.21.0
+pandas>=1.4.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+scikit-learn>=1.1.0
+```
+
+2. **Makefile** for easy environment management:
+```
+.PHONY: setup install-spacy test clean
+
+setup:
+	python3 -m venv venv
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install -r requirements.txt
+
+install-spacy:
+	./venv/bin/python -m spacy download en_core_web_sm
+
+test:
+	Rscript update_report.R
+
+clean:
+	rm -rf venv
+```
+
+### GitHub Actions Integration
+The GitHub Actions workflow should install both Python and R dependencies:
+
+```yaml
+- name: Install Python dependencies
+  run: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+    python -m spacy download en_core_web_sm
+
+- name: Install R packages
+  run: |
+    R -e "install.packages(c('xml2', 'lubridate', 'dplyr', 'reticulate'), repos = 'https://cloud.r-project.org')"
+```
+
+This ensures that spaCy and other Python dependencies are available in both local development and CI/CD environments.
+
 This roadmap provides a clear path to transform the current multi-RSS-source model into a production-ready predictive system for Toronto bike share demand.
