@@ -1,28 +1,28 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-01-08 21:27 (Toronto Time)
+Updated: 2026-01-08 21:48 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,233 | +7 |
-| **Total docks available** | 12,286 | -9 |
+| **Total bikes available** | 6,234 | +1 |
+| **Total docks available** | 12,281 | -5 |
 | **System utilization rate** | 33.7% | +0.0% |
 | **Active stations** | 1007/1007 (100%) |  |
 | **Average bikes per station** | 6.2 | +0 |
 | **Median station capacity** | 18 | - |
-| **Empty stations** | 127 (12.6%) | +1 |
-| **Full stations** | 22 (2.2%) | +4 |
+| **Empty stations** | 123 (12.2%) | -4 |
+| **Full stations** | 25 (2.5%) | +3 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
 | Bay St / Dundas St W | 45 | 55 |
 | Bremner Blvd / Rees St | 44 | 49 |
-| Queens Quay / Yonge St | 43 | 47 |
-| Temperance St Station | 37 | 55 |
+| Queens Quay / Yonge St | 42 | 47 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 37 | 47 |
-| 285 Victoria St | 36 | 39 |
+| Temperance St Station | 35 | 55 |
+| 285 Victoria St | 35 | 39 |
 | Toronto Inukshuk Park | 33 | 47 |
 | Balliol St / Yonge St - SMART | 32 | 36 |
 | Bay St / Albert St | 31 | 62 |
@@ -33,7 +33,7 @@ Updated: 2026-01-08 21:27 (Toronto Time)
 |---------|-----------------|----------|
 | Simcoe St / Pullan Pl | 52 | 79 |
 | Humber Bay Shores Park / Marine Parade Dr | 51 | 63 |
-| 144 Harrison St | 48 | 51 |
+| 144 Harrison St | 47 | 51 |
 | 800 Fleet St (South) | 41 | 43 |
 | 800 Fleet St (North) | 41 | 43 |
 | 2700 Eglinton Ave W | 40 | 43 |
@@ -45,9 +45,9 @@ Updated: 2026-01-08 21:27 (Toronto Time)
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 127 |
-| Full       | 22 |
-| Available  | 858 |
+| Empty      | 123 |
+| Full       | 25 |
+| Available  | 859 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 31.3% with a standard deviation of 27.8%
+- The mean availability is 31.4% with a standard deviation of 27.8%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
@@ -92,8 +92,8 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact |
 |---------|-------------------|--------------|
-| Fort York Blvd / Capreol Ct | +28% | Sports Event |
-| Wellesley Station Green P | +13% | Art Exhibition |
+| Fort York Blvd / Capreol Ct | +29% | Sports Event |
+| Wellesley Station Green P | +16% | Art Exhibition |
 
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description |
@@ -103,5 +103,5 @@ Based on upcoming events and historical patterns, here are the predicted changes
 | [Ontario's weather forecast calls for double-digit temps and conditions could be hazardous](https://www.narcity.com/toronto/ontario-weather-warm-temperatures-january-9-2026) | 2026-01-09 | 
 <img src="https://www.narcity.com/media-librar... |
 
-*Last updated: 2026-01-09 02:28 (Toronto Time)*
+*Last updated: 2026-01-09 02:50 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from Narcity Toronto RSS feed*
