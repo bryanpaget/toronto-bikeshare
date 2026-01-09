@@ -1,24 +1,24 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-01-09 07:59 (Toronto Time)
+Updated: 2026-01-09 08:11 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,241 | -101 |
-| **Total docks available** | 12,317 | +120 |
-| **System utilization rate** | 33.6% | -0.6% |
+| **Total bikes available** | 6,220 | -120 |
+| **Total docks available** | 12,338 | +136 |
+| **System utilization rate** | 33.5% | -0.7% |
 | **Active stations** | 1007/1007 (100%) |  |
 | **Average bikes per station** | 6.2 | -0 |
 | **Median station capacity** | 18 | - |
-| **Empty stations** | 112 (11.1%) | -5 |
-| **Full stations** | 21 (2.1%) | -6 |
+| **Empty stations** | 113 (11.2%) | -4 |
+| **Full stations** | 20 (2%) | -6 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
+| Queens Quay / Yonge St | 46 | 47 |
 | Bremner Blvd / Rees St | 45 | 49 |
-| Queens Quay / Yonge St | 45 | 47 |
 | Bay St / Dundas St W | 40 | 55 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 37 | 47 |
 | Bay St / Albert St | 35 | 62 |
@@ -36,17 +36,17 @@ Updated: 2026-01-09 07:59 (Toronto Time)
 | 144 Harrison St | 48 | 51 |
 | 800 Fleet St (North) | 42 | 43 |
 | 800 Fleet St (South) | 41 | 43 |
-| Bloor St W / Manning Ave - SMART | 40 | 42 |
 | 2700 Eglinton Ave W | 40 | 43 |
+| Niagara St / Richmond St W | 39 | 42 |
+| Bloor St W / Manning Ave - SMART | 39 | 42 |
 | 91 Via Italia | 39 | 39 |
 | 365 Lippincott St | 39 | 41 |
-| Niagara St / Richmond St W | 38 | 42 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 112 |
-| Full       | 21 |
+| Empty      | 113 |
+| Full       | 20 |
 | Available  | 874 |
 
 ## 📍 Bike Locations
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 31.3% with a standard deviation of 27.6%
+- The mean availability is 31.2% with a standard deviation of 27.6%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
@@ -90,21 +90,23 @@ Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesys
 Based on upcoming events and historical patterns, here are the predicted changes in bike demand:
 
 ### 📈 High Demand Predictions (Add Bikes)
-| Station | Predicted Increase | Event Impact |
-|---------|-------------------|--------------|
-| Fort York Blvd / Capreol Ct | +26% | Concert |
-| Wellesley Station Green P | +23% | Concert |
-| St. George St / Bloor St W | +12% | Art/Cultural Event |
+| Station | Predicted Increase | Event Impact | Associated Event |
+|---------|-------------------|--------------|------------------|
+| Wellesley Station Green P | +35% | Concert | General prediction |
+| Fort York Blvd / Capreol Ct | +29% | Concert | General prediction |
+| St. George St / Bloor St W | +15% | Art/Cultural Event | General prediction |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
 
 ### 📅 Upcoming Events Influencing Predictions
-| Event | Date | Description |
-|-------|------|-------------|
-| [Concert in Trinity Bellwoods](https://www.narcity.com/example1) | 2026-01-11 | A concert in Trinity Bellwoods Park |
-| [Food Festival at Exhibition Place](https://www.narcity.com/example2) | 2026-01-14 | Food festival at Exhibition Place |
-| [Art Fair in Distillery District](https://www.narcity.com/example3) | 2026-01-16 | Art fair in Distillery District |
+| Event | Date | Description | Recommended Action |
+|-------|------|-------------|-------------------|
+| [Concert in Trinity Bellwoods](https://www.narcity.com/example1) | 2026-01-11 | A concert in Trinity Bellwoods Park | Increase bikes nearby |
+| [Food Festival at Exhibition Place](https://www.narcity.com/example2) | 2026-01-14 | Food festival at Exhibition Place | Increase bikes nearby |
+| [Art Fair in Distillery District](https://www.narcity.com/example3) | 2026-01-16 | Art fair in Distillery District | Increase bikes nearby |
 
-*Last updated: 2026-01-09 08:02 (Toronto Time)*
-*Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals)*
+*Last updated: 2026-01-09 08:13 (Toronto Time)*
+*Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
+*Events analyzed: Concert in Trinity Bellwoods, Food Festival at Exhibition Place, Art Fair in Distillery District. Stations near events receive adjusted predictions.*
+
