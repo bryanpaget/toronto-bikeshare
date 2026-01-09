@@ -469,8 +469,101 @@ run_predictive_model <- function() {
   return(results)
 }
 
+# Function to find stations near events based on location keywords
+find_stations_near_events <- function(events_data, stations_data) {
+  # Load required libraries
+  if (!require("geosphere", quietly = TRUE)) {
+    install.packages("geosphere")
+    library(geosphere)
+  }
+
+  # Create a mapping of location keywords to approximate coordinates
+  location_coords <- list(
+    "trinity bellwoods" = c(lat = 43.6478, lon = -79.4042),
+    "exhibition place" = c(lat = 43.6392, lon = -79.4003),
+    "distillery district" = c(lat = 43.6469, lon = -79.3729),
+    "high park" = c(lat = 43.6535, lon = -79.4651),
+    "royal ontario museum" = c(lat = 43.6677, lon = -79.3947),
+    "cn tower" = c(lat = 43.6426, lon = -79.3871),
+    "ripley's aquarium" = c(lat = 43.6468, lon = -79.3789),
+    "toronto islands" = c(lat = 43.6361, lon = -79.3751),
+    "st. lawrence market" = c(lat = 43.6503, lon = -79.3722),
+    "kensington market" = c(lat = 43.6511, lon = -79.4006),
+    "yonge-dundas square" = c(lat = 43.6564, lon = -79.3808),
+    "union station" = c(lat = 43.6451, lon = -79.3794),
+    "brookfield place" = c(lat = 43.6455, lon = -79.3778),
+    "downtown" = c(lat = 43.6532, lon = -79.3832),
+    "downtown core" = c(lat = 43.6532, lon = -79.3832)
+  )
+
+  # Function to extract location keywords from event description
+  extract_location_from_event <- function(event_desc) {
+    event_lower <- tolower(event_desc)
+    for (location_name in names(location_coords)) {
+      if (grepl(location_name, event_lower)) {
+        return(location_name)
+      }
+    }
+    return(NULL)
+  }
+
+  # Function to find nearest stations to an event
+  find_nearest_stations <- function(event_location, stations_data, n = 3) {
+    if (is.null(event_location) || !(event_location %in% names(location_coords))) {
+      # If no specific location found, return top stations by capacity
+      return(head(stations_data[order(stations_data$capacity, decreasing = TRUE), ], n))
+    }
+
+    event_coords <- location_coords[[event_location]]
+
+    # Calculate distances from event location to all stations
+    distances <- distHaversine(
+      p1 = cbind(stations_data$lon, stations_data$lat),
+      p2 = cbind(rep(event_coords[2], nrow(stations_data)), rep(event_coords[1], nrow(stations_data)))
+    )
+
+    # Add distances to stations data
+    stations_with_distance <- stations_data
+    stations_with_distance$distance_meters <- distances
+
+    # Return closest stations
+    return(head(stations_with_distance[order(stations_with_distance$distance_meters), ], n))
+  }
+
+  # Process each event to find associated stations
+  event_station_matches <- list()
+
+  for (i in 1:nrow(events_data)) {
+    event_row <- events_data[i, ]
+    location_keyword <- extract_location_from_event(event_row$event_description)
+
+    nearest_stations <- find_nearest_stations(location_keyword, stations_data, n = 3)
+
+    # Store the matches
+    event_station_matches[[i]] <- list(
+      event = event_row,
+      location_keyword = location_keyword,
+      associated_stations = nearest_stations
+    )
+  }
+
+  return(event_station_matches)
+}
+
 # Function to format predictions for README insertion
 format_predictions_for_readme <- function(predictions) {
+  # Load stations data to enable geospatial matching
+  if (file.exists("data/consolidated_stations.csv")) {
+    stations_data <- read.csv("data/consolidated_stations.csv")
+    stations_data$capture_timestamp <- as.POSIXct(stations_data$capture_timestamp)
+    # Get the most recent data for each station
+    stations_data <- stations_data[order(stations_data$capture_timestamp, decreasing = TRUE), ]
+    stations_data <- stations_data[!duplicated(stations_data$station_id), ]
+  } else {
+    cat("Warning: No stations data found for geospatial matching\n")
+    stations_data <- NULL
+  }
+
   # Format the predictions in a way that can be inserted into the README
   if (nrow(predictions) == 0) {
     return("# No Predictions Available\n\nNo bike share demand predictions are currently available.")
@@ -499,6 +592,12 @@ format_predictions_for_readme <- function(predictions) {
     ) %>%
     filter(classification != "News/Info")
 
+  # If stations data is available, find event-station associations
+  event_station_associations <- NULL
+  if (!is.null(stations_data) && nrow(impactful_events) > 0) {
+    event_station_associations <- find_stations_near_events(impactful_events, stations_data)
+  }
+
   # Create formatted output
   readme_content <- paste0(
     "## 📊 Predictive Analytics\n\n",
@@ -507,10 +606,20 @@ format_predictions_for_readme <- function(predictions) {
     if (nrow(high_demand_stations) > 0) {
       paste0(
         "### 📈 High Demand Predictions (Add Bikes)\n",
-        "| Station | Predicted Increase | Event Impact |\n",
-        "|---------|-------------------|--------------|\n",
+        "| Station | Predicted Increase | Event Impact | Associated Event |\n",
+        "|---------|-------------------|--------------|------------------|\n",
         paste(apply(high_demand_stations, 1, function(row) {
-          paste0("| ", row["station_name"], " | +", round(as.numeric(row["predicted_demand_change_pct"]), 1), "% | ", row["event_impact"], " |")
+          # Find associated event if possible
+          associated_event <- "General prediction"
+          if (!is.null(event_station_associations)) {
+            for (assoc in event_station_associations) {
+              if (row["station_name"] %in% assoc$associated_stations$name) {
+                associated_event <- assoc$event$event_title
+                break
+              }
+            }
+          }
+          paste0("| ", row["station_name"], " | +", round(as.numeric(row["predicted_demand_change_pct"]), 1), "% | ", row["event_impact"], " | ", associated_event, " |")
         }), collapse = "\n"),
         "\n\n"
       )
@@ -524,10 +633,20 @@ format_predictions_for_readme <- function(predictions) {
     if (nrow(low_demand_stations) > 0) {
       paste0(
         "### 📉 Low Demand Predictions (Remove Bikes)\n",
-        "| Station | Predicted Decrease | Event Impact |\n",
-        "|---------|-------------------|--------------|\n",
+        "| Station | Predicted Decrease | Event Impact | Associated Event |\n",
+        "|---------|-------------------|--------------|------------------|\n",
         paste(apply(low_demand_stations, 1, function(row) {
-          paste0("| ", row["station_name"], " | ", round(as.numeric(row["predicted_demand_change_pct"]), 1), "% | ", row["event_impact"], " |")
+          # Find associated event if possible
+          associated_event <- "General prediction"
+          if (!is.null(event_station_associations)) {
+            for (assoc in event_station_associations) {
+              if (row["station_name"] %in% assoc$associated_stations$name) {
+                associated_event <- assoc$event$event_title
+                break
+              }
+            }
+          }
+          paste0("| ", row["station_name"], " | ", round(as.numeric(row["predicted_demand_change_pct"]), 1), "% | ", row["event_impact"], " | ", associated_event, " |")
         }), collapse = "\n"),
         "\n\n"
       )
@@ -541,14 +660,20 @@ format_predictions_for_readme <- function(predictions) {
     "### 📅 Upcoming Events Influencing Predictions\n",
     if (nrow(impactful_events) > 0) {
       paste0(
-        "| Event | Date | Description |\n",
-        "|-------|------|-------------|\n",
+        "| Event | Date | Description | Recommended Action |\n",
+        "|-------|------|-------------|-------------------|\n",
         paste(apply(impactful_events[1:min(10, nrow(impactful_events)), ], 1, function(row) {
+          # Determine recommended action based on event type
+          event_type <- classify_event_by_keywords(row["event_title"], row["event_description"])$category
+          recommended_action <- ifelse(event_type %in% c("Concert", "Sports Event", "Food Festival", "Art/Cultural Event", "Outdoor Activity"),
+                                      "Increase bikes nearby",
+                                      "Monitor usage")
+
           # Truncate description if too long
           desc <- ifelse(nchar(row["event_description"]) > 50,
                          paste0(substr(row["event_description"], 1, 47), "..."),
                          row["event_description"])
-          paste0("| [", row["event_title"], "](", row["event_link"], ") | ", row["event_date"], " | ", desc, " |")
+          paste0("| [", row["event_title"], "](", row["event_link"], ") | ", row["event_date"], " | ", desc, " | ", recommended_action, " |")
         }), collapse = "\n"),
         "\n\n"
       )
@@ -557,7 +682,16 @@ format_predictions_for_readme <- function(predictions) {
     },
 
     "*Last updated: ", format(Sys.time(), "%Y-%m-%d %H:%M"), " (Toronto Time)*\n",
-    "*Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals)*"
+    "*Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*\n",
+    if (!is.null(event_station_associations) && length(event_station_associations) > 0) {
+      # Add explanation about event-station connections
+      event_names <- sapply(event_station_associations, function(x) x$event$event_title[1])
+      paste0("*Events analyzed: ", paste(head(event_names, 3), collapse = ", "),
+             ifelse(length(event_names) > 3, "...", ""),
+             ". Stations near events receive adjusted predictions.*\n")
+    } else {
+      ""
+    }
   )
 
   return(readme_content)
