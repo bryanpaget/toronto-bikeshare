@@ -1,18 +1,18 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-01-08 21:09 (Toronto Time)
+Updated: 2026-01-08 21:12 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,231 | -1 |
-| **Total docks available** | 12,291 | +1 |
+| **Total bikes available** | 6,226 | -5 |
+| **Total docks available** | 12,295 | +4 |
 | **System utilization rate** | 33.6% | -0.0% |
 | **Active stations** | 1007/1007 (100%) |  |
 | **Average bikes per station** | 6.2 | -0 |
 | **Median station capacity** | 18 | - |
-| **Empty stations** | 126 (12.5%) | +1 |
-| **Full stations** | 18 (1.8%) | -1 |
+| **Empty stations** | 126 (12.5%) |  |
+| **Full stations** | 18 (1.8%) |  |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
@@ -39,8 +39,8 @@ Updated: 2026-01-08 21:09 (Toronto Time)
 | 2700 Eglinton Ave W | 40 | 43 |
 | Jarvis St / Isabella St | 38 | 39 |
 | Wellington St W / Bay St | 38 | 55 |
-| Niagara St / Richmond St W | 37 | 42 |
 | 91 Via Italia | 37 | 39 |
+| 365 Lippincott St | 37 | 41 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 31.3% with a standard deviation of 27.8%
+- The mean availability is 31.3% with a standard deviation of 27.7%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
@@ -92,9 +92,9 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact |
 |---------|-------------------|--------------|
-| Madison Ave / Bloor St W | +30% | Concert |
-| Fort York Blvd / Capreol Ct | +25% | Concert |
-| St. George St / Bloor St W | +15% | None |
+| St. George St / Bloor St W | +25% | Concert |
+| Fort York Blvd / Capreol Ct | +23% | Sports Event |
+| Wellesley Station Green P | +12% | Art Exhibition |
 
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description |
@@ -106,5 +106,5 @@ Based on upcoming events and historical patterns, here are the predicted changes
 | [7 Metrolinx jobs in the GTA that pay up to $55 an hour or $124,000 a year](https://www.narcity.com/toronto/metrolinx-jobs-toronto-gta-high-paying-55-hour-124000-year) | 2026-01-08 | 
 <img src="https://www.narcity.com/media-librar... |
 
-*Last updated: 2026-01-08 21:10 (Toronto Time)*
+*Last updated: 2026-01-08 21:14 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from Narcity Toronto RSS feed*

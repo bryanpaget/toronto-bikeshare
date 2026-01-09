@@ -178,47 +178,91 @@ train_prediction_model <- function(feature_data) {
 }
 ```
 
-## 4. Event Impact Scoring
+## 4. Event Classification and Impact Scoring
 
-Develop a system to score how much an event might impact bike demand:
+Develop a system to classify events and score their impact on bike demand:
+
+### A. LLM-Based Event Classification
+The system now includes a function to classify events using LLMs when available, with a keyword-based fallback:
 
 ```r
-calculate_event_impact <- function(event_title, event_description, event_date) {
-  # Different types of events have different impacts on bike usage
-  # Use keywords to classify event type and estimate impact
-  
-  # Score based on event type keywords
-  type_scores <- c(
-    concert = 1.5,
-    festival = 1.8,
-    sports = 1.6,
-    food = 1.3,
-    art = 1.2,
-    conference = 0.8  # Business events might have lower bike impact
-  )
-  
-  # Determine event type from title/description
+# Function to classify events using LLM API
+classify_event_with_llm <- function(event_title, event_description) {
+  # Check if OpenAI API key is available
+  api_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
+
+  if (!is.na(api_key)) {
+    # Prepare the prompt for the LLM
+    prompt <- paste0(
+      "Classify the following event as one of these categories: Concert, Sports Event, Food Festival, Art Exhibition, Conference, Community Event, or Other.\n",
+      "Also estimate the potential impact on bike share demand as High, Medium, Low, or None.\n",
+      "Title: ", event_title, "\n",
+      "Description: ", substr(event_description, 1, 500), "\n",  # Limit description length
+      "Format your response as: CATEGORY|IMPACT"
+    )
+
+    # Call the OpenAI API
+    response <- openai::create_completion(
+      model = "gpt-3.5-turbo-instruct",  # or another appropriate model
+      prompt = prompt,
+      max_tokens = 100,
+      temperature = 0.3
+    )
+
+    # Parse the response and return classification
+    # Implementation details in the actual code
+  } else {
+    # Use keyword-based classification as fallback
+    return(classify_event_by_keywords(event_title, event_description))
+  }
+}
+```
+
+### B. GitHub Actions Integration with LLMs
+To use LLMs in GitHub Actions, you can:
+
+1. **Set up secrets for API keys** in your GitHub repository settings
+2. **Use GitHub Actions with LLM providers** like OpenAI, Anthropic, or others
+3. **Implement a custom action** or use existing marketplace actions
+
+Example GitHub Action workflow snippet:
+```yaml
+- name: Event Classification with LLM
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  run: |
+    Rscript -e "source('predictive_model.R'); classify_event_with_llm('Sample Event', 'Sample Description')"
+```
+
+### C. Keyword-Based Fallback Classification
+For environments without LLM access, the system uses keyword matching:
+
+```r
+classify_event_by_keywords <- function(event_title, event_description) {
   event_text <- paste(event_title, event_description)
-  event_type <- "general"  # default
-  
-  for(type in names(type_scores)) {
-    if(grepl(paste0("(?i)", type), event_text)) {
-      event_type <- type
-      break
-    }
+  event_text_lower <- tolower(event_text)
+
+  # Define keywords for different event types
+  concert_keywords <- c("concert", "music", "band", "dj", "festival", "show", "performance", "venue", "stage")
+  sports_keywords <- c("sports", "game", "match", "tournament", "team", "soccer", "basketball", "hockey", "football", "playoff")
+  food_keywords <- c("food", "restaurant", "dining", "market", "tasting", "brewery", "wine", "beer", "cuisine", "chef")
+  arts_keywords <- c("art", "gallery", "museum", "exhibition", "painting", "sculpture", "theater", "dance", "culture")
+  conference_keywords <- c("conference", "seminar", "workshop", "meeting", "business", "networking", "professional")
+
+  # Classify based on keywords
+  if (any(sapply(concert_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Concert", impact = "HIGH"))
+  } else if (any(sapply(sports_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Sports Event", impact = "HIGH"))
+  } else if (any(sapply(food_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Food Festival", impact = "MEDIUM"))
+  } else if (any(sapply(arts_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Art Exhibition", impact = "MEDIUM"))
+  } else if (any(sapply(conference_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Conference", impact = "LOW"))
+  } else {
+    return(list(category = "Other", impact = "LOW"))
   }
-  
-  # Base impact score on event type
-  impact_score <- type_scores[event_type]
-  
-  # Adjust for event timing (weekend vs weekday, season, etc.)
-  event_day <- weekdays(as.Date(event_date))
-  if(event_day %in% c("Saturday", "Sunday")) {
-    impact_score <- impact_score * 1.2  # Weekend events might have higher impact
-  }
-  
-  # Return impact score
-  return(impact_score %||% 1.0)
 }
 ```
 

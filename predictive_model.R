@@ -92,33 +92,167 @@ scrape_narcity_events <- function() {
   })
 }
 
+# Function to classify events using LLM API
+classify_event_with_llm <- function(event_title, event_description) {
+  # This function would call an LLM API to classify events
+  # For now, we'll use a simple keyword-based classifier as a fallback
+  # but the structure is ready for LLM integration
+
+  # Check if OpenAI API key is available
+  api_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
+
+  if (!is.na(api_key)) {
+    # Call OpenAI API for event classification
+    if (!require("openai", quietly = TRUE)) {
+      # If openai package is not available, use fallback
+      cat("OpenAI package not available, using keyword classification\n")
+      return(classify_event_by_keywords(event_title, event_description))
+    }
+
+    # Prepare the prompt for the LLM
+    prompt <- paste0(
+      "Classify the following event as one of these categories: Concert, Sports Event, Food Festival, Art Exhibition, Conference, Community Event, or Other.\n",
+      "Also estimate the potential impact on bike share demand as High, Medium, Low, or None.\n",
+      "Title: ", event_title, "\n",
+      "Description: ", substr(event_description, 1, 500), "\n",  # Limit description length
+      "Format your response as: CATEGORY|IMPACT"
+    )
+
+    tryCatch({
+      # Call the OpenAI API
+      response <- openai::create_completion(
+        model = "gpt-3.5-turbo-instruct",  # or another appropriate model
+        prompt = prompt,
+        max_tokens = 100,
+        temperature = 0.3
+      )
+
+      # Parse the response
+      result <- trimws(response$choices[[1]]$text)
+      parts <- strsplit(result, "\\|")[[1]]
+
+      if (length(parts) >= 2) {
+        category <- trimws(parts[1])
+        impact <- trimws(parts[2])
+
+        # Map impact levels to numerical scores
+        impact_mapping <- list(
+          "High" = "HIGH",
+          "Medium" = "MEDIUM",
+          "Low" = "LOW",
+          "None" = "NONE",
+          "Other" = "OTHER"
+        )
+
+        mapped_impact <- impact_mapping[[impact]] %||% "MEDIUM"
+        return(list(category = category, impact = mapped_impact))
+      } else {
+        # Fallback to keyword classification if API response is malformed
+        return(classify_event_by_keywords(event_title, event_description))
+      }
+    }, error = function(e) {
+      cat("LLM API call failed:", e$message, "\nUsing keyword classification\n")
+      return(classify_event_by_keywords(event_title, event_description))
+    })
+  } else {
+    # Use keyword-based classification as fallback
+    return(classify_event_by_keywords(event_title, event_description))
+  }
+}
+
+# Helper function for keyword-based classification (fallback)
+classify_event_by_keywords <- function(event_title, event_description) {
+  event_text <- paste(event_title, event_description)
+  event_text_lower <- tolower(event_text)
+
+  # Define keywords for different event types
+  concert_keywords <- c("concert", "music", "band", "dj", "festival", "show", "performance", "venue", "stage")
+  sports_keywords <- c("sports", "game", "match", "tournament", "team", "soccer", "basketball", "hockey", "football", "playoff")
+  food_keywords <- c("food", "restaurant", "dining", "market", "tasting", "brewery", "wine", "beer", "cuisine", "chef")
+  arts_keywords <- c("art", "gallery", "museum", "exhibition", "painting", "sculpture", "theater", "dance", "culture")
+  conference_keywords <- c("conference", "seminar", "workshop", "meeting", "business", "networking", "professional")
+
+  # Classify based on keywords
+  if (any(sapply(concert_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Concert", impact = "HIGH"))
+  } else if (any(sapply(sports_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Sports Event", impact = "HIGH"))
+  } else if (any(sapply(food_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Food Festival", impact = "MEDIUM"))
+  } else if (any(sapply(arts_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Art Exhibition", impact = "MEDIUM"))
+  } else if (any(sapply(conference_keywords, function(x) grepl(x, event_text_lower)))) {
+    return(list(category = "Conference", impact = "LOW"))
+  } else {
+    return(list(category = "Other", impact = "LOW"))
+  }
+}
+
 # Function to predict bike demand based on events and historical data
 predict_bike_demand <- function(events_data, historical_data) {
   cat("Predicting bike demand based on events and historical data...\n")
-  
+
   # This would contain the actual predictive algorithm
-  # For now, returning dummy predictions
-  
+  # For now, returning predictions based on classified events
+
   # Example algorithm structure:
   # 1. Match event locations to nearby bike stations
   # 2. Estimate demand increase based on event type and attendance
   # 3. Factor in historical usage patterns for similar events
   # 4. Account for weather conditions
   # 5. Output predicted demand by station and time period
-  
-  # Dummy predictions
+
+  # Classify events using LLM or keyword-based fallback
+  event_classifications <- list()
+  for (i in 1:nrow(events_data)) {
+    classification <- classify_event_with_llm(
+      events_data$event_title[i],
+      events_data$event_description[i]
+    )
+    event_classifications[[i]] <- classification
+  }
+
+  # Create sample predictions based on event classifications
+  # In a real implementation, this would use more sophisticated logic
+  n_stations <- min(5, nrow(events_data))  # Use up to 5 stations or number of events
   predictions <- data.frame(
-    station_id = c("7000", "7001", "7002", "7003", "7004"),
-    station_name = c("Fort York Blvd / Capreol Ct", "Wellesley Station Green P", "St. George St / Bloor St W", 
-                     "Madison Ave / Bloor St W", "Bay St / College St"),
-    predicted_demand_change_pct = c(25, -10, 15, 30, 5),  # Percentage change in demand
-    recommended_action = c("ADD_BIKES", "NO_CHANGE", "ADD_BIKES", "ADD_BIKES", "NO_CHANGE"),
-    confidence_level = c(0.8, 0.6, 0.7, 0.9, 0.5),  # Confidence in prediction
-    event_impact = c("Concert", "Food Festival", "None", "Concert", "None"),
+    station_id = paste0("700", 0:(n_stations-1)),
+    station_name = c("Fort York Blvd / Capreol Ct", "Wellesley Station Green P", "St. George St / Bloor St W",
+                     "Madison Ave / Bloor St W", "Bay St / College St")[1:n_stations],
+    predicted_demand_change_pct = rep(0, n_stations),  # Initialize with 0
+    recommended_action = rep("NO_CHANGE", n_stations),
+    confidence_level = rep(0.5, n_stations),  # Initialize with medium confidence
+    event_impact = rep("None", n_stations),
     prediction_date = Sys.time(),
     stringsAsFactors = FALSE
   )
-  
+
+  # Update predictions based on event classifications
+  for (i in 1:length(event_classifications)) {
+    if (i > nrow(predictions)) break
+
+    category <- event_classifications[[i]]$category
+    impact <- event_classifications[[i]]$impact
+
+    # Set predicted demand change based on impact level
+    if (impact == "HIGH") {
+      predictions$predicted_demand_change_pct[i] <- sample(20:35, 1)  # 20-35% increase
+      predictions$recommended_action[i] <- "ADD_BIKES"
+    } else if (impact == "MEDIUM") {
+      predictions$predicted_demand_change_pct[i] <- sample(10:20, 1)  # 10-20% increase
+      predictions$recommended_action[i] <- "ADD_BIKES"
+    } else if (impact == "LOW") {
+      predictions$predicted_demand_change_pct[i] <- sample(-5:5, 1)   # Small change
+      predictions$recommended_action[i] <- "NO_CHANGE"
+    } else {  # NONE
+      predictions$predicted_demand_change_pct[i] <- sample(-10:0, 1)  # Small decrease
+      predictions$recommended_action[i] <- "NO_CHANGE"
+    }
+
+    predictions$event_impact[i] <- category
+    predictions$confidence_level[i] <- ifelse(impact == "HIGH", 0.8, ifelse(impact == "MEDIUM", 0.7, 0.6))
+  }
+
   return(predictions)
 }
 
