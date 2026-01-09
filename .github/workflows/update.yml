@@ -1,4 +1,4 @@
-name: Update Bike Data
+name: Update Bike Data with Prediction
 on:
   schedule:
     - cron: '0 17 * * 1'
