@@ -1,32 +1,32 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-01-08 20:20 (Toronto Time)
+Updated: 2026-01-08 21:09 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,225 | -17 |
-| **Total docks available** | 12,310 | +135 |
-| **System utilization rate** | 33.6% | -0.3% |
-| **Active stations** | 1007/1007 (100%) | +3 |
+| **Total bikes available** | 6,231 | -1 |
+| **Total docks available** | 12,291 | +1 |
+| **System utilization rate** | 33.6% | -0.0% |
+| **Active stations** | 1007/1007 (100%) |  |
 | **Average bikes per station** | 6.2 | -0 |
 | **Median station capacity** | 18 | - |
-| **Empty stations** | 121 (12%) | +1 |
-| **Full stations** | 20 (2%) | -11 |
+| **Empty stations** | 126 (12.5%) | +1 |
+| **Full stations** | 18 (1.8%) | -1 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
+| Bay St / Dundas St W | 45 | 55 |
 | Bremner Blvd / Rees St | 44 | 49 |
 | Queens Quay / Yonge St | 44 | 47 |
-| Bay St / Dundas St W | 42 | 55 |
-| Temperance St Station | 38 | 55 |
+| Temperance St Station | 37 | 55 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 37 | 47 |
 | 285 Victoria St | 36 | 39 |
-| Toronto Inukshuk Park | 34 | 47 |
-| Bay St / Albert St | 33 | 62 |
+| Toronto Inukshuk Park | 33 | 47 |
 | Balliol St / Yonge St - SMART | 32 | 36 |
-| Exhibition GO (Atlantic Ave) | 31 | 35 |
+| Bay St / Albert St | 31 | 62 |
+| King St W / Bay St (West Side) | 30 | 39 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
@@ -35,19 +35,19 @@ Updated: 2026-01-08 20:20 (Toronto Time)
 | Humber Bay Shores Park / Marine Parade Dr | 51 | 63 |
 | 144 Harrison St | 48 | 51 |
 | 800 Fleet St (South) | 41 | 43 |
+| 800 Fleet St (North) | 41 | 43 |
 | 2700 Eglinton Ave W | 40 | 43 |
-| 800 Fleet St (North) | 40 | 43 |
-| Wellington St W / Bay St | 39 | 55 |
 | Jarvis St / Isabella St | 38 | 39 |
+| Wellington St W / Bay St | 38 | 55 |
+| Niagara St / Richmond St W | 37 | 42 |
 | 91 Via Italia | 37 | 39 |
-| 265 Armadale Ave | 37 | 45 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 121 |
-| Full       | 20 |
-| Available  | 866 |
+| Empty      | 126 |
+| Full       | 18 |
+| Available  | 863 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,32 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 31.2% with a standard deviation of 27.8%
+- The mean availability is 31.3% with a standard deviation of 27.8%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
+
+## 📊 Predictive Analytics
+
+Based on upcoming events and historical patterns, here are the predicted changes in bike demand:
+
+### 📈 High Demand Predictions (Add Bikes)
+| Station | Predicted Increase | Event Impact |
+|---------|-------------------|--------------|
+| Madison Ave / Bloor St W | +30% | Concert |
+| Fort York Blvd / Capreol Ct | +25% | Concert |
+| St. George St / Bloor St W | +15% | None |
+
+### 📅 Upcoming Events Influencing Predictions
+| Event | Date | Description |
+|-------|------|-------------|
+| [University of Toronto is hiring for high-paying jobs and you can make up to $139,000](https://www.narcity.com/toronto/university-of-toronto-high-paying-jobs-make-up-to-139000) | 2026-01-09 | 
+<img src="https://www.narcity.com/media-librar... |
+| [Ontario's weather forecast calls for double-digit temps and conditions could be hazardous](https://www.narcity.com/toronto/ontario-weather-warm-temperatures-january-9-2026) | 2026-01-09 | 
+<img src="https://www.narcity.com/media-librar... |
+| [7 Metrolinx jobs in the GTA that pay up to $55 an hour or $124,000 a year](https://www.narcity.com/toronto/metrolinx-jobs-toronto-gta-high-paying-55-hour-124000-year) | 2026-01-08 | 
+<img src="https://www.narcity.com/media-librar... |
+
+*Last updated: 2026-01-08 21:10 (Toronto Time)*
+*Model confidence: Based on historical patterns and upcoming events from Narcity Toronto RSS feed*

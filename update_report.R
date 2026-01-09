@@ -344,8 +344,16 @@ tryCatch({
     "(https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)"
   )
   
+  # Run predictive model and append predictions to README
+  source("predictive_model.R")
+  prediction_results <- run_predictive_model()
+  predictions_markdown <- format_predictions_for_readme(prediction_results$predictions)
+
+  # Append predictions to the readme content
+  readme_content <- paste0(readme_content, "\n\n", predictions_markdown)
+
   writeLines(readme_content, "README.md")
-  
+
 }, error = function(e) {
   message("Error processing data: ", e$message)
   # Create error placeholder

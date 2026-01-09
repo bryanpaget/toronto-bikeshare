@@ -1,0 +1,4 @@
+"station_id","station_name","predicted_demand_change_pct","recommended_action","event_impact"
+"7003","Madison Ave / Bloor St W",30,"ADD_BIKES","Concert"
+"7000","Fort York Blvd / Capreol Ct",25,"ADD_BIKES","Concert"
+"7002","St. George St / Bloor St W",15,"ADD_BIKES","None"
