@@ -1,25 +1,25 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-01-08 21:12 (Toronto Time)
+Updated: 2026-01-08 21:27 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,226 | -5 |
-| **Total docks available** | 12,295 | +4 |
-| **System utilization rate** | 33.6% | -0.0% |
+| **Total bikes available** | 6,233 | +7 |
+| **Total docks available** | 12,286 | -9 |
+| **System utilization rate** | 33.7% | +0.0% |
 | **Active stations** | 1007/1007 (100%) |  |
-| **Average bikes per station** | 6.2 | -0 |
+| **Average bikes per station** | 6.2 | +0 |
 | **Median station capacity** | 18 | - |
-| **Empty stations** | 126 (12.5%) |  |
-| **Full stations** | 18 (1.8%) |  |
+| **Empty stations** | 127 (12.6%) | +1 |
+| **Full stations** | 22 (2.2%) | +4 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
 | Bay St / Dundas St W | 45 | 55 |
 | Bremner Blvd / Rees St | 44 | 49 |
-| Queens Quay / Yonge St | 44 | 47 |
+| Queens Quay / Yonge St | 43 | 47 |
 | Temperance St Station | 37 | 55 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 37 | 47 |
 | 285 Victoria St | 36 | 39 |
@@ -37,17 +37,17 @@ Updated: 2026-01-08 21:12 (Toronto Time)
 | 800 Fleet St (South) | 41 | 43 |
 | 800 Fleet St (North) | 41 | 43 |
 | 2700 Eglinton Ave W | 40 | 43 |
+| Niagara St / Richmond St W | 39 | 42 |
 | Jarvis St / Isabella St | 38 | 39 |
 | Wellington St W / Bay St | 38 | 55 |
 | 91 Via Italia | 37 | 39 |
-| 365 Lippincott St | 37 | 41 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 126 |
-| Full       | 18 |
-| Available  | 863 |
+| Empty      | 127 |
+| Full       | 22 |
+| Available  | 858 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 31.3% with a standard deviation of 27.7%
+- The mean availability is 31.3% with a standard deviation of 27.8%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
@@ -92,9 +92,8 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact |
 |---------|-------------------|--------------|
-| St. George St / Bloor St W | +25% | Concert |
-| Fort York Blvd / Capreol Ct | +23% | Sports Event |
-| Wellesley Station Green P | +12% | Art Exhibition |
+| Fort York Blvd / Capreol Ct | +28% | Sports Event |
+| Wellesley Station Green P | +13% | Art Exhibition |
 
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description |
@@ -103,8 +102,6 @@ Based on upcoming events and historical patterns, here are the predicted changes
 <img src="https://www.narcity.com/media-librar... |
 | [Ontario's weather forecast calls for double-digit temps and conditions could be hazardous](https://www.narcity.com/toronto/ontario-weather-warm-temperatures-january-9-2026) | 2026-01-09 | 
 <img src="https://www.narcity.com/media-librar... |
-| [7 Metrolinx jobs in the GTA that pay up to $55 an hour or $124,000 a year](https://www.narcity.com/toronto/metrolinx-jobs-toronto-gta-high-paying-55-hour-124000-year) | 2026-01-08 | 
-<img src="https://www.narcity.com/media-librar... |
 
-*Last updated: 2026-01-08 21:14 (Toronto Time)*
+*Last updated: 2026-01-09 02:28 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from Narcity Toronto RSS feed*
