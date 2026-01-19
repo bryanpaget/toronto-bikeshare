@@ -1,4 +1,4 @@
 "station_id","station_name","predicted_demand_change_pct","recommended_action","confidence_level","event_impact","prediction_date"
-"7000","Fort York Blvd / Capreol Ct",31,"ADD_BIKES",0.8,"Concert",2026-01-12 17:20:25.955836
-"7001","Wellesley Station Green P",26,"ADD_BIKES",0.8,"Concert",2026-01-12 17:20:25.955836
-"7002","St. George St / Bloor St W",17,"ADD_BIKES",0.7,"Art/Cultural Event",2026-01-12 17:20:25.955836
+"7000","Fort York Blvd / Capreol Ct",25,"ADD_BIKES",0.8,"Concert",2026-01-19 17:19:55.715075
+"7001","Wellesley Station Green P",30,"ADD_BIKES",0.8,"Concert",2026-01-19 17:19:55.715075
+"7002","St. George St / Bloor St W",10,"ADD_BIKES",0.7,"Art/Cultural Event",2026-01-19 17:19:55.715075
