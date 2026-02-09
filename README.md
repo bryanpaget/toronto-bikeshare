@@ -1,53 +1,53 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-02-02 12:26 (Toronto Time)
+Updated: 2026-02-09 12:34 (Toronto Time)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,231 | -74 |
-| **Total docks available** | 12,047 | +13 |
-| **System utilization rate** | 34.1% | -0.3% |
-| **Active stations** | 1007/1007 (100%) |  |
-| **Average bikes per station** | 6.2 | -0 |
+| **Total bikes available** | 6,171 | -60 |
+| **Total docks available** | 12,120 | +73 |
+| **System utilization rate** | 33.7% | -0.4% |
+| **Active stations** | 1009/1009 (100%) | +2 |
+| **Average bikes per station** | 6.1 | -0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 213 (21.2%) | +25 |
-| **Full stations** | 46 (4.6%) | -7 |
+| **Empty stations** | 193 (19.1%) | -20 |
+| **Full stations** | 40 (4%) | -6 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 69 | 79 |
-| Bay St / Albert St | 56 | 63 |
-| York St / Queens Quay W | 53 | 57 |
-| Bay St / Dundas St W | 51 | 54 |
-| Temperance St Station | 50 | 55 |
+| Simcoe St / Pullan Pl | 68 | 79 |
+| Bay St / Albert St | 55 | 63 |
+| Bay St / Dundas St W | 54 | 54 |
 | Queens Quay / Yonge St | 47 | 47 |
-| Frederick St / King St E | 45 | 47 |
-| Bremner Blvd / Rees St | 43 | 49 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 43 | 47 |
-| 285 Victoria St | 39 | 39 |
+| Bremner Blvd / Rees St | 40 | 49 |
+| Mill St / Cherry St | 36 | 39 |
+| Frederick St / King St E | 36 | 47 |
+| King St W / University Ave | 36 | 39 |
+| Bay St / Queens Quay W (Ferry Terminal) | 34 | 35 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Humber Bay Shores Park / Marine Parade Dr | 53 | 63 |
-| 144 Harrison St | 45 | 51 |
-| 800 Fleet St (North) | 43 | 43 |
+| Humber Bay Shores Park / Marine Parade Dr | 56 | 63 |
+| 439 Sherbourne St | 43 | 47 |
+| 144 Harrison St | 42 | 51 |
+| 800 Fleet St (South) | 42 | 43 |
 | 2700 Eglinton Ave W | 42 | 43 |
-| Fort York  Blvd / Capreol Ct | 41 | 47 |
-| Queen St W / Ossington Ave | 41 | 43 |
-| 800 Fleet St (South) | 41 | 43 |
-| 365 Lippincott St | 39 | 41 |
+| 800 Fleet St (North) | 42 | 43 |
 | 1 Shortt St | 39 | 39 |
-| 91 Via Italia | 38 | 39 |
+| Niagara St / Richmond St W | 38 | 42 |
+| 365 Lippincott St | 38 | 41 |
+| 9 Willingdon Blvd | 38 | 39 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 213 |
-| Full       | 46 |
-| Available  | 748 |
+| Empty      | 193 |
+| Full       | 40 |
+| Available  | 776 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 30.8% with a standard deviation of 32.2%
+- The mean availability is 30.5% with a standard deviation of 31.1%
 - The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
@@ -92,9 +92,9 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Fort York Blvd / Capreol Ct | +33% | Concert | General prediction |
-| Wellesley Station Green P | +27% | Concert | General prediction |
-| St. George St / Bloor St W | +20% | Art/Cultural Event | General prediction |
+| Fort York Blvd / Capreol Ct | +25% | Concert | General prediction |
+| Wellesley Station Green P | +23% | Concert | General prediction |
+| St. George St / Bloor St W | +16% | Art/Cultural Event | General prediction |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -102,11 +102,11 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Concert in Trinity Bellwoods](https://www.narcity.com/example1) | 2026-02-04 | A concert in Trinity Bellwoods Park | Increase bikes nearby |
-| [Food Festival at Exhibition Place](https://www.narcity.com/example2) | 2026-02-07 | Food festival at Exhibition Place | Increase bikes nearby |
-| [Art Fair in Distillery District](https://www.narcity.com/example3) | 2026-02-09 | Art fair in Distillery District | Increase bikes nearby |
+| [Concert in Trinity Bellwoods](https://www.narcity.com/example1) | 2026-02-11 | A concert in Trinity Bellwoods Park | Increase bikes nearby |
+| [Food Festival at Exhibition Place](https://www.narcity.com/example2) | 2026-02-14 | Food festival at Exhibition Place | Increase bikes nearby |
+| [Art Fair in Distillery District](https://www.narcity.com/example3) | 2026-02-16 | Art fair in Distillery District | Increase bikes nearby |
 
-*Last updated: 2026-02-02 17:28 (Toronto Time)*
+*Last updated: 2026-02-09 17:35 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
 *Events analyzed: Concert in Trinity Bellwoods, Food Festival at Exhibition Place, Art Fair in Distillery District. Stations near events receive adjusted predictions.*
 
