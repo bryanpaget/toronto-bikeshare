@@ -66,9 +66,14 @@ scrape_single_rss_feed <- function(rss_url, source_name) {
     if (length(pub_dates) == 0) {
       pub_dates <- xml2::xml_text(xml2::xml_find_all(items, "published"))
     }
-    if (length(links) == 0) {
-      link_nodes <- xml2::xml_find_all(items, "link")
-      links <- if (length(link_nodes) > 0) xml2::xml_attr(link_nodes, "href") else character(0)
+    # Atom feeds put the URL in the href attribute instead of the node text
+    link_nodes <- xml2::xml_find_all(items, "link")
+    if (length(link_nodes) > 0) {
+      link_text <- xml2::xml_text(link_nodes)
+      link_hrefs <- xml2::xml_attr(link_nodes, "href")
+      links <- ifelse(is.na(link_text) | link_text == "", link_hrefs, link_text)
+    } else {
+      links <- character(0)
     }
 
     max_len <- max(length(titles), length(descriptions), length(pub_dates), length(links))

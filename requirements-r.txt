@@ -16,4 +16,7 @@ leaflet
 htmlwidgets
 htmltools
 geosphere
+s2
+sf
+raster
 openai

@@ -1,53 +1,56 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-05-25 13:49 (Toronto Time)
+Updated: 2026-08-05 15:40 (Toronto Time)
+
+## 🖥️ Live Dashboard
+View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
 
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,461 | +749 |
-| **Total docks available** | 12,519 | -645 |
-| **System utilization rate** | 34% | +3.8% |
-| **Active stations** | 1029/1029 (100%) | -4 |
-| **Average bikes per station** | 6.3 | +1 |
+| **Total bikes available** | 6,790 | +329 |
+| **Total docks available** | 12,863 | +344 |
+| **System utilization rate** | 34.5% | +0.5% |
+| **Active stations** | 1056/1056 (100%) | +27 |
+| **Average bikes per station** | 6.4 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 246 (23.9%) | -13 |
-| **Full stations** | 31 (3%) | +11 |
+| **Empty stations** | 237 (22.4%) | -9 |
+| **Full stations** | 29 (2.7%) | -2 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
+| Kewbeach Ave / Kenilworth Ave | 61 | 61 |
 | Humber Bay Shores Park / Marine Parade Dr | 58 | 63 |
-| King St E / Church St | 53 | 55 |
-| Bay St / Albert St | 51 | 63 |
-| Bay St / Dundas St W | 49 | 55 |
-| Queens Quay E / Lower Jarvis St  | 45 | 47 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 44 | 47 |
-| York St / Queens Quay W | 42 | 57 |
-| Aitken Place Park | 39 | 39 |
-| King St W / Bay St (West Side) | 37 | 39 |
-| 144 Harrison St | 37 | 51 |
+| York St / Queens Quay W | 54 | 57 |
+| Temperance St Station | 51 | 55 |
+| King St E / Church St | 51 | 55 |
+| Simcoe St / Pullan Pl | 48 | 79 |
+| Queens Quay / Yonge St | 44 | 47 |
+| Frederick St / King St E | 44 | 47 |
+| Union Station | 42 | 43 |
+| Front St W / Yonge St (Hockey Hall of Fame) | 42 | 47 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 79 | 87 |
-| Simcoe St / Pullan Pl | 46 | 79 |
-| Fort York  Blvd / Capreol Ct | 41 | 47 |
-| Dundas St W / Crawford St | 41 | 47 |
-| Bathurst St / Dundas St W | 37 | 41 |
+| Toronto Inukshuk Park | 82 | 87 |
+| Cherry Beach | 48 | 49 |
+| Bathurst St / Dundas St W | 40 | 41 |
+| Fort York  Blvd / Capreol Ct | 37 | 47 |
 | Bloor St W / Manning Ave - SMART | 37 | 42 |
-| Niagara St / Richmond St W | 36 | 42 |
-| Balliol St / Yonge St - SMART | 36 | 36 |
-| Spadina Ave / Harbord St - SMART | 34 | 36 |
+| 439 Sherbourne St | 35 | 47 |
+| Lake Shore Blvd W / Ontario Dr | 34 | 35 |
+| Northern Dancer Blvd / Lake Shore Blvd E | 34 | 41 |
 | Lisgar Park | 34 | 35 |
+| Spadina Ave / Harbord St - SMART | 33 | 36 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 246 |
-| Full       | 31 |
-| Available  | 752 |
+| Empty      | 237 |
+| Full       | 29 |
+| Available  | 790 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +82,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 29.3% with a standard deviation of 31.1%
-- The system is currently operating at 34% capacity
+- The mean availability is 29.2% with a standard deviation of 31.1%
+- The system is currently operating at 35% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -92,9 +95,7 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Fort York Blvd / Capreol Ct | +30% | Concert | General prediction |
-| Wellesley Station Green P | +29% | Concert | General prediction |
-| St. George St / Bloor St W | +18% | Art/Cultural Event | General prediction |
+| Simcoe St / Pullan Pl | +30% | Concert | How to find a good hotel deal in Toronto using Skyscanner |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -102,11 +103,10 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Concert in Trinity Bellwoods](https://www.narcity.com/example1) | 2026-05-27 | A concert in Trinity Bellwoods Park | Increase bikes nearby |
-| [Food Festival at Exhibition Place](https://www.narcity.com/example2) | 2026-05-30 | Food festival at Exhibition Place | Increase bikes nearby |
-| [Art Fair in Distillery District](https://www.narcity.com/example3) | 2026-06-01 | Art fair in Distillery District | Increase bikes nearby |
+| [How to find a good hotel deal in Toronto using Skyscanner](https://viewthevibe.com/how-to-find-a-good-hotel-deal-in-toronto-using-skyscanner/) | 2026-08-06 | <p>Booking a hotel in Toronto isn’t difficult i... | Monitor usage |
+| [Yes, another Toronto festival. But this one actually gets what people want.](https://viewthevibe.com/yes-another-toronto-festival-but-this-one-actually-gets-what-people-want/) | 2026-08-06 | <p>Discover the unique experience at the On the... | Increase bikes nearby |
 
-*Last updated: 2026-05-25 17:50 (Toronto Time)*
+*Last updated: 2026-08-05 15:42 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Concert in Trinity Bellwoods, Food Festival at Exhibition Place, Art Fair in Distillery District. Stations near events receive adjusted predictions.*
+*Events analyzed: How to find a good hotel deal in Toronto using Skyscanner, Yes, another Toronto festival. But this one actually gets what people want.. Stations near events receive adjusted predictions.*
 

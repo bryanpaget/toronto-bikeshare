@@ -1122,7 +1122,7 @@ HTMLWidgets.widget({
     };
   },
   renderValue: function(el, data, instance) {
-    if (el.offsetWidth === 0 || el.offsetHeight === 0) {
+    if ((el.offsetWidth === 0 || el.offsetHeight === 0) && data.lazyRender !== false) {
       instance.data = data;
       return;
     }
@@ -2510,9 +2510,9 @@ color: #333;
 </head>
 <body style="background-color: white;">
 <div id="htmlwidget_container">
-  <div class="datatables html-widget html-fill-item" id="htmlwidget-06c1b9c4e3626d072a76" style="width:100%;height:auto;"></div>
+  <div class="datatables html-widget html-fill-item" id="htmlwidget-b2c508f87af924d552b9" style="width:100%;height:auto;"></div>
 </div>
-<script type="application/json" data-for="htmlwidget-06c1b9c4e3626d072a76">{"x":{"filter":"none","vertical":false,"data":[["Bay St / Albert St","Temperance St Station","Humber Bay Shores Park / Marine Parade Dr","Wellington St W / Bay St","Simcoe St / Pullan Pl","York St / Queens Quay W","Queens Quay / Yonge St","Dundonald St / Church St","Brimley Rd / Lawrence Ave E ","King St W / Bay St (West Side)"],[54,53,46,45,45,39,37,36,36,35],[63,55,63,55,47,57,46,39,39,38]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Station<\/th>\n      <th>Docks Available<\/th>\n      <th>Capacity<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"tip","columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"name","targets":0},{"name":"num_docks_available","targets":1},{"name":"capacity","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'background':isNaN(parseFloat(value)) || value <= 35.000000 ? '' : 'linear-gradient(90.000000deg, transparent ' + Math.max(54.000000 - value, 0)/19.000000 * 100 + '%, viridis ' + Math.max(54.000000 - value, 0)/19.000000 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
-<script type="application/htmlwidget-sizing" data-for="htmlwidget-06c1b9c4e3626d072a76">{"viewer":{"width":"100%","height":"auto","padding":15,"fill":true},"browser":{"width":"100%","height":"auto","padding":40,"fill":false}}</script>
+<script type="application/json" data-for="htmlwidget-b2c508f87af924d552b9">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["Toronto Inukshuk Park","Cherry Beach","Bathurst St / Dundas St W","Fort York  Blvd / Capreol Ct","Bloor St W / Manning Ave - SMART","439 Sherbourne St","Lake Shore Blvd W / Ontario Dr","Northern Dancer Blvd / Lake Shore Blvd E","Lisgar Park","Spadina Ave / Harbord St - SMART"],[82,48,40,37,37,35,34,34,34,33],[87,49,41,47,42,47,35,41,35,36]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Station<\/th>\n      <th>Docks Available<\/th>\n      <th>Capacity<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":10,"paging":false,"searching":false,"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"name","targets":1},{"name":"num_docks_available","targets":2},{"name":"capacity","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-b2c508f87af924d552b9">{"viewer":{"width":"100%","height":"auto","padding":15,"fill":true},"browser":{"width":"100%","height":"auto","padding":40,"fill":false}}</script>
 </body>
 </html>
