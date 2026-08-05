@@ -11,6 +11,7 @@ suppressPackageStartupMessages({library(dplyr); library(lubridate)})
 source(file.path(root, "R", "config.R"))
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "dashboard.R"))
+source(file.path(root, "R", "info_page.R"))
 
 metrics <- list(
   total_bikes = 6461, total_docks = 12519, utilization_rate = 34.0,
@@ -83,6 +84,18 @@ stopifnot(!grepl("bike_map.html", html)) # old saveWidget widgets removed
 stopifnot(!grepl("time_series/", html))
 stopifnot(grepl("2026-05-25 13:49", html))
 cat("full version OK, length:", nchar(html), "\n")
+
+# About/landing tab is the first tab and active by default
+stopifnot(grepl('<button class="active" data-tab="about">About</button>', html))
+stopifnot(grepl('<div id="tab-about" class="tab-pane active">', html))
+stopifnot(grepl('<div id="tab-overview" class="tab-pane">', html))
+# CTA button navigates to the overview tab
+stopifnot(grepl('data-goto-tab="overview"', html))
+# comparison table with Beijing + Shanghai, and live hero stats
+stopifnot(grepl('class="cmp-table"', html))
+stopifnot(grepl("Beijing", html) && grepl("Shanghai", html))
+stopifnot(grepl('hero-stat-value">6,461<', html))
+cat("about/landing tab OK\n")
 
 # embedded JSON must be valid and row-oriented for stations
 m <- regmatches(html, regexpr("window\\.DASHBOARD_DATA = \\{.*\\};</script>", html))

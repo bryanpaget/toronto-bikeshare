@@ -16,6 +16,7 @@ source("R/utils.R")
 source("R/data.R")
 source("R/plots.R")
 source("R/dashboard.R")
+source("R/info_page.R")
 source("R/readme.R")
 source("R/predictive_model.R")
 

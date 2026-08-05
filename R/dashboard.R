@@ -331,6 +331,8 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
                                     status_summary, availability_dist) {
   timestamp_str <- format(timestamp, "%Y-%m-%d %H:%M")
 
+  about_tab <- generate_info_tab(current_metrics, timestamp)
+
   css <- paste0(readLines(file.path(DASHBOARD_DIR, "style.css"), warn = FALSE), collapse = "\n")
   js <- paste0(readLines(file.path(DASHBOARD_DIR, "app.js"), warn = FALSE), collapse = "\n")
 
@@ -366,7 +368,7 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
   }
 
   pane_overview <- paste0(
-    '<div id="tab-overview" class="tab-pane active">',
+    '<div id="tab-overview" class="tab-pane">',
     '<div class="metric-row">', stats_html, "</div>",
     '<div class="panel"><div class="panel-head"><h3 class="panel-title">Station Map</h3>',
     '<span id="map-count" class="ev-src"></span></div>',
@@ -436,7 +438,8 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
 
   tabs <- paste0(
     '<div class="nav-tabs">',
-    '<button class="active" data-tab="overview">Overview</button>',
+    '<button class="active" data-tab="about">About</button>',
+    '<button data-tab="overview">Overview</button>',
     '<button data-tab="history">History</button>',
     '<button data-tab="predictions">Predictions</button>',
     '<button data-tab="correlations">Correlations</button>',
@@ -469,6 +472,7 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
     '<div class="topbar-right"><span class="pulse"></span>',
     '<span>Last updated <span class="updated-at">', timestamp_str, '</span></span></div></div>\n',
     tabs, '\n',
+    about_tab,
     pane_overview,
     pane_history,
     pane_predictions,

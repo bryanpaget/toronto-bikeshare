@@ -163,6 +163,12 @@
     buttons.forEach(function (btn) {
       btn.addEventListener("click", function () { activate(btn); });
     });
+    document.querySelectorAll("[data-goto-tab]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var btn = document.querySelector(".nav-tabs button[data-tab='" + el.dataset.gotoTab + "']");
+        if (btn) activate(btn);
+      });
+    });
   }
 
   /* ---------------- init ---------------- */
