@@ -4,6 +4,9 @@
 # live system stats, why bike share matters, and a Toronto vs Beijing vs
 # Shanghai comparison, plus background reading. Facts mirror the README
 # narrative and are linked to the public sources listed at the bottom.
+#
+# Layout: the narrative sits in a narrow main column (.about-main) with a
+# sticky side widget (.about-side) on desktop; both stack full-width on phones.
 
 info_stat_chip <- function(label, value) {
   paste0('<div class="hero-stat"><div class="hero-stat-label">', label,
@@ -18,6 +21,10 @@ info_benefit <- function(idx, title, blurb) {
 info_comparison_row <- function(label, toronto, beijing, shanghai) {
   paste0('<tr><td class="cmp-row">', label, '</td><td>', toronto,
          '</td><td>', beijing, '</td><td>', shanghai, '</td></tr>')
+}
+
+info_side_row <- function(label, value) {
+  paste0('<li><span>', label, '</span><strong>', value, '</strong></li>')
 }
 
 info_link_list <- function(items) {
@@ -87,6 +94,31 @@ generate_info_tab <- function(current_metrics, timestamp) {
       "Fleet caps; deep bike&ndash;metro integration")
   )
 
+  side_facts <- paste0(
+    '<div class="about-side">',
+    '<div class="side-card">',
+    '<h4 class="side-title">Live system</h4>',
+    '<ul class="side-list">',
+    info_side_row("Bikes available", fmt_num(current_metrics$total_bikes)),
+    info_side_row("Docks available", fmt_num(current_metrics$total_docks)),
+    info_side_row("Utilization", paste0(round(current_metrics$utilization_rate, 1), "%")),
+    info_side_row("Active stations",
+                  paste0(current_metrics$active_stations, "/", current_metrics$total_stations)),
+    '</ul>',
+    '</div>',
+    '<div class="side-card">',
+    '<h4 class="side-title">Global benchmark</h4>',
+    '<ul class="side-list">',
+    info_side_row("Toronto trips", "7.8M / yr"),
+    info_side_row("Beijing trips", "&gt;1B / yr"),
+    info_side_row("Shanghai trips", "&asymp;2.8M / day"),
+    info_side_row("Beijing fleet", "&asymp;1M bikes"),
+    '</ul>',
+    '</div>',
+    '<button class="btn btn-cta btn-block" data-goto-tab="overview">Launch Dashboard</button>',
+    '</div>'
+  )
+
   paste0(
     '<div id="tab-about" class="tab-pane active">',
 
@@ -99,6 +131,10 @@ generate_info_tab <- function(current_metrics, timestamp) {
     '<button class="btn btn-cta" data-goto-tab="overview">Launch Dashboard</button>',
     '</div>',
 
+    '<div class="about-layout">',
+
+    '<div class="about-main">',
+
     '<h3 class="section-title">Why bike share matters for cities</h3>',
     '<div class="benefit-grid">', benefits, '</div>',
 
@@ -109,7 +145,7 @@ generate_info_tab <- function(current_metrics, timestamp) {
     '<div class="panel"><div class="panel-body no-pad"><div class="table-wrap">',
     '<table class="cmp-table"><thead><tr><th></th><th>Toronto</th><th>Beijing</th><th>Shanghai</th></tr></thead>',
     '<tbody>', cmp_rows, '</tbody></table>',
-    '</div></div>',
+    '</div></div></div>',
     '<p class="footnote">Approximate figures from public sources. Toronto fleet/ridership figures from Bike Share Toronto and the',
     ' Toronto Parking Authority 2030 Growth Strategy; live snapshot values are shown in the hero above. China figures:',
     ' Wikipedia (List of bicycle-sharing systems), China.org.cn (2023), Micromobility Industries (2026), and the',
@@ -168,6 +204,9 @@ generate_info_tab <- function(current_metrics, timestamp) {
       ' <a href="https://www.torontomu.ca/city-building/" target="_blank" rel="noopener">torontomu.ca</a>'
     )),
 
+    '</div>',
+    side_facts,
+    '</div>',
     '</div>'
   )
 }

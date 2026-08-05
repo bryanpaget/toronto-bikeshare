@@ -382,6 +382,57 @@ table.dataTable td.num { text-align: right; }
   border-radius: 20px;
 }
 .btn-cta:hover { background: #2f7ce8; border-color: #2f7ce8; color: #fff; }
+.btn-block { display: block; width: 100%; text-align: center; }
+
+/* Narrative in a narrow centered column with a sticky side widget */
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 16px 28px;
+}
+.about-main { min-width: 0; }
+.about-side {
+  position: sticky;
+  top: 58px;
+  display: grid;
+  gap: 12px;
+}
+.side-card {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.side-title {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.side-list { list-style: none; margin: 0; padding: 0; }
+.side-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid #1d222e;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.side-list li:last-child { border-bottom: none; }
+.side-list strong {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-strong);
+  white-space: nowrap;
+}
 
 .section-title {
   margin: 22px 0 10px;
@@ -446,3 +497,24 @@ table.dataTable td.num { text-align: right; }
 }
 .link-list { margin: 0 0 4px; padding-left: 18px; font-size: 12px; }
 .link-list li { margin-bottom: 7px; }
+
+/* ---------- responsive / mobile ---------- */
+@media (max-width: 900px) {
+  .about-layout { grid-template-columns: 1fr; max-width: none; padding: 14px 14px 24px; }
+  .about-side { position: static; }
+  .cmp-table th, .cmp-table td { padding: 7px 9px; }
+}
+@media (max-width: 600px) {
+  .nav-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nav-tabs button { white-space: nowrap; padding: 10px 10px; }
+  .topbar { flex-wrap: wrap; gap: 4px; }
+  .hero { padding: 22px 14px 18px; }
+  .hero-title { font-size: 21px; }
+  .hero-sub { font-size: 12px; }
+  .hero-stats { gap: 8px; }
+  .hero-stat { flex: 1 1 40%; min-width: 0; padding: 8px 12px; }
+  .hero-stat-value { font-size: 18px; }
+  .benefit-grid { grid-template-columns: 1fr; }
+  .table-wrap table { font-size: 10px; }
+  .footer { flex-direction: column; }
+}

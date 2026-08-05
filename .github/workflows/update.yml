@@ -124,23 +124,23 @@ jobs:
           UTIL=$(echo "$LAST" | cut -d, -f4 | awk '{printf "%.1f%%", $1}')
           ACTIVE=$(echo "$LAST" | cut -d, -f5)
           TOTAL=$(echo "$LAST" | cut -d, -f6)
-          cat > release-notes.md <<EOF
-Snapshot: ${SNAP_TIME} (America/Toronto)
-
-| Metric | Value |
-|---|---|
-| Bikes available | ${BIKES} |
-| Docks available | ${DOCKS} |
-| Utilization | ${UTIL} |
-| Active stations | ${ACTIVE}/${TOTAL} |
-
-Dashboard: https://bryanpaget.github.io/toronto-bikeshare/
-
-Assets:
-- \`consolidated_metrics.csv\` - one row per snapshot (system-wide metrics history)
-- \`consolidated_stations.csv\` - per-station snapshots (one row per station per capture)
-- \`dataset-archive.zip\` - full data/ directory, including the per-snapshot archive CSVs
-EOF
+          printf '%s\n' \
+            "Snapshot: ${SNAP_TIME} (America/Toronto)" \
+            "" \
+            "| Metric | Value |" \
+            "|---|---|" \
+            "| Bikes available | ${BIKES} |" \
+            "| Docks available | ${DOCKS} |" \
+            "| Utilization | ${UTIL} |" \
+            "| Active stations | ${ACTIVE}/${TOTAL} |" \
+            "" \
+            "Dashboard: https://bryanpaget.github.io/toronto-bikeshare/" \
+            "" \
+            "Assets:" \
+            "- \`consolidated_metrics.csv\` - one row per snapshot (system-wide metrics history)" \
+            "- \`consolidated_stations.csv\` - per-station snapshots (one row per station per capture)" \
+            "- \`dataset-archive.zip\` - full data/ directory, including the per-snapshot archive CSVs" \
+            > release-notes.md
 
       - name: Create or refresh release
         run: |
