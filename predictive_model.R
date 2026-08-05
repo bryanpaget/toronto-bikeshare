@@ -43,7 +43,7 @@ scrape_single_rss_feed <- function(rss_url, source_name) {
   cat("Scraping", source_name, "RSS feed for events...\n")
 
   tryCatch({
-    rss_doc <- xml2::read_xml(rss_url)
+    rss_doc <- suppressWarnings(xml2::read_xml(rss_url))
 
     items <- xml2::xml_find_all(rss_doc, "//item")
     if (length(items) == 0) {
@@ -137,7 +137,8 @@ scrape_multi_source_events <- function() {
   rss_sources <- list(
     list(url = "https://www.narcity.com/feeds/toronto.rss", name = "Narcity Toronto"),
     list(url = "https://viewthevibe.com/feed/", name = "View The Vibe"),
-    list(url = "https://yyzdeals.com/atom/1", name = "YYZ Deals")
+    list(url = "https://yyzdeals.com/atom/1", name = "YYZ Deals"),
+    list(url = "https://feeds.feedburner.com/blogto", name = "blogTO")
   )
 
   all_events <- lapply(rss_sources, function(source) {
@@ -422,6 +423,13 @@ run_predictive_model <- function() {
   }
 
   events_data <- scrape_multi_source_events()
+
+  if (!is.null(events_data) && nrow(events_data) > 0) {
+    events_data$category <- vapply(seq_len(nrow(events_data)), function(i) {
+      classify_event_by_keywords(events_data$event_title[i], events_data$event_description[i])$category
+    }, character(1))
+  }
+
   predictions <- predict_bike_demand(events_data, historical_metrics, historical_stations)
   recommendations <- generate_rebalancing_recommendations(predictions)
 
@@ -482,6 +490,7 @@ find_stations_near_events <- function(events_data, stations_data) {
   }
 
   find_nearest_stations <- function(event_location, stations_data, n = 3) {
+    if (nrow(stations_data) == 0) return(stations_data)
     if (is.null(event_location) || !(event_location %in% names(location_coords))) {
       return(head(stations_data[order(stations_data$capacity, decreasing = TRUE), ], n))
     }

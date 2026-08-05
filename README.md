@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-08-05 15:40 (Toronto Time)
+Updated: 2026-08-05 16:05 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,790 | +329 |
-| **Total docks available** | 12,863 | +344 |
-| **System utilization rate** | 34.5% | +0.5% |
-| **Active stations** | 1056/1056 (100%) | +27 |
+| **Total bikes available** | 6,797 | +17 |
+| **Total docks available** | 12,842 | -15 |
+| **System utilization rate** | 34.6% | +0.1% |
+| **Active stations** | 1056/1056 (100%) |  |
 | **Average bikes per station** | 6.4 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 237 (22.4%) | -9 |
-| **Full stations** | 29 (2.7%) | -2 |
+| **Empty stations** | 237 (22.4%) | -1 |
+| **Full stations** | 32 (3%) | +1 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Kewbeach Ave / Kenilworth Ave | 61 | 61 |
-| Humber Bay Shores Park / Marine Parade Dr | 58 | 63 |
-| York St / Queens Quay W | 54 | 57 |
-| Temperance St Station | 51 | 55 |
-| King St E / Church St | 51 | 55 |
-| Simcoe St / Pullan Pl | 48 | 79 |
-| Queens Quay / Yonge St | 44 | 47 |
-| Frederick St / King St E | 44 | 47 |
-| Union Station | 42 | 43 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 42 | 47 |
+| Kewbeach Ave / Kenilworth Ave | 60 | 61 |
+| Humber Bay Shores Park / Marine Parade Dr | 56 | 63 |
+| King St E / Church St | 55 | 55 |
+| York St / Queens Quay W | 50 | 57 |
+| Temperance St Station | 48 | 55 |
+| Simcoe St / Pullan Pl | 47 | 79 |
+| Queens Quay / Yonge St | 43 | 47 |
+| Frederick St / King St E | 43 | 47 |
+| Bay St / Dundas St W | 43 | 55 |
+| Bay St / Albert St | 42 | 63 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 82 | 87 |
-| Cherry Beach | 48 | 49 |
-| Bathurst St / Dundas St W | 40 | 41 |
-| Fort York  Blvd / Capreol Ct | 37 | 47 |
-| Bloor St W / Manning Ave - SMART | 37 | 42 |
+| Toronto Inukshuk Park | 79 | 87 |
+| Cherry Beach | 46 | 49 |
+| Fort York  Blvd / Capreol Ct | 41 | 47 |
+| Bloor St W / Manning Ave - SMART | 40 | 42 |
+| Bathurst St / Dundas St W | 39 | 41 |
 | 439 Sherbourne St | 35 | 47 |
-| Lake Shore Blvd W / Ontario Dr | 34 | 35 |
-| Northern Dancer Blvd / Lake Shore Blvd E | 34 | 41 |
-| Lisgar Park | 34 | 35 |
-| Spadina Ave / Harbord St - SMART | 33 | 36 |
+| Lake Shore Blvd W / Ontario Dr | 33 | 35 |
+| Mill St / Cherry St | 32 | 39 |
+| Yonge St / Orchard View Blvd | 32 | 35 |
+| Lisgar Park | 32 | 35 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
 | Empty      | 237 |
-| Full       | 29 |
-| Available  | 790 |
+| Full       | 32 |
+| Available  | 787 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -82,7 +82,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 29.2% with a standard deviation of 31.1%
+- The mean availability is 29.3% with a standard deviation of 30.8%
 - The system is currently operating at 35% capacity
 
 ## ℹ️ Data Source
@@ -105,8 +105,10 @@ No stations are predicted to have significantly decreased demand based on upcomi
 |-------|------|-------------|-------------------|
 | [How to find a good hotel deal in Toronto using Skyscanner](https://viewthevibe.com/how-to-find-a-good-hotel-deal-in-toronto-using-skyscanner/) | 2026-08-06 | <p>Booking a hotel in Toronto isn’t difficult i... | Monitor usage |
 | [Yes, another Toronto festival. But this one actually gets what people want.](https://viewthevibe.com/yes-another-toronto-festival-but-this-one-actually-gets-what-people-want/) | 2026-08-06 | <p>Discover the unique experience at the On the... | Increase bikes nearby |
+| [Singer Olivia Dean went to this popular Toronto bar after her concert](https://www.blogto.com/eat_drink/2026/08/olivia-dean-spotted-toronto-bar/) | 2026-08-06 | <img class="webfeedsFeaturedVisual" src="https:... | Increase bikes nearby |
+| [15 things to do in Toronto this weekend](https://www.blogto.com/radar/2026/08/things-do-toronto-weekend-aug-5/) | 2026-08-06 | <img class="webfeedsFeaturedVisual" src="https:... | Increase bikes nearby |
 
-*Last updated: 2026-08-05 15:42 (Toronto Time)*
+*Last updated: 2026-08-05 16:06 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: How to find a good hotel deal in Toronto using Skyscanner, Yes, another Toronto festival. But this one actually gets what people want.. Stations near events receive adjusted predictions.*
+*Events analyzed: How to find a good hotel deal in Toronto using Skyscanner, Yes, another Toronto festival. But this one actually gets what people want., Singer Olivia Dean went to this popular Toronto bar after her concert.... Stations near events receive adjusted predictions.*
 
