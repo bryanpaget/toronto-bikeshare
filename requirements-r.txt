@@ -1,0 +1,19 @@
+# R package dependencies for Toronto Bike Share Analytics
+httr
+jsonlite
+dplyr
+ggplot2
+lubridate
+tidyr
+knitr
+viridis
+zoo
+xml2
+reticulate
+plotly
+DT
+leaflet
+htmlwidgets
+htmltools
+geosphere
+openai

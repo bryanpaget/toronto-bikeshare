@@ -4,10 +4,14 @@ on:
     - cron: '0 17 * * 1'
   workflow_dispatch:
 
+concurrency:
+  group: bike-share-update
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
-    container: rocker/tidyverse:4.3.0
+    container: rocker/tidyverse:4.4.2
     permissions:
       contents: write
       pull-requests: write
@@ -23,8 +27,25 @@ jobs:
             libfontconfig1-dev \
             libharfbuzz-dev \
             libfribidi-dev \
+            libxml2-dev \
             python3-dev \
             python3-pip
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/lib/R/site-library
+          key: r-packages-r4.4.2-${{ hashFiles('requirements-r.txt') }}
+          restore-keys: |
+            r-packages-r4.4.2-
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-
 
       - name: Install Python dependencies
         run: |
@@ -34,8 +55,8 @@ jobs:
 
       - name: Install R packages
         run: |
-          R -e "install.packages(c('httr', 'jsonlite', 'lubridate', 'viridis', 'zoo', 'xml2', 'dplyr', 'ggplot2', 'tidyr', 'knitr', 'reticulate'), repos = 'https://cloud.r-project.org', dependencies = TRUE)"
-          
+          Rscript -e 'install.packages(readLines("requirements-r.txt"), repos = "https://cloud.r-project.org")'
+
       - name: Run R script
         run: Rscript update_report.R
 
@@ -56,9 +77,27 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: ${{ steps.create-pr.outputs.pull-request-number }},
-              merge_method: 'squash'
-            })
+            const prNumber = Number(${{ steps.create-pr.outputs.pull-request-number }});
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            let merged = false;
+            for (let attempt = 0; attempt < 10 && !merged; attempt++) {
+              try {
+                const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: prNumber });
+                if (pr.mergeable === true &&
+                    pr.mergeable_state !== 'dirty' &&
+                    pr.mergeable_state !== 'blocked') {
+                  const res = await github.rest.pulls.merge({
+                    owner, repo, pull_number: prNumber, merge_method: 'squash'
+                  });
+                  merged = res.data.merged;
+                  if (merged) break;
+                }
+              } catch (e) {
+                console.log(`Attempt ${attempt + 1} to merge PR #${prNumber} failed: ${e.message}`);
+              }
+              await new Promise((r) => setTimeout(r, 10000));
+            }
+            if (!merged) {
+              core.setFailed(`Could not auto-merge PR #${prNumber}`);
+            }
