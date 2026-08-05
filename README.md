@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-08-05 16:34 (Toronto Time)
+Updated: 2026-08-05 16:49 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,55 +8,52 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,518 | -1 |
-| **Total docks available** | 13,090 | +1 |
-| **System utilization rate** | 33.2% | -0.0% |
+| **Total bikes available** | 6,430 | -88 |
+| **Total docks available** | 13,161 | +71 |
+| **System utilization rate** | 32.8% | -0.4% |
 | **Active stations** | 1056/1056 (100%) |  |
-| **Average bikes per station** | 6.2 | -0 |
+| **Average bikes per station** | 6.1 | -0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 227 (21.5%) | -7 |
-| **Full stations** | 30 (2.8%) | +1 |
+| **Empty stations** | 231 (21.9%) | +4 |
+| **Full stations** | 31 (2.9%) | +1 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
 | Kewbeach Ave / Kenilworth Ave | 61 | 61 |
-| King St E / Church St | 53 | 55 |
-| Temperance St Station | 50 | 55 |
-| York St / Queens Quay W | 47 | 57 |
-| Frederick St / King St E | 46 | 47 |
+| York St / Queens Quay W | 54 | 57 |
+| King St E / Church St | 52 | 55 |
+| Frederick St / King St E | 47 | 47 |
+| Temperance St Station | 45 | 55 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 44 | 47 |
+| Humber Bay Shores Park / Marine Parade Dr | 42 | 63 |
 | Bay St / Dundas St W | 41 | 55 |
-| Humber Bay Shores Park / Marine Parade Dr | 40 | 63 |
-| Union Station | 39 | 43 |
-| Queen St E / Woodward Ave | 38 | 43 |
+| Union Station | 40 | 43 |
+| Queens Quay / Yonge St | 38 | 47 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 76 | 87 |
-| Simcoe St / Pullan Pl | 43 | 79 |
+| Toronto Inukshuk Park | 73 | 87 |
+| Simcoe St / Pullan Pl | 46 | 79 |
 | Cherry Beach | 41 | 49 |
-| Bathurst St / Dundas St W | 40 | 41 |
-| Bloor St W / Manning Ave - SMART | 40 | 42 |
-| 439 Sherbourne St | 38 | 47 |
-| Fort York  Blvd / Capreol Ct | 37 | 47 |
-| Bloor St W / Shaw St - SMART | 34 | 34 |
-| Northern Dancer Blvd / Lake Shore Blvd E | 34 | 41 |
-| Bay St / Wellesley St W | 33 | 35 |
+| Bathurst St / Dundas St W | 39 | 41 |
+| 439 Sherbourne St | 39 | 47 |
+| Huron St / Harbord St | 37 | 39 |
+| Bloor St W / Manning Ave - SMART | 37 | 42 |
+| Fort York  Blvd / Capreol Ct | 35 | 47 |
+| Wellington St W / Bay St | 35 | 55 |
+| Centre Island Beach | 35 | 38 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 227 |
-| Full       | 30 |
-| Available  | 799 |
+| Empty      | 231 |
+| Full       | 31 |
+| Available  | 794 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
-
-## 📊 Station Status Distribution
-![Status Distribution](docs/plots/status_distribution.png)
 
 ## 📈 Bike Availability Distribution
 ![Availability Distribution](docs/plots/availability_dist.png)
@@ -82,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 28.3% with a standard deviation of 30.1%
+- The mean availability is 28% with a standard deviation of 29.4%
 - The system is currently operating at 33% capacity
 
 ## ℹ️ Data Source
@@ -145,7 +142,7 @@ No stations are predicted to have significantly decreased demand based on upcomi
 | [Yes, another Toronto festival. But this one actually gets what people want.](https://viewthevibe.com/yes-another-toronto-festival-but-this-one-actually-gets-what-people-want/) | 2026-08-06 | Discover the unique experience at the On the Wa... | Increase bikes nearby |
 | [Toronto's ultimate wine party and country club festival returns this month](https://www.blogto.com/eat_drink/2026/08/toronto-wine-party-country-club-festival-returns-this-month/) | 2026-08-06 | Dust off your boots and get your wine glasses r... | Increase bikes nearby |
 
-*Last updated: 2026-08-05 16:36 (Toronto Time)*
+*Last updated: 2026-08-05 16:50 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
 *Events analyzed: Yes, another Toronto festival. But this one actually gets what people want., Toronto's ultimate wine party and country club festival returns this month. Stations near events receive adjusted predictions.*
 

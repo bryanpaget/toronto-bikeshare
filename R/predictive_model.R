@@ -1,12 +1,16 @@
-# Predictive Model for Toronto Bike Share Demand
+# Predictive model for Toronto bike share demand.
 #
 # Lightweight heuristic model: scrapes upcoming events from several RSS feeds,
-# classifies them by expected impact on bike share demand, and produces
-# deterministic per-station recommendations. Intended as a foundation for a
-# more sophisticated ML model (see PREDICTIVE_MODEL_PLAN.md).
+# filters out article/listicle/deal content, classifies the rest by expected
+# impact on bike share demand, and produces deterministic per-station
+# recommendations. Intended as a foundation for a more sophisticated ML model
+# (see PREDICTIVE_MODEL_PLAN.md).
 
 library(dplyr)
-library(lubridate)
+
+# PREDICTIONS_DIR is normally defined in R/config.R; fall back so this module
+# can also be sourced standalone (e.g. from the test suite).
+if (!exists("PREDICTIONS_DIR")) PREDICTIONS_DIR <- "predictions"
 
 # ---------------------------------------------------------------------------
 # Keyword lists used for event classification
@@ -117,6 +121,10 @@ NON_EVENT_PATTERNS <- c(
 # Listicle-style titles: "15 things", "10 best", "7 ways", "10 can't miss", etc.
 LISTICLE_PATTERN <- "^[0-9]{1,3}\\s+(things|best|ways|places|reasons|tips|signs|events|shows|restaurants|cafes|bars|pubs|parks|spots|museums|galleries|cheap|free|weird|hidden|new|most|underrated|can't miss|cant miss|festivals|things happening|events happening)"
 
+# ---------------------------------------------------------------------------
+# Text cleaning and event gate
+# ---------------------------------------------------------------------------
+
 # Strip HTML tags and decode common entities from feed text.
 clean_html_text <- function(text) {
   if (length(text) == 0 || all(is.na(text))) return(text)
@@ -151,7 +159,6 @@ is_actual_event <- function(event_title, event_description) {
 
   FALSE
 }
-
 
 # ---------------------------------------------------------------------------
 # Event scraping
@@ -301,7 +308,7 @@ scrape_multi_source_events <- function() {
 # Event classification
 # ---------------------------------------------------------------------------
 
-# Keyword-based classification (fallback when spaCy/LLM are unavailable)
+# Keyword-based classification: returns (category, impact) for a feed item.
 classify_event_by_keywords <- function(event_title, event_description) {
   title_lower <- tolower(event_title)
   event_text_lower <- tolower(paste(event_title, event_description))
@@ -325,101 +332,6 @@ classify_event_by_keywords <- function(event_title, event_description) {
     return(list(category = "Outdoor Activity", impact = "MEDIUM"))
   }
   list(category = "Other", impact = "LOW")
-}
-
-# Optional LLM-based classification enhancement (requires OPENAI_API_KEY)
-classify_event_with_llm <- function(event_title, event_description, api_key) {
-  prompt <- paste0(
-    "Classify the following event as one of these categories: Concert, Sports Event, Food Festival, Art Exhibition, Conference, Community Event, or Other.\n",
-    "Also estimate the potential impact on bike share demand as High, Medium, Low, or None.\n",
-    "Title: ", event_title, "\n",
-    "Description: ", substr(event_description, 1, 500), "\n",
-    "Format your response as: CATEGORY|IMPACT"
-  )
-
-  response <- openai::create_completion(
-    model = "gpt-3.5-turbo-instruct",
-    prompt = prompt,
-    max_tokens = 100,
-    temperature = 0.3
-  )
-
-  result <- trimws(response$choices[[1]]$text)
-  parts <- strsplit(result, "\\|")[[1]]
-  if (length(parts) < 2) return(NULL)
-
-  category <- trimws(parts[1])
-  impact <- trimws(parts[2])
-  impact_mapping <- c("High" = "HIGH", "Medium" = "MEDIUM", "Low" = "LOW", "None" = "NONE", "Other" = "OTHER")
-  mapped_impact <- unname(impact_mapping[impact])
-  if (is.na(mapped_impact)) mapped_impact <- "MEDIUM"
-  list(category = category, impact = mapped_impact)
-}
-
-# spaCy-based classification with keyword/LLM fallbacks
-classify_event_with_nlp <- function(event_title, event_description) {
-  result <- tryCatch({
-    venv_path <- file.path(getwd(), "venv", "bin", "python")
-    if (file.exists(venv_path)) {
-      tryCatch(reticulate::use_python(venv_path, required = TRUE),
-               error = function(e) cat("Could not use venv Python:", conditionMessage(e), "\n"))
-    }
-
-    if (!reticulate::py_module_available("spacy")) {
-      cat("spaCy not available, using keyword classification\n")
-      return(classify_event_by_keywords(event_title, event_description))
-    }
-
-    spacy <- reticulate::import("spacy")
-    nlp <- spacy$load("en_core_web_sm")
-
-    doc <- nlp(paste(event_title, event_description))
-    entities <- doc$ents
-    entity_labels <- vapply(entities, function(ent) ent$label_, character(1))
-    has_activity <- any(entity_labels %in% c("EVENT", "WORK_OF_ART"))
-
-    text_lower <- tolower(paste(event_title, event_description))
-
-    if (any(vapply(EVENT_KEYWORDS$non_event, grepl, logical(1), x = text_lower, fixed = TRUE))) {
-      return(list(category = "News/Info", impact = "NONE"))
-    }
-    if (any(vapply(EVENT_KEYWORDS$concert, grepl, logical(1), x = text_lower, fixed = TRUE)) ||
-        "EVENT" %in% entity_labels) {
-      return(list(category = "Concert", impact = "HIGH"))
-    }
-    if (any(vapply(EVENT_KEYWORDS$sports, grepl, logical(1), x = text_lower, fixed = TRUE))) {
-      return(list(category = "Sports Event", impact = "HIGH"))
-    }
-    if (any(vapply(EVENT_KEYWORDS$food, grepl, logical(1), x = text_lower, fixed = TRUE))) {
-      return(list(category = "Food Festival", impact = "MEDIUM"))
-    }
-    if (any(vapply(EVENT_KEYWORDS$arts, grepl, logical(1), x = text_lower, fixed = TRUE))) {
-      return(list(category = "Art/Cultural Event", impact = "MEDIUM"))
-    }
-    if (any(vapply(EVENT_KEYWORDS$outdoor, grepl, logical(1), x = text_lower, fixed = TRUE))) {
-      return(list(category = "Outdoor Activity", impact = "MEDIUM"))
-    }
-    if (has_activity) {
-      return(list(category = "Event", impact = "MEDIUM"))
-    }
-
-    api_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
-    if (!is.na(api_key) && requireNamespace("openai", quietly = TRUE)) {
-      llm_result <- classify_event_with_llm(event_title, event_description, api_key)
-      if (!is.null(llm_result)) return(llm_result)
-    }
-
-    list(category = "Other", impact = "LOW")
-  }, error = function(e) {
-    cat("spaCy/reticulate error, using keyword classification:", conditionMessage(e), "\n")
-    NULL
-  })
-
-  if (is.null(result)) {
-    classify_event_by_keywords(event_title, event_description)
-  } else {
-    result
-  }
 }
 
 # ---------------------------------------------------------------------------
@@ -502,7 +414,7 @@ predict_bike_demand <- function(events_data, historical_data, stations_data = NU
   for (i in seq_len(nrow(events_data))) {
     if (i > nrow(predictions)) break
 
-    classification <- classify_event_with_nlp(
+    classification <- classify_event_by_keywords(
       events_data$event_title[i],
       events_data$event_description[i]
     )
@@ -527,57 +439,6 @@ generate_rebalancing_recommendations <- function(prediction_data) {
     filter(recommended_action != "NO_CHANGE") %>%
     arrange(desc(abs(predicted_demand_change_pct))) %>%
     select(station_id, station_name, predicted_demand_change_pct, recommended_action, event_impact)
-}
-
-# ---------------------------------------------------------------------------
-# Main entry point
-# ---------------------------------------------------------------------------
-
-run_predictive_model <- function() {
-  cat("Running predictive model for bike share demand...\n")
-
-  historical_metrics <- NULL
-  if (file.exists("data/consolidated_metrics.csv")) {
-    historical_metrics <- read.csv("data/consolidated_metrics.csv")
-    historical_metrics$timestamp <- as.POSIXct(historical_metrics$timestamp, tz = "UTC")
-  } else {
-    cat("Warning: No historical metrics data found\n")
-  }
-
-  historical_stations <- NULL
-  if (file.exists("data/consolidated_stations.csv")) {
-    historical_stations <- read.csv("data/consolidated_stations.csv")
-    historical_stations$capture_timestamp <- as.POSIXct(historical_stations$capture_timestamp, tz = "UTC")
-  } else {
-    cat("Warning: No historical stations data found\n")
-  }
-
-  events_data <- scrape_multi_source_events()
-
-  if (!is.null(events_data) && nrow(events_data) > 0) {
-    events_data$category <- vapply(seq_len(nrow(events_data)), function(i) {
-      classify_event_by_keywords(events_data$event_title[i], events_data$event_description[i])$category
-    }, character(1))
-  }
-
-  predictions <- predict_bike_demand(events_data, historical_metrics, historical_stations)
-  recommendations <- generate_rebalancing_recommendations(predictions)
-
-  if (!dir.exists("predictions")) dir.create("predictions")
-  write.csv(predictions, "predictions/latest_predictions.csv", row.names = FALSE)
-  write.csv(recommendations, "predictions/rebalancing_recommendations.csv", row.names = FALSE)
-
-  cat("\nPrediction Summary:\n")
-  cat("- Total stations analyzed:", nrow(predictions), "\n")
-  cat("- Stations with increased demand:", sum(predictions$recommended_action == "ADD_BIKES"), "\n")
-  cat("- Stations with decreased demand:", sum(predictions$recommended_action == "REMOVE_BIKES"), "\n")
-  cat("- Rebalancing recommendations generated:", nrow(recommendations), "\n")
-
-  list(
-    predictions = predictions,
-    recommendations = recommendations,
-    events_data = events_data
-  )
 }
 
 # ---------------------------------------------------------------------------
@@ -704,12 +565,12 @@ format_predictions_for_readme <- function(predictions, events_data = NULL) {
   }
 
   readme_content <- paste0(
-    "## 📊 Predictive Analytics\n\n",
+    "## \U0001F4CA Predictive Analytics\n\n",
     "Based on upcoming events and historical patterns, here are the predicted changes in bike demand:\n\n",
 
     if (nrow(high_demand_stations) > 0) {
       paste0(
-        "### 📈 High Demand Predictions (Add Bikes)\n",
+        "### \U0001F4C8 High Demand Predictions (Add Bikes)\n",
         "| Station | Predicted Increase | Event Impact | Associated Event |\n",
         "|---------|-------------------|--------------|------------------|\n",
         paste(apply(high_demand_stations, 1, function(row) {
@@ -721,14 +582,14 @@ format_predictions_for_readme <- function(predictions, events_data = NULL) {
       )
     } else {
       paste0(
-        "### 📈 No High Demand Predictions\n",
+        "### \U0001F4C8 No High Demand Predictions\n",
         "No stations are predicted to have significantly increased demand based on upcoming events.\n\n"
       )
     },
 
     if (nrow(low_demand_stations) > 0) {
       paste0(
-        "### 📉 Low Demand Predictions (Remove Bikes)\n",
+        "### \U0001F4C9 Low Demand Predictions (Remove Bikes)\n",
         "| Station | Predicted Decrease | Event Impact | Associated Event |\n",
         "|---------|-------------------|--------------|------------------|\n",
         paste(apply(low_demand_stations, 1, function(row) {
@@ -740,12 +601,12 @@ format_predictions_for_readme <- function(predictions, events_data = NULL) {
       )
     } else {
       paste0(
-        "### 📉 No Low Demand Predictions\n",
+        "### \U0001F4C9 No Low Demand Predictions\n",
         "No stations are predicted to have significantly decreased demand based on upcoming events.\n\n"
       )
     },
 
-    "### 📅 Upcoming Events Influencing Predictions\n",
+    "### \U0001F4C5 Upcoming Events Influencing Predictions\n",
     if (nrow(impactful_events) > 0) {
       paste0(
         "| Event | Date | Description | Recommended Action |\n",
@@ -780,4 +641,55 @@ format_predictions_for_readme <- function(predictions, events_data = NULL) {
   )
 
   readme_content
+}
+
+# ---------------------------------------------------------------------------
+# Main entry point
+# ---------------------------------------------------------------------------
+
+run_predictive_model <- function() {
+  cat("Running predictive model for bike share demand...\n")
+
+  historical_metrics <- NULL
+  if (file.exists("data/consolidated_metrics.csv")) {
+    historical_metrics <- read.csv("data/consolidated_metrics.csv")
+    historical_metrics$timestamp <- as.POSIXct(historical_metrics$timestamp, tz = "UTC")
+  } else {
+    cat("Warning: No historical metrics data found\n")
+  }
+
+  historical_stations <- NULL
+  if (file.exists("data/consolidated_stations.csv")) {
+    historical_stations <- read.csv("data/consolidated_stations.csv")
+    historical_stations$capture_timestamp <- as.POSIXct(historical_stations$capture_timestamp, tz = "UTC")
+  } else {
+    cat("Warning: No historical stations data found\n")
+  }
+
+  events_data <- scrape_multi_source_events()
+
+  if (!is.null(events_data) && nrow(events_data) > 0) {
+    events_data$category <- vapply(seq_len(nrow(events_data)), function(i) {
+      classify_event_by_keywords(events_data$event_title[i], events_data$event_description[i])$category
+    }, character(1))
+  }
+
+  predictions <- predict_bike_demand(events_data, historical_metrics, historical_stations)
+  recommendations <- generate_rebalancing_recommendations(predictions)
+
+  if (!dir.exists(PREDICTIONS_DIR)) dir.create(PREDICTIONS_DIR)
+  write.csv(predictions, file.path(PREDICTIONS_DIR, "latest_predictions.csv"), row.names = FALSE)
+  write.csv(recommendations, file.path(PREDICTIONS_DIR, "rebalancing_recommendations.csv"), row.names = FALSE)
+
+  cat("\nPrediction Summary:\n")
+  cat("- Total stations analyzed:", nrow(predictions), "\n")
+  cat("- Stations with increased demand:", sum(predictions$recommended_action == "ADD_BIKES"), "\n")
+  cat("- Stations with decreased demand:", sum(predictions$recommended_action == "REMOVE_BIKES"), "\n")
+  cat("- Rebalancing recommendations generated:", nrow(recommendations), "\n")
+
+  list(
+    predictions = predictions,
+    recommendations = recommendations,
+    events_data = events_data
+  )
 }

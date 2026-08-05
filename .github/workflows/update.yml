@@ -28,15 +28,7 @@ jobs:
             libharfbuzz-dev \
             libfribidi-dev \
             libxml2-dev \
-            libcurl4-openssl-dev \
-            libudunits2-dev \
-            libgdal-dev \
-            gdal-bin \
-            gdal-data \
-            gdal-plugins \
-            libabsl-dev \
-            python3-dev \
-            python3-pip
+            libcurl4-openssl-dev
 
       - name: Cache R packages
         uses: actions/cache@v4
@@ -45,20 +37,6 @@ jobs:
           key: r-packages-r4.4.2-${{ hashFiles('requirements-r.txt') }}
           restore-keys: |
             r-packages-r4.4.2-
-
-      - name: Cache pip packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            pip-
-
-      - name: Install Python dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install spacy
-          python3 -m spacy download en_core_web_sm
 
       - name: Install R packages
         run: |
