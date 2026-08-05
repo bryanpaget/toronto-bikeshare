@@ -13,8 +13,7 @@ library(lubridate)
 # ---------------------------------------------------------------------------
 
 EVENT_KEYWORDS <- list(
-  concert = c("concert", "music", "band", "dj", "show", "performance",
-              "venue", "stage", "gig", "tour"),
+  concert = c("concert", "music", "live music", "dj set", "dj ", "band", "gig"),
   sports = c("sports", "game", "match", "tournament", "team", "soccer", "basketball",
              "hockey", "football", "playoff", "mls", "nba", "nhl", "cfl",
              "cancer relay", "marathon", "race", "run"),
@@ -31,8 +30,128 @@ EVENT_KEYWORDS <- list(
   non_event = c("hiring", "jobs", "weather", "forecast", "news", "update", "report",
                 "study", "research", "policy", "council", "meeting", "announcement",
                 "sale", "real estate", "condo", "apartment", "traffic",
-                "construction", "transit", "commute", "work from home", "remote work")
+                "construction", "transit", "commute", "work from home", "remote work",
+                "deal", "deals", "how to", "things to do", "things happening",
+                "to do in", "weekend guide", "roundup", "best ", "guide", "tips",
+                "recap", "review", "where to", "what to", "need to know",
+                "coming soon", "is opening", "is coming to", "announces",
+                "announced", "new location", "photos", "video", "videos",
+                "listicle", "10 things", "5 things", "15 things", "things you")
 )
+
+# Strong signals in an item TITLE that an article describes a real, demand-driving
+# event. Title-level signals are treated as high-confidence evidence.
+EVENT_SIGNAL_PATTERNS <- c(
+  "festival", "concert", "live music", "music festival", "dj set", "comedy show",
+  "stand-up", "performing", "performance", "showcase", "street fair", "craft fair",
+  "art fair", "night market", "farmers market", "makers market", "expo",
+  "conference", "summit", "convention", "symposium", "workshop", "masterclass",
+  "screening", "premiere", "opening night", "opening reception", "exhibition",
+  "exhibit", "marathon", "half marathon", "5k", "10k", "race", "triathlon",
+  "gran fondo", "parade", "pride", "fireworks", "celebration", "gala",
+  "award show", "awards night", "awards ceremony",
+  "game", "match", "playoff", "championship", "tournament", "nhl", "nba", "mls",
+  "cfl", "soccer", "hockey", "basketball", "football", "baseball", "tennis",
+  "grand prix", "derby", "block party", "patio party", "paint night", "karaoke",
+  "open mic", "trivia", "dance party", "silent disco", "outdoor movie",
+  "movie night", "film festival", "food truck", "beer festival", "wine festival",
+  "tasting", "tap takeover", "book launch", "poetry", "storytime",
+  "holiday market", "christmas market", "halloween", "st. patrick", "canada day",
+  "hackathon", "job fair", "career fair", "concert at", "tickets",
+  "presale", "doors open", "doors at", "general admission", "all ages",
+  "live at", "plays at", "playing at", "in the park", "on the waterfront",
+  "at exhibition place", "in trinity bellwoods", "at the distillery",
+  "at budweiser stage", "at scotiabank arena", "at rogers centre",
+  "at the waterfront", "toronto islands", "at high park", "event"
+)
+
+# Strong event nouns that count as evidence when they appear in a DESCRIPTION
+# (weaker than title-level signals, so they're suppressed for news-subject titles).
+DESC_EVENT_NOUNS <- c(
+  "festival", "concert", "live music", "food truck", "tasting", "food market",
+  "night market", "farmers", "playoff", "tournament", "marathon", "half marathon",
+  "5k", "10k", "race", "parade", "fireworks", "exhibition", "art show",
+  "comedy", "trivia", "karaoke", "screening", "premiere", "book launch",
+  "workshop", "masterclass", "conference", "summit", "hackathon", "job fair",
+  "career fair", "gala", "dance party", "street festival", "doors open",
+  "general admission", "presale", "tickets on sale", "in the park",
+  "on the waterfront", "toronto islands", "at the distillery",
+  "block party", "patio", "food vendors", "live music"
+)
+
+# Title-level markers of news/subject articles (people, products, recaps).
+# When present in the title, description-only evidence is not enough.
+NEWS_SUBJECT_PATTERNS <- c(
+  "pitcher", "player", "athlete", "singer", "rapper", "actor", "actress",
+  "celebrity", "influencer", "team", "draft", "trade", "debut", "album",
+  "song", "release", "viral", "trending", "record", "history", "decades",
+  "ride", "attraction", "lining up", "connection to", "welcomes", "moves to",
+  "reveals", "claims", "study", "survey", "movie", "film", "documentary",
+  "tv show", "wins", "victory", "defeat", "beat ", "loses", "banned",
+  "removed", "reaction", "goes viral", "for the first time", "things to do",
+  "wonderland", "coaster", "goes flying", "iphone", "smartphone", "sells",
+  "million", "real estate", "home ", "condo", "apartment", "changes after"
+)
+
+# Patterns that mark a feed item as an article rather than an event.
+NON_EVENT_PATTERNS <- c(
+  "things to do", "things happening", "to do in", "things to see",
+  "weekend guide", "roundup", "best ", "how to", "what to do", "where to",
+  "where to eat", "tips for", "pro tips", "deal", "deals", "find a good",
+  "find cheap", "save on", "savings", "cost of", "price", "pricing",
+  "review", "recap", "need to know", "here's what", "here is what",
+  "first look", "we tried", "we visited", "i tried", "i visited",
+  "is opening", "is coming to", "coming soon", "announces", "announced",
+  "opens new", "new location", "relocating", "closes", "closing",
+  "shutting down", "lawsuit", "banned", "ban on", "photos", "video",
+  "videos", "photo gallery", "picture gallery", "image gallery", "in photos",
+  "map of", "cheapest", "expensive", "affordable",
+  "cheap ", "under $", "for under", "for less than", "salary", "wages",
+  "census", "stats", "statistics", "ranking", "ranked", "reasons to",
+  "ways to", "steps to", "signs you", "signs your", "after the concert",
+  "after her concert", "after their", "explains why", "here's why",
+  "here is why", "we asked", "wants you to", "is slamming", "is blasting",
+  "takes aim", "should visit", "should try", "worth visiting", "worth it"
+)
+
+# Listicle-style titles: "15 things", "10 best", "7 ways", "10 can't miss", etc.
+LISTICLE_PATTERN <- "^[0-9]{1,3}\\s+(things|best|ways|places|reasons|tips|signs|events|shows|restaurants|cafes|bars|pubs|parks|spots|museums|galleries|cheap|free|weird|hidden|new|most|underrated|can't miss|cant miss|festivals|things happening|events happening)"
+
+# Strip HTML tags and decode common entities from feed text.
+clean_html_text <- function(text) {
+  if (length(text) == 0 || all(is.na(text))) return(text)
+  text <- gsub("<[^>]+>", " ", text)
+  text <- gsub("<\\!\\[CDATA\\[|\\]\\]>", "", text)
+  text <- gsub("&nbsp;|&#160;", " ", text)
+  text <- gsub("&amp;", "&", text)
+  text <- gsub("&lt;", "<", text)
+  text <- gsub("&gt;", ">", text)
+  text <- gsub("&quot;|&#34;", "\"", text)
+  text <- gsub("&#39;|&#039;|&apos;", "'", text)
+  gsub("[[:space:]]+", " ", trimws(text))
+}
+
+# Decide whether a feed item is a real, demand-driving event (vs. an article,
+# listicle, deal post, or news item). Defaults to FALSE so article-heavy feeds
+# (e.g. blogTO) don't pollute predictions.
+is_actual_event <- function(event_title, event_description) {
+  title_lower <- tolower(event_title)
+  desc_lower <- tolower(event_description)
+
+  if (grepl(LISTICLE_PATTERN, title_lower, perl = TRUE)) return(FALSE)
+  if (any(vapply(NON_EVENT_PATTERNS, grepl, logical(1), x = title_lower, fixed = TRUE))) return(FALSE)
+  if (any(vapply(EVENT_SIGNAL_PATTERNS, grepl, logical(1), x = title_lower, fixed = TRUE))) return(TRUE)
+
+  # Weaker, description-only evidence: requires an event noun in the description
+  # AND a non-news title.
+  if (any(vapply(DESC_EVENT_NOUNS, grepl, logical(1), x = desc_lower, fixed = TRUE)) &&
+      !any(vapply(NEWS_SUBJECT_PATTERNS, grepl, logical(1), x = title_lower, fixed = TRUE))) {
+    return(TRUE)
+  }
+
+  FALSE
+}
+
 
 # ---------------------------------------------------------------------------
 # Event scraping
@@ -97,8 +216,8 @@ scrape_single_rss_feed <- function(rss_url, source_name) {
     )
 
     events_data <- data.frame(
-      event_title = titles,
-      event_description = ifelse(is.na(descriptions) | descriptions == "", titles, descriptions),
+      event_title = clean_html_text(titles),
+      event_description = clean_html_text(ifelse(is.na(descriptions) | descriptions == "", titles, descriptions)),
       event_pub_date = pub_dates_clean,
       event_link = links,
       source = source_name,
@@ -162,6 +281,16 @@ scrape_multi_source_events <- function() {
 
   all_events <- do.call(rbind, all_events)
   row.names(all_events) <- NULL
+
+  before_gate <- nrow(all_events)
+  is_event <- vapply(seq_len(before_gate), function(i) {
+    is_actual_event(all_events$event_title[i], all_events$event_description[i])
+  }, logical(1))
+  all_events <- all_events[is_event, , drop = FALSE]
+  row.names(all_events) <- NULL
+  cat("Filtered out", before_gate - nrow(all_events), "non-events (articles/listicles/news),",
+      nrow(all_events), "real events remain\n")
+
   all_events <- all_events[!duplicated(all_events[, c("event_title", "event_date")]), ]
 
   cat("Total events from all sources:", nrow(all_events), "\n")
@@ -174,9 +303,10 @@ scrape_multi_source_events <- function() {
 
 # Keyword-based classification (fallback when spaCy/LLM are unavailable)
 classify_event_by_keywords <- function(event_title, event_description) {
+  title_lower <- tolower(event_title)
   event_text_lower <- tolower(paste(event_title, event_description))
 
-  if (any(vapply(EVENT_KEYWORDS$non_event, grepl, logical(1), x = event_text_lower, fixed = TRUE))) {
+  if (any(vapply(EVENT_KEYWORDS$non_event, grepl, logical(1), x = title_lower, fixed = TRUE))) {
     return(list(category = "News/Info", impact = "NONE"))
   }
   if (any(vapply(EVENT_KEYWORDS$concert, grepl, logical(1), x = event_text_lower, fixed = TRUE))) {

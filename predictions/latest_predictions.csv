@@ -1,6 +1,3 @@
 "station_id","station_name","predicted_demand_change_pct","recommended_action","confidence_level","event_impact","prediction_date"
-"7569","Toronto Inukshuk Park",0,"NO_CHANGE",0.6,"Other",2026-08-05 20:06:11.48997
-"7928","Simcoe St / Pullan Pl",30,"ADD_BIKES",0.8,"Concert",2026-08-05 20:06:11.48997
-"7021","Bay St / Albert St",-10,"NO_CHANGE",0.5,"News/Info",2026-08-05 20:06:11.48997
-"7514","Humber Bay Shores Park / Marine Parade Dr",-2,"NO_CHANGE",0.5,"News/Info",2026-08-05 20:06:11.48997
-"7365","Kewbeach Ave / Kenilworth Ave",-8,"NO_CHANGE",0.5,"News/Info",2026-08-05 20:06:11.48997
+"7569","Toronto Inukshuk Park",25,"ADD_BIKES",0.8,"Concert",2026-08-05 20:36:53.25676
+"7928","Simcoe St / Pullan Pl",30,"ADD_BIKES",0.8,"Concert",2026-08-05 20:36:53.25676
