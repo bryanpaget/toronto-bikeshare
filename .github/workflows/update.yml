@@ -86,3 +86,76 @@ jobs:
             if (!merged) {
               core.setFailed(`Could not auto-merge PR #${prNumber}`);
             }
+
+  release:
+    # Publish the merged dataset as a GitHub Release (one per snapshot date).
+    needs: update
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Compute snapshot metadata
+        id: snapshot
+        run: |
+          LAST=$(tail -1 data/consolidated_metrics.csv)
+          SNAP_DATE=$(echo "$LAST" | cut -d, -f1 | tr -d '"' | cut -d' ' -f1)
+          echo "snapshot_date=${SNAP_DATE}" >> "$GITHUB_OUTPUT"
+          echo "last=${LAST}" >> "$GITHUB_OUTPUT"
+
+      - name: Build dataset archive
+        run: |
+          cd data
+          zip -r ../dataset-archive.zip . -x '*.DS_Store'
+          cd ..
+
+      - name: Create release notes
+        run: |
+          LAST="${{ steps.snapshot.outputs.last }}"
+          SNAP_TIME=$(echo "$LAST" | cut -d, -f1 | tr -d '"')
+          BIKES=$(echo "$LAST" | cut -d, -f2)
+          DOCKS=$(echo "$LAST" | cut -d, -f3)
+          UTIL=$(echo "$LAST" | cut -d, -f4 | awk '{printf "%.1f%%", $1}')
+          ACTIVE=$(echo "$LAST" | cut -d, -f5)
+          TOTAL=$(echo "$LAST" | cut -d, -f6)
+          cat > release-notes.md <<EOF
+Snapshot: ${SNAP_TIME} (America/Toronto)
+
+| Metric | Value |
+|---|---|
+| Bikes available | ${BIKES} |
+| Docks available | ${DOCKS} |
+| Utilization | ${UTIL} |
+| Active stations | ${ACTIVE}/${TOTAL} |
+
+Dashboard: https://bryanpaget.github.io/toronto-bikeshare/
+
+Assets:
+- \`consolidated_metrics.csv\` - one row per snapshot (system-wide metrics history)
+- \`consolidated_stations.csv\` - per-station snapshots (one row per station per capture)
+- \`dataset-archive.zip\` - full data/ directory, including the per-snapshot archive CSVs
+EOF
+
+      - name: Create or refresh release
+        run: |
+          set -euo pipefail
+          TAG="dataset-${{ steps.snapshot.outputs.snapshot_date }}"
+          RELEASE_TITLE="Bike Share Dataset ${{ steps.snapshot.outputs.snapshot_date }}"
+          # Refresh any existing release for the same date (self-healing re-runs)
+          gh release delete "$TAG" --yes --cleanup-tag 2>/dev/null || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -f "$TAG" -m "$RELEASE_TITLE"
+          git push origin "$TAG" --force
+          gh release create "$TAG" \
+            data/consolidated_metrics.csv \
+            data/consolidated_stations.csv \
+            dataset-archive.zip \
+            --title "$RELEASE_TITLE" \
+            --notes-file release-notes.md
