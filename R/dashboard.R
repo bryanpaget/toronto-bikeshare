@@ -183,28 +183,6 @@ build_neighbourhood_chart <- function(nbhd_summary) {
   plotly_payload(p)
 }
 
-build_station_grid_chart <- function(stations) {
-  s <- stations %>%
-    filter(!is.na(lat), !is.na(lon),
-           lat >= 43.57, lat <= 43.83, lon >= -79.62, lon <= -79.10)
-  if (nrow(s) == 0) return(NULL)
-  lon_edges <- seq(-79.62, -79.10, length.out = 50)
-  lat_edges <- seq(43.57, 43.83, length.out = 46)
-  z <- matrix(0, nrow = length(lat_edges) - 1, ncol = length(lon_edges) - 1)
-  xi <- cut(s$lon, lon_edges, include.lowest = TRUE, labels = FALSE)
-  yi <- cut(s$lat, lat_edges, include.lowest = TRUE, labels = FALSE)
-  for (i in seq_len(nrow(s))) z[yi[i], xi[i]] <- z[yi[i], xi[i]] + s$num_bikes_available[i]
-  z[z == 0] <- NA
-  p <- plotly::plot_ly(z = z, x = lon_edges, y = lat_edges, type = "heatmap",
-                       colorscale = list(list(0, "#11141c"), list(0.55, "#1f4f8f"), list(1, "#7cf5c8")),
-                       colorbar = list(title = "Bikes", thickness = 12, tickfont = list(size = 10)),
-                       hovertemplate = "lon %{x:.3f}<br>lat %{y:.3f}<br>%{z} bikes") %>%
-    apply_dark_layout(extra = list(showlegend = FALSE,
-      xaxis = list(title = "Longitude", gridcolor = "#262b38", zerolinecolor = "#262b38"),
-      yaxis = list(title = "Latitude", gridcolor = "#262b38", zerolinecolor = "#262b38")))
-  plotly_payload(p)
-}
-
 nbhd_tiles_html <- function(nbhd_summary) {
   if (is.null(nbhd_summary) || nrow(nbhd_summary) == 0) return("")
   paste0('<div class="nbhd-tiles">',
@@ -416,7 +394,6 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
 
   nbhd_summary <- summarize_neighbourhoods(stations)
   charts[["nbhd"]] <- build_neighbourhood_chart(nbhd_summary)
-  charts[["grid"]] <- build_station_grid_chart(stations)
 
   data_payload <- list(
     updated = timestamp_str,
@@ -525,7 +502,6 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
 
   pane_data <- paste0(
     '<div id="tab-data" class="tab-pane">',
-    chart_panel("Station Grid \u2014 Bikes Available", "chart-grid", "chart-md"),
     table_panel("All Stations", tables$stations_all),
     table_panel("System History", tables$history),
     "</div>"

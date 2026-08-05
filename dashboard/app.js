@@ -1,6 +1,6 @@
 /* Toronto Bike Share dashboard - client logic.
  * Consumes window.DASHBOARD_DATA (embedded JSON) and renders into DOM ids:
- * charts: #chart-ts-main #chart-ts-util #chart-hist-avail #chart-status #chart-corr #chart-wd-hour #chart-scatter #chart-nbhd #chart-grid
+ * charts: #chart-ts-main #chart-ts-util #chart-hist-avail #chart-status #chart-corr #chart-wd-hour #chart-scatter #chart-nbhd
  * map: #map (+ #map-search, #map-status, #map-count)
  * tables: #tbl-top-bikes #tbl-top-docks #tbl-events #tbl-predictions #tbl-recommendations #tbl-stations #tbl-history #tbl-neighbourhoods
  */
@@ -25,8 +25,7 @@
     "corr": "chart-corr",
     "wd-hour": "chart-wd-hour",
     "scatter": "chart-scatter",
-    "nbhd": "chart-nbhd",
-    "grid": "chart-grid"
+    "nbhd": "chart-nbhd"
   };
   var chartEls = {};
 

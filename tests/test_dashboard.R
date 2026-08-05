@@ -132,7 +132,7 @@ for (nid in c("chart-nbhd", "tbl-neighbourhoods")) {
   stopifnot(grepl(paste0("id=\"", nid, "\""), html))
 }
 stopifnot(grepl("class=\"nbhd-tiles\"", html) && grepl("class=\"nbhd-card\"", html))
-stopifnot("nbhd" %in% names(payload$charts) && "grid" %in% names(payload$charts))
+stopifnot("nbhd" %in% names(payload$charts))
 stopifnot(is.data.frame(payload$neighbourhoods) && nrow(payload$neighbourhoods) >= 1)
 stopifnot(all(c("neighbourhood", "stations", "bikes", "docks", "capacity",
                 "utilization", "empty", "full", "avg_availability") %in%
@@ -144,9 +144,10 @@ nbhd_check <- summarize_neighbourhoods(stations)
 stopifnot(nrow(nbhd_check) >= 1 && sum(nbhd_check$stations) == nrow(stations))
 cat("neighbourhood assignment OK\n")
 
-# data pane grid heatmap chart present
-stopifnot(grepl('id="chart-grid"', html))
-cat("data pane grid heatmap OK\n")
+# data pane has no grid heatmap (removed)
+stopifnot(!grepl('id="chart-grid"', html))
+stopifnot(!"grid" %in% names(payload$charts))
+cat("data pane grid heatmap removed OK\n")
 
 # badges rendered (category + action + status)
 stopifnot(grepl("badge concert", html))
