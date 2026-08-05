@@ -12,6 +12,7 @@ source(file.path(root, "R", "config.R"))
 source(file.path(root, "R", "utils.R"))
 source(file.path(root, "R", "dashboard.R"))
 source(file.path(root, "R", "info_page.R"))
+source(file.path(root, "R", "neighbourhoods.R"))
 
 metrics <- list(
   total_bikes = 6461, total_docks = 12519, utilization_rate = 34.0,
@@ -123,6 +124,29 @@ for (mid in c("slicer-start", "slicer-end", "map", "map-search", "map-status", "
   stopifnot(grepl(paste0("id=\"", mid, "\""), html))
 }
 cat("all chart/table/map/slicer DOM ids OK\n")
+
+# neighbourhood tab: nav button, pane, chart, table, tiles
+stopifnot(grepl('<button data-tab="neighbourhoods">Neighbourhoods</button>', html))
+stopifnot(grepl('<div id="tab-neighbourhoods" class="tab-pane">', html))
+for (nid in c("chart-nbhd", "tbl-neighbourhoods")) {
+  stopifnot(grepl(paste0("id=\"", nid, "\""), html))
+}
+stopifnot(grepl("class=\"nbhd-tiles\"", html) && grepl("class=\"nbhd-card\"", html))
+stopifnot("nbhd" %in% names(payload$charts) && "grid" %in% names(payload$charts))
+stopifnot(is.data.frame(payload$neighbourhoods) && nrow(payload$neighbourhoods) >= 1)
+stopifnot(all(c("neighbourhood", "stations", "bikes", "docks", "capacity",
+                "utilization", "empty", "full", "avg_availability") %in%
+              names(payload$neighbourhoods)))
+cat("neighbourhood tab OK\n")
+
+# neighbourhood assignment is exhaustive for stations with valid coordinates
+nbhd_check <- summarize_neighbourhoods(stations)
+stopifnot(nrow(nbhd_check) >= 1 && sum(nbhd_check$stations) == nrow(stations))
+cat("neighbourhood assignment OK\n")
+
+# data pane grid heatmap chart present
+stopifnot(grepl('id="chart-grid"', html))
+cat("data pane grid heatmap OK\n")
 
 # badges rendered (category + action + status)
 stopifnot(grepl("badge concert", html))

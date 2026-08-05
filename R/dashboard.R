@@ -168,6 +168,63 @@ build_correlations <- function(historical_metrics) {
   charts
 }
 
+build_neighbourhood_chart <- function(nbhd_summary) {
+  if (is.null(nbhd_summary) || nrow(nbhd_summary) == 0) return(NULL)
+  top <- nbhd_summary %>% slice_head(n = 15) %>% arrange(bikes)
+  p <- plotly::plot_ly(top, x = ~bikes, y = ~neighbourhood, type = "bar", orientation = "h",
+                       marker = list(color = "#3d8bfd",
+                                     line = list(color = "#161a24", width = 0.5)),
+                       customdata = ~paste0(utilization, "%"),
+                       text = ~bikes, textposition = "outside",
+                       hovertemplate = "%{y}<br>%{x} bikes<br>%{customdata} utilization") %>%
+    apply_dark_layout(extra = list(showlegend = FALSE,
+      xaxis = list(title = "Bikes available", gridcolor = "#262b38", zerolinecolor = "#262b38"),
+      yaxis = list(title = "", gridcolor = "#262b38", zerolinecolor = "#262b38", automargin = TRUE)))
+  plotly_payload(p)
+}
+
+build_station_grid_chart <- function(stations) {
+  s <- stations %>%
+    filter(!is.na(lat), !is.na(lon),
+           lat >= 43.57, lat <= 43.83, lon >= -79.62, lon <= -79.10)
+  if (nrow(s) == 0) return(NULL)
+  lon_edges <- seq(-79.62, -79.10, length.out = 50)
+  lat_edges <- seq(43.57, 43.83, length.out = 46)
+  z <- matrix(0, nrow = length(lat_edges) - 1, ncol = length(lon_edges) - 1)
+  xi <- cut(s$lon, lon_edges, include.lowest = TRUE, labels = FALSE)
+  yi <- cut(s$lat, lat_edges, include.lowest = TRUE, labels = FALSE)
+  for (i in seq_len(nrow(s))) z[yi[i], xi[i]] <- z[yi[i], xi[i]] + s$num_bikes_available[i]
+  z[z == 0] <- NA
+  p <- plotly::plot_ly(z = z, x = lon_edges, y = lat_edges, type = "heatmap",
+                       colorscale = list(list(0, "#11141c"), list(0.55, "#1f4f8f"), list(1, "#7cf5c8")),
+                       colorbar = list(title = "Bikes", thickness = 12, tickfont = list(size = 10)),
+                       hovertemplate = "lon %{x:.3f}<br>lat %{y:.3f}<br>%{z} bikes") %>%
+    apply_dark_layout(extra = list(showlegend = FALSE,
+      xaxis = list(title = "Longitude", gridcolor = "#262b38", zerolinecolor = "#262b38"),
+      yaxis = list(title = "Latitude", gridcolor = "#262b38", zerolinecolor = "#262b38")))
+  plotly_payload(p)
+}
+
+nbhd_tiles_html <- function(nbhd_summary) {
+  if (is.null(nbhd_summary) || nrow(nbhd_summary) == 0) return("")
+  paste0('<div class="nbhd-tiles">',
+    paste0(vapply(seq_len(nrow(nbhd_summary)), function(i) {
+      r <- nbhd_summary[i, ]
+      av <- suppressWarnings(as.numeric(r$avg_availability))
+      if (!is.finite(av)) av <- 0
+      paste0('<div class="nbhd-card">',
+        '<div class="nbhd-name">', htmltools::htmlEscape(r$neighbourhood), '</div>',
+        '<div class="nbhd-meta">', fmt_num(r$stations), ' stations &middot; ',
+        fmt_num(r$bikes), ' bikes &middot; ', fmt_num(r$docks), ' docks</div>',
+        '<div class="nbhd-util"><div class="nbhd-util-bar" style="width:',
+        min(100, av), '%"></div></div>',
+        '<div class="nbhd-util-label">', fmt_pct1(r$utilization),
+        ' utilization &middot; ', fmt_pct1(av), ' avg availability</div>',
+        '</div>')
+    }, character(1)), collapse = ""),
+    '</div>')
+}
+
 build_stats <- function(current_metrics, delta_formatted) {
   list(
     list(label = "Bikes Available",
@@ -228,7 +285,8 @@ build_map_stations <- function(stations) {
            capacity, status)
 }
 
-build_tables <- function(stations, prediction_results, historical_metrics) {
+build_tables <- function(stations, prediction_results, historical_metrics,
+                         nbhd_summary = NULL) {
   top_bikes <- stations %>% arrange(desc(num_bikes_available)) %>% slice_head(n = 10)
   bikes_rows <- apply(top_bikes, 1, function(r) paste0(
     "<tr><td>", htmltools::htmlEscape(r[["name"]]), '</td><td class="num">',
@@ -315,6 +373,19 @@ build_tables <- function(stations, prediction_results, historical_metrics) {
     hist_rows <- paste0("<tr>", hist_rows)
   }
 
+  nbhd_rows <- character(0)
+  if (!is.null(nbhd_summary) && nrow(nbhd_summary) > 0) {
+    nbhd_rows <- apply(nbhd_summary, 1, function(r) paste0(
+      "<tr><td>", htmltools::htmlEscape(r[["neighbourhood"]]), '</td><td class="num">',
+      fmt_num(r[["stations"]]), '</td><td class="num">', fmt_num(r[["bikes"]]),
+      '</td><td class="num">', fmt_num(r[["docks"]]),
+      '</td><td class="num">', fmt_num(r[["capacity"]]),
+      '</td><td class="num">', fmt_pct1(r[["utilization"]]),
+      '</td><td class="num">', fmt_num(r[["empty"]]),
+      '</td><td class="num">', fmt_num(r[["full"]]),
+      '</td><td class="num">', fmt_pct1(r[["avg_availability"]]), "</td></tr>"))
+  }
+
   list(
     top_bikes = tbl("tbl-top-bikes", c("Station", "Bikes", "Capacity"), bikes_rows),
     top_docks = tbl("tbl-top-docks", c("Station", "Docks", "Capacity"), docks_rows),
@@ -322,7 +393,11 @@ build_tables <- function(stations, prediction_results, historical_metrics) {
     predictions = tbl("tbl-predictions", c("Station", "Change", "Action", "Confidence", "Impact"), pred_rows),
     recommendations = tbl("tbl-recommendations", c("Station", "Change", "Action", "Impact"), rec_rows),
     stations_all = tbl("tbl-stations", c("Station", "Status", "Bikes", "Docks", "Capacity", "Lat", "Lon"), st_rows),
-    history = tbl("tbl-history", c("Timestamp", "Bikes", "Docks", "Util", "Active", "Empty %", "Full %"), hist_rows)
+    history = tbl("tbl-history", c("Timestamp", "Bikes", "Docks", "Util", "Active", "Empty %", "Full %"), hist_rows),
+    neighbourhoods = tbl("tbl-neighbourhoods",
+                         c("Neighbourhood", "Stations", "Bikes", "Docks", "Capacity",
+                           "Utilization", "Empty", "Full", "Avg Avail"),
+                         nbhd_rows)
   )
 }
 
@@ -339,6 +414,10 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
   charts <- build_charts(historical_metrics, availability_dist, status_summary)
   charts <- c(charts, build_correlations(historical_metrics))
 
+  nbhd_summary <- summarize_neighbourhoods(stations)
+  charts[["nbhd"]] <- build_neighbourhood_chart(nbhd_summary)
+  charts[["grid"]] <- build_station_grid_chart(stations)
+
   data_payload <- list(
     updated = timestamp_str,
     historyRange = if (!is.null(historical_metrics) && nrow(historical_metrics) > 1) {
@@ -347,11 +426,12 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
     } else NULL,
     stats = build_stats(current_metrics, delta_formatted),
     stations = build_map_stations(stations),
+    neighbourhoods = nbhd_summary,
     charts = charts
   )
   data_json <- json_embed(data_payload)
 
-  tables <- build_tables(stations, prediction_results, historical_metrics)
+  tables <- build_tables(stations, prediction_results, historical_metrics, nbhd_summary)
   stats_html <- stat_cards_html(data_payload$stats)
   pred_stats_html <- stat_cards_html(build_pred_stats(prediction_results))
 
@@ -420,6 +500,20 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
     "</div>"
   )
 
+  pane_neighbourhoods <- paste0(
+    '<div id="tab-neighbourhoods" class="tab-pane">',
+    '<div class="panel"><div class="panel-head"><h3 class="panel-title">How to read this</h3></div>',
+    '<div class="panel-body"><p class="ev-src" style="margin:0">Stations are assigned to the ',
+    'nearest well-known neighbourhood anchor point (approximate Voronoi partition). ',
+    'Utilization is the share of dock capacity currently holding a bike.',
+    '</p></div></div>',
+    chart_panel("Bikes Available by Neighbourhood", "chart-nbhd", "chart-md"),
+    '<div class="panel"><div class="panel-head"><h3 class="panel-title">Neighbourhood Cards</h3></div>',
+    '<div class="panel-body">', nbhd_tiles_html(nbhd_summary), '</div></div>',
+    table_panel("Neighbourhood Breakdown", tables$neighbourhoods),
+    "</div>"
+  )
+
   pane_correlations <- paste0(
     '<div id="tab-correlations" class="tab-pane">',
     chart_panel("Metric Correlation Matrix", "chart-corr", "chart-md"),
@@ -431,6 +525,7 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
 
   pane_data <- paste0(
     '<div id="tab-data" class="tab-pane">',
+    chart_panel("Station Grid \u2014 Bikes Available", "chart-grid", "chart-md"),
     table_panel("All Stations", tables$stations_all),
     table_panel("System History", tables$history),
     "</div>"
@@ -441,6 +536,7 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
     '<button class="active" data-tab="about">About</button>',
     '<button data-tab="overview">Overview</button>',
     '<button data-tab="history">History</button>',
+    '<button data-tab="neighbourhoods">Neighbourhoods</button>',
     '<button data-tab="predictions">Predictions</button>',
     '<button data-tab="correlations">Correlations</button>',
     '<button data-tab="data">Data</button>',
@@ -475,6 +571,7 @@ generate_dashboard_html <- function(current_metrics, delta_formatted, timestamp,
     about_tab,
     pane_overview,
     pane_history,
+    pane_neighbourhoods,
     pane_predictions,
     pane_correlations,
     pane_data,

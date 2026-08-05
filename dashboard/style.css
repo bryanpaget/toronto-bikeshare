@@ -498,6 +498,30 @@ table.dataTable td.num { text-align: right; }
 .link-list { margin: 0 0 4px; padding-left: 18px; font-size: 12px; }
 .link-list li { margin-bottom: 7px; }
 
+/* ---------- neighbourhoods ---------- */
+.nbhd-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+}
+.nbhd-card {
+  background: var(--bg-elevated);
+  border: 1px solid #1d222e;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.nbhd-name { font-size: 12px; font-weight: 600; color: var(--text-strong); margin-bottom: 4px; }
+.nbhd-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 9px; }
+.nbhd-util {
+  height: 5px;
+  border-radius: 3px;
+  background: #1a1f2c;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.nbhd-util-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #7cf5c8); }
+.nbhd-util-label { font-size: 10px; color: var(--text-muted); }
+
 /* ---------- responsive / mobile ---------- */
 @media (max-width: 900px) {
   .about-layout { grid-template-columns: 1fr; max-width: none; padding: 14px 14px 24px; }

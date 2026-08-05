@@ -1,8 +1,8 @@
 /* Toronto Bike Share dashboard - client logic.
  * Consumes window.DASHBOARD_DATA (embedded JSON) and renders into DOM ids:
- * charts: #chart-ts-main #chart-ts-util #chart-hist-avail #chart-corr #chart-wd-hour #chart-scatter
+ * charts: #chart-ts-main #chart-ts-util #chart-hist-avail #chart-status #chart-corr #chart-wd-hour #chart-scatter #chart-nbhd #chart-grid
  * map: #map (+ #map-search, #map-status, #map-count)
- * tables: #tbl-top-bikes #tbl-top-docks #tbl-events #tbl-predictions #tbl-recommendations #tbl-stations #tbl-history
+ * tables: #tbl-top-bikes #tbl-top-docks #tbl-events #tbl-predictions #tbl-recommendations #tbl-stations #tbl-history #tbl-neighbourhoods
  */
 (function () {
   "use strict";
@@ -24,7 +24,9 @@
     "status": "chart-status",
     "corr": "chart-corr",
     "wd-hour": "chart-wd-hour",
-    "scatter": "chart-scatter"
+    "scatter": "chart-scatter",
+    "nbhd": "chart-nbhd",
+    "grid": "chart-grid"
   };
   var chartEls = {};
 
@@ -135,7 +137,7 @@
       dom: "<'dt-toolbar'lf>rtip"
     };
     var ids = ["tbl-top-bikes", "tbl-top-docks", "tbl-events", "tbl-predictions",
-               "tbl-recommendations", "tbl-stations", "tbl-history"];
+               "tbl-recommendations", "tbl-stations", "tbl-history", "tbl-neighbourhoods"];
     ids.forEach(function (id) {
       var el = $(id);
       if (!el) return;
@@ -158,6 +160,9 @@
       if (pane) pane.classList.add("active");
       if (typeof Plotly !== "undefined") {
         pane.querySelectorAll(".js-plotly-plot").forEach(function (node) { Plotly.Plots.resize(node); });
+      }
+      if (map && pane && pane.id === "tab-overview") {
+        setTimeout(function () { map.invalidateSize(); }, 60);
       }
     }
     buttons.forEach(function (btn) {
