@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-08-06 10:04 (Toronto Time)
+Updated: 2026-08-10 13:45 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,950 | +59 |
-| **Total docks available** | 12,703 | -83 |
-| **System utilization rate** | 35.4% | +0.3% |
-| **Active stations** | 1056/1056 (100%) |  |
-| **Average bikes per station** | 6.6 | +0 |
+| **Total bikes available** | 7,098 | +148 |
+| **Total docks available** | 12,524 | -179 |
+| **System utilization rate** | 36.2% | +0.8% |
+| **Active stations** | 1057/1057 (100%) | +1 |
+| **Average bikes per station** | 6.7 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 284 (26.9%) | +14 |
-| **Full stations** | 63 (6%) | +16 |
+| **Empty stations** | 268 (25.4%) | -16 |
+| **Full stations** | 51 (4.8%) | -12 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Kewbeach Ave / Kenilworth Ave | 60 | 61 |
-| Wellington St W / Bay St | 55 | 55 |
-| King St E / Church St | 55 | 55 |
-| Humber Bay Shores Park / Marine Parade Dr | 53 | 63 |
-| York St / Queens Quay W | 52 | 57 |
-| Bay St / Albert St | 49 | 63 |
+| Bay St / Albert St | 56 | 63 |
+| York St / Queens Quay W | 55 | 57 |
+| Humber Bay Shores Park / Marine Parade Dr | 55 | 63 |
+| King St E / Church St | 54 | 55 |
+| Wellington St W / Bay St | 51 | 55 |
+| Simcoe St / Pullan Pl | 49 | 79 |
+| Temperance St Station | 48 | 55 |
+| Queens Quay E / Lower Jarvis St  | 48 | 48 |
+| Bremner Blvd / Rees St | 47 | 49 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 47 | 47 |
-| Queens Quay E / Lower Jarvis St  | 47 | 48 |
-| 265 Armadale Ave | 43 | 45 |
-| Temperance St Station | 42 | 55 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 56 | 79 |
-| Toronto Inukshuk Park | 55 | 87 |
-| Bay St / Dundas St W | 47 | 55 |
-| 439 Sherbourne St | 45 | 47 |
-| Dundas St W / Crawford St | 40 | 47 |
-| Bloor St W / Manning Ave - SMART | 39 | 42 |
-| Dundonald St / Church St | 37 | 39 |
+| Toronto Inukshuk Park | 60 | 87 |
+| Cherry Beach | 45 | 49 |
+| Dundas St W / Crawford St | 42 | 47 |
+| Hanlan's Point Beach | 40 | 47 |
 | Jarvis St / Isabella St | 36 | 39 |
-| Church St / Alexander St | 35 | 35 |
-| Bathurst St / Front St W | 35 | 35 |
+| Lisgar Park | 34 | 35 |
+| 439 Sherbourne St | 34 | 47 |
+| Niagara St / Richmond St W | 33 | 42 |
+| Bathurst St / Dundas St W | 31 | 41 |
+| Riverdale Park North (Broadview Ave) | 30 | 31 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 284 |
-| Full       | 63 |
-| Available  | 709 |
+| Empty      | 268 |
+| Full       | 51 |
+| Available  | 738 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 30.4% with a standard deviation of 33.5%
-- The system is currently operating at 35% capacity
+- The mean availability is 30.4% with a standard deviation of 33%
+- The system is currently operating at 36% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,9 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Sports Event | Yes, another Toronto festival. But this one actually gets what people want. |
-| Toronto Inukshuk Park | +25% | Concert | Yes, another Toronto festival. But this one actually gets what people want. |
-| Bay St / Albert St | +20% | Sports Event | Yes, another Toronto festival. But this one actually gets what people want. |
+| Simcoe St / Pullan Pl | +30% | Sports Event | Toronto is still cool and a music and food festival this weekend is proof |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Concert | General prediction |
+| Toronto Inukshuk Park | +25% | Concert | Toronto is still cool and a music and food festival this weekend is proof |
+| Bay St / Albert St | +20% | Sports Event | Toronto is still cool and a music and food festival this weekend is proof |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -140,11 +141,12 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Yes, another Toronto festival. But this one actually gets what people want.](https://viewthevibe.com/yes-another-toronto-festival-but-this-one-actually-gets-what-people-want/) | 2026-08-06 | Discover the unique experience at the On the Wa... | Increase bikes nearby |
-| [CN Tower about to drop off list of the world's 10 tallest structures](https://www.blogto.com/city/2026/08/cn-tower-drop-list-worlds-10-tallest/) | 2026-08-07 | It wasn't too long ago that Toronto boasted the... | Increase bikes nearby |
-| [First-of-its-kind pottery studio and cafe opening in Toronto this month](https://www.blogto.com/eat_drink/2026/08/tigerbaby-coffee-clay-toronto/) | 2026-08-07 | A new pottery studio-cafe concept opening in To... | Increase bikes nearby |
+| [Toronto is still cool and a music and food festival this weekend is proof](https://www.blogto.com/eat_drink/2026/08/on-the-way-festival-toronto/) | 2026-08-11 | Back for its second year after an eagerly atten... | Increase bikes nearby |
+| [Ex-Toronto Blue Jays pitcher Hoffman suffers another late-game choke with new team](https://www.blogto.com/sports_play/2026/08/ex-toronto-blue-jays-pitcher-hoffman-choke-new-team/) | 2026-08-10 | Jeff Hoffman may not be with the Toronto Blue J... | Increase bikes nearby |
+| [Two chip stands have been duking it out for over 50 years in a small Ontario town](https://www.blogto.com/eat_drink/2026/08/chip-stands-duking-it-out-ontario/) | 2026-08-10 | Though Shelburne, Ontario, recently made headli... | Increase bikes nearby |
+| [This popular new Toronto sandwich shop is only open on weekends](https://www.blogto.com/eat_drink/2026/08/migs-sandwich-bar-toronto/) | 2026-08-10 | If scarcity breeds demand, one hush-hush sandwi... | Increase bikes nearby |
 
-*Last updated: 2026-08-06 14:06 (Toronto Time)*
+*Last updated: 2026-08-10 17:46 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Yes, another Toronto festival. But this one actually gets what people want., CN Tower about to drop off list of the world's 10 tallest structures, First-of-its-kind pottery studio and cafe opening in Toronto this month. Stations near events receive adjusted predictions.*
+*Events analyzed: Toronto is still cool and a music and food festival this weekend is proof, Ex-Toronto Blue Jays pitcher Hoffman suffers another late-game choke with new team, Two chip stands have been duking it out for over 50 years in a small Ontario town.... Stations near events receive adjusted predictions.*
 
