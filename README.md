@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-08-10 13:45 (Toronto Time)
+Updated: 2026-08-17 13:21 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,098 | +148 |
-| **Total docks available** | 12,524 | -179 |
-| **System utilization rate** | 36.2% | +0.8% |
-| **Active stations** | 1057/1057 (100%) | +1 |
-| **Average bikes per station** | 6.7 | +0 |
+| **Total bikes available** | 6,747 | -351 |
+| **Total docks available** | 12,962 | +438 |
+| **System utilization rate** | 34.2% | -1.9% |
+| **Active stations** | 1058/1058 (100%) | +1 |
+| **Average bikes per station** | 6.4 | -0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 268 (25.4%) | -16 |
-| **Full stations** | 51 (4.8%) | -12 |
+| **Empty stations** | 285 (26.9%) | +17 |
+| **Full stations** | 49 (4.6%) | -2 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Bay St / Albert St | 56 | 63 |
-| York St / Queens Quay W | 55 | 57 |
-| Humber Bay Shores Park / Marine Parade Dr | 55 | 63 |
-| King St E / Church St | 54 | 55 |
-| Wellington St W / Bay St | 51 | 55 |
-| Simcoe St / Pullan Pl | 49 | 79 |
-| Temperance St Station | 48 | 55 |
-| Queens Quay E / Lower Jarvis St  | 48 | 48 |
-| Bremner Blvd / Rees St | 47 | 49 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 47 | 47 |
+| Toronto Inukshuk Park | 74 | 87 |
+| Temperance St Station | 55 | 55 |
+| Kewbeach Ave / Kenilworth Ave | 55 | 61 |
+| Simcoe St / Pullan Pl | 55 | 79 |
+| King St E / Church St | 53 | 55 |
+| York St / Queens Quay W | 52 | 57 |
+| Wellington St W / Bay St | 49 | 55 |
+| Queens Quay E / Lower Jarvis St  | 46 | 47 |
+| Bremner Blvd / Rees St | 45 | 48 |
+| Queens Quay / Yonge St | 45 | 47 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 60 | 87 |
-| Cherry Beach | 45 | 49 |
-| Dundas St W / Crawford St | 42 | 47 |
-| Hanlan's Point Beach | 40 | 47 |
-| Jarvis St / Isabella St | 36 | 39 |
-| Lisgar Park | 34 | 35 |
-| 439 Sherbourne St | 34 | 47 |
-| Niagara St / Richmond St W | 33 | 42 |
-| Bathurst St / Dundas St W | 31 | 41 |
-| Riverdale Park North (Broadview Ave) | 30 | 31 |
+| Fort York  Blvd / Capreol Ct | 45 | 47 |
+| Dundas St W / Crawford St | 43 | 47 |
+| Niagara St / Richmond St W | 38 | 42 |
+| Jarvis St / Isabella St | 37 | 39 |
+| 439 Sherbourne St | 37 | 47 |
+| Mill St / Tannery Rd | 36 | 39 |
+| Huron St / Harbord St | 35 | 39 |
+| Mill St / Cherry St | 35 | 39 |
+| Bathurst St / Dundas St W | 34 | 41 |
+| Balliol St / Yonge St - SMART | 34 | 36 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 268 |
-| Full       | 51 |
-| Available  | 738 |
+| Empty      | 285 |
+| Full       | 49 |
+| Available  | 724 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 30.4% with a standard deviation of 33%
-- The system is currently operating at 36% capacity
+- The mean availability is 29.2% with a standard deviation of 33.1%
+- The system is currently operating at 34% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,10 +130,11 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Sports Event | Toronto is still cool and a music and food festival this weekend is proof |
-| Humber Bay Shores Park / Marine Parade Dr | +28% | Concert | General prediction |
-| Toronto Inukshuk Park | +25% | Concert | Toronto is still cool and a music and food festival this weekend is proof |
-| Bay St / Albert St | +20% | Sports Event | Toronto is still cool and a music and food festival this weekend is proof |
+| Simcoe St / Pullan Pl | +30% | Concert | This breathtaking beach 2.5 hrs from Toronto has powdery white sand shores with Bahamas vibes |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
+| Kewbeach Ave / Kenilworth Ave | +22% | Concert | General prediction |
+| Bay St / Albert St | +20% | Concert | This breathtaking beach 2.5 hrs from Toronto has powdery white sand shores with Bahamas vibes |
+| Toronto Inukshuk Park | +15% | Food Festival | This breathtaking beach 2.5 hrs from Toronto has powdery white sand shores with Bahamas vibes |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -141,12 +142,14 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Toronto is still cool and a music and food festival this weekend is proof](https://www.blogto.com/eat_drink/2026/08/on-the-way-festival-toronto/) | 2026-08-11 | Back for its second year after an eagerly atten... | Increase bikes nearby |
-| [Ex-Toronto Blue Jays pitcher Hoffman suffers another late-game choke with new team](https://www.blogto.com/sports_play/2026/08/ex-toronto-blue-jays-pitcher-hoffman-choke-new-team/) | 2026-08-10 | Jeff Hoffman may not be with the Toronto Blue J... | Increase bikes nearby |
-| [Two chip stands have been duking it out for over 50 years in a small Ontario town](https://www.blogto.com/eat_drink/2026/08/chip-stands-duking-it-out-ontario/) | 2026-08-10 | Though Shelburne, Ontario, recently made headli... | Increase bikes nearby |
-| [This popular new Toronto sandwich shop is only open on weekends](https://www.blogto.com/eat_drink/2026/08/migs-sandwich-bar-toronto/) | 2026-08-10 | If scarcity breeds demand, one hush-hush sandwi... | Increase bikes nearby |
+| [This breathtaking beach 2.5 hrs from Toronto has powdery white sand shores with Bahamas vibes](https://www.narcity.com/toronto/sandbanks-provincial-park-road-trip-from-toronto-prince-edward-county-beaches) | 2026-08-17 | If a trip to the tropics isn't in the cards for... | Increase bikes nearby |
+| [Major Toronto festival ending after 2026 amid swath of other cancellations](https://www.blogto.com/radar/2026/08/toronto-festival-ending-2026/) | 2026-08-18 | Yet another major Toronto festival is entering ... | Increase bikes nearby |
+| [Win 2 general admission full festival passes to Rock The Runway in Ontario](https://www.blogto.com/music/2026/08/rock-the-runway-betty-giveaway/) | 2026-08-18 | Outdoor concerts hit different, especially in L... | Increase bikes nearby |
+| [The best‑kept secret for saving money at Toronto Blue Jays games](https://www.blogto.com/sports_play/2026/08/secret-for-saving-money-toronto-blue-jays/) | 2026-08-18 | With the Toronto Blue Jays' season winding down... | Increase bikes nearby |
+| [Mysterious $60M superyacht docks in Toronto and nobody knows who owns it](https://www.blogto.com/city/2026/08/superyacht-docks-toronto/) | 2026-08-18 | A lavish superyacht is turning heads on the Tor... | Increase bikes nearby |
+| [Toronto Blue Jays are in the thick of MLB playoff race](https://www.blogto.com/sports_play/2026/08/toronto-blue-jays-thick-mlb-playoff-race/) | 2026-08-17 | The Toronto Blue Jays have bought themselves so... | Increase bikes nearby |
 
-*Last updated: 2026-08-10 17:46 (Toronto Time)*
+*Last updated: 2026-08-17 17:21 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Toronto is still cool and a music and food festival this weekend is proof, Ex-Toronto Blue Jays pitcher Hoffman suffers another late-game choke with new team, Two chip stands have been duking it out for over 50 years in a small Ontario town.... Stations near events receive adjusted predictions.*
+*Events analyzed: This breathtaking beach 2.5 hrs from Toronto has powdery white sand shores with Bahamas vibes, Major Toronto festival ending after 2026 amid swath of other cancellations, Win 2 general admission full festival passes to Rock The Runway in Ontario.... Stations near events receive adjusted predictions.*
 
