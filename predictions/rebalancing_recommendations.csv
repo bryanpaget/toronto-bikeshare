@@ -1,5 +1,6 @@
 "station_id","station_name","predicted_demand_change_pct","recommended_action","event_impact"
 "7928","Simcoe St / Pullan Pl",30,"ADD_BIKES","Sports Event"
-"7514","Humber Bay Shores Park / Marine Parade Dr",28,"ADD_BIKES","Concert"
+"7514","Humber Bay Shores Park / Marine Parade Dr",28,"ADD_BIKES","Sports Event"
 "7569","Toronto Inukshuk Park",25,"ADD_BIKES","Concert"
 "7021","Bay St / Albert St",20,"ADD_BIKES","Sports Event"
+"7365","Kewbeach Ave / Kenilworth Ave",12,"ADD_BIKES","Art/Cultural Event"
