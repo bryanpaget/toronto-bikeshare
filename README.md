@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-08-24 13:24 (Toronto Time)
+Updated: 2026-08-31 17:45 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,304 | +206 |
-| **Total docks available** | 12,592 | +68 |
-| **System utilization rate** | 36.7% | +0.5% |
-| **Active stations** | 1063/1063 (100%) | +6 |
-| **Average bikes per station** | 6.9 | +0 |
+| **Total bikes available** | 7,234 | -70 |
+| **Total docks available** | 12,271 | -321 |
+| **System utilization rate** | 37.1% | +0.4% |
+| **Active stations** | 1062/1062 (100%) | -1 |
+| **Average bikes per station** | 6.8 | -0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 214 (20.1%) | -54 |
-| **Full stations** | 44 (4.1%) | -7 |
+| **Empty stations** | 208 (19.6%) | -6 |
+| **Full stations** | 61 (5.7%) | +17 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| King St E / Church St | 55 | 55 |
-| York St / Queens Quay W | 53 | 57 |
-| Toronto Inukshuk Park | 49 | 87 |
-| Queens Quay E / Lower Jarvis St  | 47 | 47 |
-| Bremner Blvd / Rees St | 43 | 48 |
-| Queens Quay / Yonge St | 41 | 47 |
-| 265 Armadale Ave | 41 | 45 |
-| Northern Dancer Blvd / Lake Shore Blvd E | 40 | 41 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 39 | 47 |
-| Union Station | 38 | 43 |
+| King St E / Church St | 49 | 55 |
+| 144 Harrison St | 46 | 51 |
+| Toronto Inukshuk Park | 43 | 87 |
+| Bloor St W / Manning Ave - SMART | 38 | 42 |
+| Bay St / Dundas St W | 36 | 55 |
+| Mill St / Rolling Mills Rd | 36 | 39 |
+| Alton Ave / Dundas St E (Greenwood Park) | 35 | 43 |
+| 9 Willingdon Blvd | 35 | 39 |
+| Bathurst St / Front St W | 34 | 35 |
+| 800 Fleet St (North) | 34 | 43 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 66 | 79 |
-| Fort York  Blvd / Capreol Ct | 45 | 47 |
-| Temperance St Station | 42 | 55 |
-| Bay St / Dundas St W | 42 | 55 |
-| Kewbeach Ave / Kenilworth Ave | 41 | 61 |
-| Bloor St W / Manning Ave - SMART | 40 | 42 |
-| Humber Bay Shores Park / Marine Parade Dr | 39 | 63 |
-| Jarvis St / Isabella St | 38 | 39 |
-| Bay St / Albert St | 36 | 63 |
-| Bond St / Queen St E | 36 | 37 |
+| Simcoe St / Pullan Pl | 76 | 79 |
+| York St / Queens Quay W | 56 | 57 |
+| Temperance St Station | 53 | 55 |
+| Bay St / Albert St | 45 | 63 |
+| Toronto Inukshuk Park | 42 | 87 |
+| Union Station | 41 | 43 |
+| Hanlan's Point Beach | 40 | 47 |
+| Kewbeach Ave / Kenilworth Ave | 39 | 61 |
+| Bathurst St / Dundas St W | 38 | 41 |
+| Dundas St W / Crawford St | 38 | 47 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 214 |
-| Full       | 44 |
-| Available  | 805 |
+| Empty      | 208 |
+| Full       | 61 |
+| Available  | 793 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 32.5% with a standard deviation of 32%
+- The mean availability is 33.2% with a standard deviation of 31.3%
 - The system is currently operating at 37% capacity
 
 ## ℹ️ Data Source
@@ -130,11 +130,9 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Sports Event | This riverside village 1.5 hrs from Toronto is dotted with storybook shops and charming cafes |
-| Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
-| Toronto Inukshuk Park | +25% | Concert | This riverside village 1.5 hrs from Toronto is dotted with storybook shops and charming cafes |
-| Bay St / Albert St | +20% | Sports Event | I moved to a dreamy small town in Ontario to escape city life — the reality was unexpected |
-| Kewbeach Ave / Kenilworth Ave | +12% | Art/Cultural Event | General prediction |
+| Simcoe St / Pullan Pl | +30% | Concert | Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids |
+| Toronto Inukshuk Park | +25% | Sports Event | Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids |
+| Bay St / Albert St | +20% | Sports Event | Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -142,15 +140,11 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [I moved to a dreamy small town in Ontario to escape city life — the reality was unexpected](https://www.narcity.com/toronto/dreamy-small-town-in-ontario-to-escape-city-life) | 2026-08-25 | For most of my life, I lived in Toronto , but I... | Increase bikes nearby |
-| [This riverside village 1.5 hrs from Toronto is dotted with storybook shops and charming cafes](https://www.narcity.com/toronto/st-jacobs-village-small-town-near-toronto-things-to-do) | 2026-08-25 | You don't need to travel far from Toronto to fi... | Increase bikes nearby |
-| [How much are people in Toronto willing to spend at the CNE?](https://www.blogto.com/city/2026/08/cne-2026-prices-toronto/) | 2026-08-25 | Crowds have flocked to the return of the Canadi... | Increase bikes nearby |
-| [Grab a free coffee and discover how easy investing can be at this Toronto Investly event](https://www.blogto.com/sponsored/2026/08/investly-irl-event-toronto/) | 2026-08-25 | Toronto is about to get a free crash course in ... | Increase bikes nearby |
-| [New laws and rules coming to Ontario next month](https://www.blogto.com/city/2026/08/new-laws-rules-ontario-september-2026/) | 2026-08-24 | Multiple new laws and rules are coming into eff... | Increase bikes nearby |
-| [3 Toronto BBQ pop-ups you need to visit before the summer ends](https://www.blogto.com/eat_drink/2026/08/toronto-barbecue/) | 2026-08-24 | Toronto summers and steaming, saucy barbecue go... | Increase bikes nearby |
-| [Massive kite festival set to take place in Ontario this coming weekend](https://www.blogto.com/radar/2026/08/hopeville-kite-festival-2026/) | 2026-08-24 | Ontario's largest kite festival, the Hopeville ... | Increase bikes nearby |
+| [Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids](https://www.blogto.com/travel/2026/08/ontarios-niagara-falls-viewing-platform-rapids/) | 2026-09-01 | Niagara Parks just opened its brand-new platfor... | Increase bikes nearby |
+| [Twin brothers buy historic Ontario church to revive local restaurant](https://www.blogto.com/eat_drink/2026/08/twin-brothers-historic-ontario-church-local-restaurant/) | 2026-09-01 | An Ontario church with more than 150 years of h... | Increase bikes nearby |
+| [How one robbery forced Toronto to name all its unnamed laneways](https://www.blogto.com/city/2026/08/robbery-toronto-laneways/) | 2026-08-31 | Toronto is home to plenty of laneways with inte... | Increase bikes nearby |
 
-*Last updated: 2026-08-24 17:27 (Toronto Time)*
+*Last updated: 2026-08-31 21:45 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: I moved to a dreamy small town in Ontario to escape city life — the reality was unexpected, This riverside village 1.5 hrs from Toronto is dotted with storybook shops and charming cafes, How much are people in Toronto willing to spend at the CNE?.... Stations near events receive adjusted predictions.*
+*Events analyzed: Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids, Twin brothers buy historic Ontario church to revive local restaurant, How one robbery forced Toronto to name all its unnamed laneways. Stations near events receive adjusted predictions.*
 
