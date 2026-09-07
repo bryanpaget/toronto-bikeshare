@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-08-31 17:45 (Toronto Time)
+Updated: 2026-09-07 16:18 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,234 | -70 |
-| **Total docks available** | 12,271 | -321 |
-| **System utilization rate** | 37.1% | +0.4% |
-| **Active stations** | 1062/1062 (100%) | -1 |
-| **Average bikes per station** | 6.8 | -0 |
+| **Total bikes available** | 5,767 | -1,467 |
+| **Total docks available** | 13,365 | +1,094 |
+| **System utilization rate** | 30.1% | -6.9% |
+| **Active stations** | 1065/1065 (100%) | +3 |
+| **Average bikes per station** | 5.4 | -1 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 208 (19.6%) | -6 |
-| **Full stations** | 61 (5.7%) | +17 |
+| **Empty stations** | 266 (25%) | +58 |
+| **Full stations** | 36 (3.4%) | -25 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| King St E / Church St | 49 | 55 |
-| 144 Harrison St | 46 | 51 |
-| Toronto Inukshuk Park | 43 | 87 |
-| Bloor St W / Manning Ave - SMART | 38 | 42 |
-| Bay St / Dundas St W | 36 | 55 |
-| Mill St / Rolling Mills Rd | 36 | 39 |
-| Alton Ave / Dundas St E (Greenwood Park) | 35 | 43 |
-| 9 Willingdon Blvd | 35 | 39 |
-| Bathurst St / Front St W | 34 | 35 |
-| 800 Fleet St (North) | 34 | 43 |
+| Kewbeach Ave / Kenilworth Ave | 54 | 61 |
+| Humber Bay Shores Park / Marine Parade Dr | 52 | 63 |
+| York St / Queens Quay W | 51 | 57 |
+| Bay St / Dundas St W | 48 | 54 |
+| King St E / Church St | 45 | 55 |
+| Queens Quay / Yonge St | 44 | 47 |
+| Queen St E / Woodward Ave | 41 | 43 |
+| Alton Ave / Dundas St E (Greenwood Park) | 39 | 41 |
+| Niagara St / Richmond St W | 38 | 42 |
+| Queens Quay E / Lower Jarvis St  | 38 | 49 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 76 | 79 |
-| York St / Queens Quay W | 56 | 57 |
-| Temperance St Station | 53 | 55 |
-| Bay St / Albert St | 45 | 63 |
-| Toronto Inukshuk Park | 42 | 87 |
-| Union Station | 41 | 43 |
-| Hanlan's Point Beach | 40 | 47 |
-| Kewbeach Ave / Kenilworth Ave | 39 | 61 |
-| Bathurst St / Dundas St W | 38 | 41 |
-| Dundas St W / Crawford St | 38 | 47 |
+| Toronto Inukshuk Park | 67 | 87 |
+| Simcoe St / Pullan Pl | 59 | 79 |
+| Temperance St Station | 50 | 55 |
+| 439 Sherbourne St | 46 | 47 |
+| Hanlan's Point Beach | 45 | 47 |
+| Frederick St / King St E | 43 | 47 |
+| Fort York  Blvd / Capreol Ct | 42 | 47 |
+| Bay St / Albert St | 41 | 63 |
+| Dundonald St / Church St | 37 | 39 |
+| Jarvis St / Isabella St | 37 | 39 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 208 |
-| Full       | 61 |
-| Available  | 793 |
+| Empty      | 266 |
+| Full       | 36 |
+| Available  | 763 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 33.2% with a standard deviation of 31.3%
-- The system is currently operating at 37% capacity
+- The mean availability is 25.2% with a standard deviation of 28.8%
+- The system is currently operating at 30% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,9 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Concert | Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids |
-| Toronto Inukshuk Park | +25% | Sports Event | Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids |
-| Bay St / Albert St | +20% | Sports Event | Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids |
+| Simcoe St / Pullan Pl | +30% | Concert | What the CNE Air Show in Toronto looked like in 2026 |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Concert | General prediction |
+| Bay St / Albert St | +20% | Sports Event | What the CNE Air Show in Toronto looked like in 2026 |
+| Toronto Inukshuk Park | +15% | Art/Cultural Event | What the CNE Air Show in Toronto looked like in 2026 |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -140,11 +141,12 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids](https://www.blogto.com/travel/2026/08/ontarios-niagara-falls-viewing-platform-rapids/) | 2026-09-01 | Niagara Parks just opened its brand-new platfor... | Increase bikes nearby |
-| [Twin brothers buy historic Ontario church to revive local restaurant](https://www.blogto.com/eat_drink/2026/08/twin-brothers-historic-ontario-church-local-restaurant/) | 2026-09-01 | An Ontario church with more than 150 years of h... | Increase bikes nearby |
-| [How one robbery forced Toronto to name all its unnamed laneways](https://www.blogto.com/city/2026/08/robbery-toronto-laneways/) | 2026-08-31 | Toronto is home to plenty of laneways with inte... | Increase bikes nearby |
+| [What the CNE Air Show in Toronto looked like in 2026](https://www.blogto.com/city/2026/09/cne-air-show-toronto-2026/) | 2026-09-08 | The Canadian International Air Show (CIAS) tore... | Increase bikes nearby |
+| [This iconic Hong Kong taxi is getting a second life on Toronto's streets](https://www.blogto.com/city/2026/09/iconic-hong-kong-taxi-toronto-streets/) | 2026-09-08 | Toronto is, in many ways, a city of myriad cult... | Increase bikes nearby |
+| [10 of the top Toronto restaurants for seeing celebrities during TIFF 2026](https://www.blogto.com/eat_drink/2026/09/toronto-restaurants-celebrity-spotting-tiff-2026/) | 2026-09-08 | The 2026 Toronto International Film Festival is... | Increase bikes nearby |
+| [Massive Toronto festival will shut down major street this month](https://www.blogto.com/radar/2026/09/roncesvalles-polish-festival-2026-toronto/) | 2026-09-07 | Toronto's Roncesvalles neighbourhood is getting... | Increase bikes nearby |
 
-*Last updated: 2026-08-31 21:45 (Toronto Time)*
+*Last updated: 2026-09-07 20:20 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Ontario's Niagara Falls just got viewing platform that lets you get close to roaring rapids, Twin brothers buy historic Ontario church to revive local restaurant, How one robbery forced Toronto to name all its unnamed laneways. Stations near events receive adjusted predictions.*
+*Events analyzed: What the CNE Air Show in Toronto looked like in 2026, This iconic Hong Kong taxi is getting a second life on Toronto's streets, 10 of the top Toronto restaurants for seeing celebrities during TIFF 2026.... Stations near events receive adjusted predictions.*
 
