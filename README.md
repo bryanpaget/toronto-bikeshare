@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-09-07 16:18 (Toronto Time)
+Updated: 2026-09-14 16:42 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 5,767 | -1,467 |
-| **Total docks available** | 13,365 | +1,094 |
-| **System utilization rate** | 30.1% | -6.9% |
-| **Active stations** | 1065/1065 (100%) | +3 |
-| **Average bikes per station** | 5.4 | -1 |
+| **Total bikes available** | 5,828 | +61 |
+| **Total docks available** | 13,267 | -98 |
+| **System utilization rate** | 30.5% | +0.4% |
+| **Active stations** | 1069/1069 (100%) | +4 |
+| **Average bikes per station** | 5.5 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 266 (25%) | +58 |
-| **Full stations** | 36 (3.4%) | -25 |
+| **Empty stations** | 233 (21.8%) | -33 |
+| **Full stations** | 28 (2.6%) | -8 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Kewbeach Ave / Kenilworth Ave | 54 | 61 |
-| Humber Bay Shores Park / Marine Parade Dr | 52 | 63 |
-| York St / Queens Quay W | 51 | 57 |
-| Bay St / Dundas St W | 48 | 54 |
-| King St E / Church St | 45 | 55 |
-| Queens Quay / Yonge St | 44 | 47 |
+| Temperance St Station | 51 | 55 |
+| Kewbeach Ave / Kenilworth Ave | 51 | 61 |
+| Bay St / Albert St | 50 | 63 |
+| Bay St / Dundas St W | 45 | 55 |
+| Simcoe St / Pullan Pl | 45 | 79 |
+| Bremner Blvd / Rees St | 44 | 49 |
+| Woodbine Ave / Lake Shore Blvd E | 42 | 43 |
+| King St E / Church St | 41 | 55 |
 | Queen St E / Woodward Ave | 41 | 43 |
-| Alton Ave / Dundas St E (Greenwood Park) | 39 | 41 |
-| Niagara St / Richmond St W | 38 | 42 |
-| Queens Quay E / Lower Jarvis St  | 38 | 49 |
+| Wellington St W / Bay St | 40 | 55 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 67 | 87 |
-| Simcoe St / Pullan Pl | 59 | 79 |
-| Temperance St Station | 50 | 55 |
-| 439 Sherbourne St | 46 | 47 |
-| Hanlan's Point Beach | 45 | 47 |
-| Frederick St / King St E | 43 | 47 |
-| Fort York  Blvd / Capreol Ct | 42 | 47 |
-| Bay St / Albert St | 41 | 63 |
+| Toronto Inukshuk Park | 49 | 87 |
+| 439 Sherbourne St | 40 | 47 |
+| Bathurst St / Dundas St W | 39 | 41 |
 | Dundonald St / Church St | 37 | 39 |
-| Jarvis St / Isabella St | 37 | 39 |
+| Jarvis St / Isabella St | 35 | 39 |
+| Dundas St W / Crawford St | 34 | 47 |
+| Bloor St W / Manning Ave - SMART | 34 | 42 |
+| Spadina Ave / Harbord St - SMART | 34 | 36 |
+| Queen St W / Ossington Ave | 33 | 43 |
+| Hanlan's Point Beach | 33 | 47 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 266 |
-| Full       | 36 |
-| Available  | 763 |
+| Empty      | 233 |
+| Full       | 27 |
+| Available  | 809 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 25.2% with a standard deviation of 28.8%
-- The system is currently operating at 30% capacity
+- The mean availability is 25% with a standard deviation of 27.4%
+- The system is currently operating at 31% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,10 +130,9 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Concert | What the CNE Air Show in Toronto looked like in 2026 |
-| Humber Bay Shores Park / Marine Parade Dr | +28% | Concert | General prediction |
-| Bay St / Albert St | +20% | Sports Event | What the CNE Air Show in Toronto looked like in 2026 |
-| Toronto Inukshuk Park | +15% | Art/Cultural Event | What the CNE Air Show in Toronto looked like in 2026 |
+| Simcoe St / Pullan Pl | +20% | Food Festival | Here are all the celebrities we saw at TIFF this weekend |
+| Humber Bay Shores Park / Marine Parade Dr | +18% | Food Festival | General prediction |
+| Kewbeach Ave / Kenilworth Ave | +12% | Art/Cultural Event | General prediction |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -141,12 +140,15 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [What the CNE Air Show in Toronto looked like in 2026](https://www.blogto.com/city/2026/09/cne-air-show-toronto-2026/) | 2026-09-08 | The Canadian International Air Show (CIAS) tore... | Increase bikes nearby |
-| [This iconic Hong Kong taxi is getting a second life on Toronto's streets](https://www.blogto.com/city/2026/09/iconic-hong-kong-taxi-toronto-streets/) | 2026-09-08 | Toronto is, in many ways, a city of myriad cult... | Increase bikes nearby |
-| [10 of the top Toronto restaurants for seeing celebrities during TIFF 2026](https://www.blogto.com/eat_drink/2026/09/toronto-restaurants-celebrity-spotting-tiff-2026/) | 2026-09-08 | The 2026 Toronto International Film Festival is... | Increase bikes nearby |
-| [Massive Toronto festival will shut down major street this month](https://www.blogto.com/radar/2026/09/roncesvalles-polish-festival-2026-toronto/) | 2026-09-07 | Toronto's Roncesvalles neighbourhood is getting... | Increase bikes nearby |
+| [This 2.5 hr train trip from Toronto takes you to a lakeside city with autumn-in-Europe charm](https://www.narcity.com/toronto/via-rail-toronto-to-kingston-route-fall-colours-getaway) | 2026-09-14 | You can skip the long-haul flight and still enj... | Increase bikes nearby |
+| [Here are all the celebrities we saw at TIFF this weekend](https://www.blogto.com/film/2026/09/here-are-all-celebrities-we-saw-tiff-weekend/) | 2026-09-15 | Toronto was packed with stars this past week as... | Increase bikes nearby |
+| [People in Toronto spent hours lined up for instant noodles you can get anywhere](https://www.blogto.com/eat_drink/2026/09/people-toronto-lined-instant-ramen/) | 2026-09-15 | TIFF 2026 has been making headlines since it of... | Increase bikes nearby |
+| [Everywhere in Toronto celebrities have been eating and partying during TIFF](https://www.blogto.com/eat_drink/2026/09/toronto-celebrities-eating-partying-tiff/) | 2026-09-15 | The 2026 Toronto International Film Festival is... | Increase bikes nearby |
+| [Cole Sprouse is huge fan of the TTC and even rode a streetcar to TIFF](https://www.blogto.com/city/2026/09/cole-sprouse-ttc-toronto/) | 2026-09-15 | Even that "Suite Life" wasn't enough to turn Co... | Increase bikes nearby |
+| [What Richmond Street used to look like in Toronto](https://www.blogto.com/city/2026/09/richmond-street-used-look-toronto/) | 2026-09-15 | If you're heading down Richmond Street this wee... | Increase bikes nearby |
+| [Get Halloween ready in Toronto and join this new tradition for inclusion](https://www.blogto.com/fashion_style/2026/09/treat-accessibly-halloween-2026/) | 2026-09-15 | Halloween is right around the corner, which mea... | Increase bikes nearby |
 
-*Last updated: 2026-09-07 20:20 (Toronto Time)*
+*Last updated: 2026-09-14 20:44 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: What the CNE Air Show in Toronto looked like in 2026, This iconic Hong Kong taxi is getting a second life on Toronto's streets, 10 of the top Toronto restaurants for seeing celebrities during TIFF 2026.... Stations near events receive adjusted predictions.*
+*Events analyzed: This 2.5 hr train trip from Toronto takes you to a lakeside city with autumn-in-Europe charm, Here are all the celebrities we saw at TIFF this weekend, People in Toronto spent hours lined up for instant noodles you can get anywhere.... Stations near events receive adjusted predictions.*
 
