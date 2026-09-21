@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-09-14 16:42 (Toronto Time)
+Updated: 2026-09-21 16:44 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 5,828 | +61 |
-| **Total docks available** | 13,267 | -98 |
-| **System utilization rate** | 30.5% | +0.4% |
-| **Active stations** | 1069/1069 (100%) | +4 |
-| **Average bikes per station** | 5.5 | +0 |
+| **Total bikes available** | 6,114 | +286 |
+| **Total docks available** | 13,028 | -239 |
+| **System utilization rate** | 31.9% | +1.4% |
+| **Active stations** | 1070/1070 (100%) | +1 |
+| **Average bikes per station** | 5.7 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 233 (21.8%) | -33 |
-| **Full stations** | 28 (2.6%) | -8 |
+| **Empty stations** | 232 (21.7%) | -1 |
+| **Full stations** | 32 (3%) | +4 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Temperance St Station | 51 | 55 |
+| Wellington St W / Bay St | 55 | 55 |
+| King St E / Church St | 53 | 55 |
+| Temperance St Station | 52 | 55 |
 | Kewbeach Ave / Kenilworth Ave | 51 | 61 |
-| Bay St / Albert St | 50 | 63 |
-| Bay St / Dundas St W | 45 | 55 |
-| Simcoe St / Pullan Pl | 45 | 79 |
-| Bremner Blvd / Rees St | 44 | 49 |
-| Woodbine Ave / Lake Shore Blvd E | 42 | 43 |
-| King St E / Church St | 41 | 55 |
-| Queen St E / Woodward Ave | 41 | 43 |
-| Wellington St W / Bay St | 40 | 55 |
+| Humber Bay Shores Park / Marine Parade Dr | 41 | 63 |
+| Front St W / Yonge St (Hockey Hall of Fame) | 40 | 47 |
+| Queens Quay / Yonge St | 40 | 47 |
+| Bay St / Dundas St W | 40 | 55 |
+| King St W / University Ave | 38 | 39 |
+| Bay St / Albert St | 37 | 63 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 49 | 87 |
-| 439 Sherbourne St | 40 | 47 |
-| Bathurst St / Dundas St W | 39 | 41 |
-| Dundonald St / Church St | 37 | 39 |
-| Jarvis St / Isabella St | 35 | 39 |
-| Dundas St W / Crawford St | 34 | 47 |
-| Bloor St W / Manning Ave - SMART | 34 | 42 |
-| Spadina Ave / Harbord St - SMART | 34 | 36 |
-| Queen St W / Ossington Ave | 33 | 43 |
-| Hanlan's Point Beach | 33 | 47 |
+| Toronto Inukshuk Park | 64 | 87 |
+| Simcoe St / Pullan Pl | 51 | 79 |
+| Dundas St W / Crawford St | 40 | 47 |
+| Bremner Blvd / Rees St | 39 | 49 |
+| Bloor St W / Manning Ave - SMART | 39 | 42 |
+| Mill St / Tannery Rd | 38 | 39 |
+| Northern Dancer Blvd / Lake Shore Blvd E | 38 | 41 |
+| Queen St W / Ossington Ave | 37 | 43 |
+| Dundonald St / Church St | 36 | 39 |
+| Cherry Beach | 36 | 49 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 233 |
-| Full       | 27 |
-| Available  | 809 |
+| Empty      | 232 |
+| Full       | 32 |
+| Available  | 806 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 25% with a standard deviation of 27.4%
-- The system is currently operating at 31% capacity
+- The mean availability is 26.4% with a standard deviation of 28.5%
+- The system is currently operating at 32% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,9 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +20% | Food Festival | Here are all the celebrities we saw at TIFF this weekend |
-| Humber Bay Shores Park / Marine Parade Dr | +18% | Food Festival | General prediction |
-| Kewbeach Ave / Kenilworth Ave | +12% | Art/Cultural Event | General prediction |
+| Simcoe St / Pullan Pl | +30% | Sports Event | 'La Bola Negra' wins People's Choice Award at Toronto International Film Festival |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
+| Toronto Inukshuk Park | +25% | Sports Event | 'La Bola Negra' wins People's Choice Award at Toronto International Film Festival |
+| Kewbeach Ave / Kenilworth Ave | +22% | Sports Event | General prediction |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -140,15 +141,16 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [This 2.5 hr train trip from Toronto takes you to a lakeside city with autumn-in-Europe charm](https://www.narcity.com/toronto/via-rail-toronto-to-kingston-route-fall-colours-getaway) | 2026-09-14 | You can skip the long-haul flight and still enj... | Increase bikes nearby |
-| [Here are all the celebrities we saw at TIFF this weekend](https://www.blogto.com/film/2026/09/here-are-all-celebrities-we-saw-tiff-weekend/) | 2026-09-15 | Toronto was packed with stars this past week as... | Increase bikes nearby |
-| [People in Toronto spent hours lined up for instant noodles you can get anywhere](https://www.blogto.com/eat_drink/2026/09/people-toronto-lined-instant-ramen/) | 2026-09-15 | TIFF 2026 has been making headlines since it of... | Increase bikes nearby |
-| [Everywhere in Toronto celebrities have been eating and partying during TIFF](https://www.blogto.com/eat_drink/2026/09/toronto-celebrities-eating-partying-tiff/) | 2026-09-15 | The 2026 Toronto International Film Festival is... | Increase bikes nearby |
-| [Cole Sprouse is huge fan of the TTC and even rode a streetcar to TIFF](https://www.blogto.com/city/2026/09/cole-sprouse-ttc-toronto/) | 2026-09-15 | Even that "Suite Life" wasn't enough to turn Co... | Increase bikes nearby |
-| [What Richmond Street used to look like in Toronto](https://www.blogto.com/city/2026/09/richmond-street-used-look-toronto/) | 2026-09-15 | If you're heading down Richmond Street this wee... | Increase bikes nearby |
-| [Get Halloween ready in Toronto and join this new tradition for inclusion](https://www.blogto.com/fashion_style/2026/09/treat-accessibly-halloween-2026/) | 2026-09-15 | Halloween is right around the corner, which mea... | Increase bikes nearby |
+| ['La Bola Negra' wins People's Choice Award at Toronto International Film Festival](https://www.narcity.com/toronto/la-bola-negra-wins-tiff-peoples-choice-award) | 2026-09-21 | "La Bola Negra," an epic film about the interco... | Increase bikes nearby |
+| [Toronto Blue Jays could win every remaining game and still miss playoffs](https://www.blogto.com/sports_play/2026/09/toronto-blue-jays-could-win-yet-still-miss-playoffs/) | 2026-09-22 | The Toronto Blue Jays' playoff chances are look... | Increase bikes nearby |
+| [Celebrities have been spotted at restaurants all over Ontario lately](https://www.blogto.com/eat_drink/2026/09/celebrities-spotted-ontario/) | 2026-09-22 | As the Toronto International Film Festival wrap... | Increase bikes nearby |
+| [These Raptors legends were in Toronto this weekend to celebrate Kyle Lowry](https://www.blogto.com/sports_play/2026/09/toronto-raptors-legends-celebrate-kyle-lowry/) | 2026-09-22 | The Raptors rolled out the red carpet on Saturd... | Increase bikes nearby |
+| [Toronto mall parking lot transforms into enormous haunted maze this week](https://www.blogto.com/radar/2026/09/night-of-lights-toronto/) | 2026-09-22 | Crisp fall air, pumpkin-spiced everything, and ... | Increase bikes nearby |
+| [Much-anticipated Toronto restaurant finally opens next week](https://www.blogto.com/eat_drink/2026/09/shay-ristorante-toronto-opening/) | 2026-09-22 | An upcoming Toronto restaurant that's been in t... | Increase bikes nearby |
+| [Toronto residents struggle to name the city's original 6 boroughs](https://www.blogto.com/city/2026/09/toronto-residents-name-citys-original-boroughs/) | 2026-09-22 | Many who use Toronto's '6ix' moniker may not kn... | Monitor usage |
+| [Toronto Blue Jays' Cease is injured and could miss rest of season](https://www.blogto.com/sports_play/2026/09/toronto-blue-jays-cease-injured-and-could-miss-rest-season/) | 2026-09-21 | The bad news just keeps on coming for the Toron... | Increase bikes nearby |
 
-*Last updated: 2026-09-14 20:44 (Toronto Time)*
+*Last updated: 2026-09-21 20:45 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: This 2.5 hr train trip from Toronto takes you to a lakeside city with autumn-in-Europe charm, Here are all the celebrities we saw at TIFF this weekend, People in Toronto spent hours lined up for instant noodles you can get anywhere.... Stations near events receive adjusted predictions.*
+*Events analyzed: 'La Bola Negra' wins People's Choice Award at Toronto International Film Festival, Toronto Blue Jays could win every remaining game and still miss playoffs, Celebrities have been spotted at restaurants all over Ontario lately.... Stations near events receive adjusted predictions.*
 
