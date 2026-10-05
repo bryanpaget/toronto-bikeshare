@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-09-28 18:22 (Toronto Time)
+Updated: 2026-10-05 19:02 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,424 | +310 |
-| **Total docks available** | 12,779 | -249 |
-| **System utilization rate** | 33.5% | +1.5% |
-| **Active stations** | 1071/1071 (100%) | +1 |
-| **Average bikes per station** | 6 | +0 |
+| **Total bikes available** | 7,072 | +648 |
+| **Total docks available** | 12,317 | -462 |
+| **System utilization rate** | 36.5% | +3.0% |
+| **Active stations** | 1074/1074 (100%) | +3 |
+| **Average bikes per station** | 6.6 | +1 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 204 (19%) | -28 |
-| **Full stations** | 39 (3.6%) | +7 |
+| **Empty stations** | 174 (16.2%) | -30 |
+| **Full stations** | 48 (4.5%) | +9 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| King St E / Church St | 53 | 55 |
-| Toronto Inukshuk Park | 52 | 87 |
-| Humber Bay Shores Park / Marine Parade Dr | 50 | 63 |
-| Kewbeach Ave / Kenilworth Ave | 49 | 61 |
-| Queens Quay / Yonge St | 43 | 47 |
-| Northern Dancer Blvd / Lake Shore Blvd E | 40 | 41 |
+| Kewbeach Ave / Kenilworth Ave | 55 | 61 |
+| Humber Bay Shores Park / Marine Parade Dr | 47 | 63 |
+| Queens Quay E / Lower Jarvis St  | 42 | 49 |
 | Alton Ave / Dundas St E (Greenwood Park) | 39 | 41 |
-| 100 Grangeway Ave  | 38 | 39 |
-| Hubbard Blvd / Balsam Av | 37 | 39 |
-| Aitken Place Park | 36 | 39 |
+| 2700 Eglinton Ave W | 39 | 43 |
+| Woodbine Ave / Lake Shore Blvd E | 38 | 43 |
+| Bay St / Dundas St W | 37 | 55 |
+| Temperance St Station | 36 | 55 |
+| King St E / Church St | 36 | 55 |
+| Hubbard Blvd / Balsam Av | 35 | 39 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 76 | 79 |
-| Bay St / Albert St | 44 | 63 |
-| Wellington St W / Bay St | 44 | 55 |
-| York St / Queens Quay W | 41 | 57 |
-| Bathurst St / Dundas St W | 38 | 41 |
-| Temperance St Station | 37 | 55 |
-| Frederick St / King St E | 36 | 47 |
-| 91 Via Italia | 36 | 39 |
-| Huron St / Harbord St | 35 | 39 |
-| 439 Sherbourne St | 35 | 47 |
+| Simcoe St / Pullan Pl | 72 | 79 |
+| Wellington St W / Bay St | 47 | 55 |
+| York St / Queens Quay W | 47 | 57 |
+| Bremner Blvd / Rees St | 45 | 49 |
+| Cherry Beach | 45 | 49 |
+| Bloor St W / Manning Ave - SMART | 39 | 42 |
+| 439 Sherbourne St | 38 | 47 |
+| Bathurst St / Dundas St W | 36 | 41 |
+| Frederick St / King St E | 35 | 47 |
+| Queen St W / Ossington Ave | 34 | 43 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 204 |
-| Full       | 39 |
-| Available  | 828 |
+| Empty      | 174 |
+| Full       | 48 |
+| Available  | 852 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 28.9% with a standard deviation of 28.6%
-- The system is currently operating at 33% capacity
+- The mean availability is 32.2% with a standard deviation of 30.6%
+- The system is currently operating at 36% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,11 +130,9 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
-| Toronto Inukshuk Park | +25% | Sports Event | 'Game-changer': After landing McKenna, new-look Maple Leafs eyeing quick rebound |
-| Kewbeach Ave / Kenilworth Ave | +22% | Sports Event | General prediction |
-| Simcoe St / Pullan Pl | +20% | Food Festival | 'Game-changer': After landing McKenna, new-look Maple Leafs eyeing quick rebound |
-| Bay St / Albert St | +20% | Sports Event | 'Game-changer': After landing McKenna, new-look Maple Leafs eyeing quick rebound |
+| Bay St / Albert St | +30% | Sports Event | This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes |
+| Simcoe St / Pullan Pl | +25% | Sports Event | This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes |
+| Humber Bay Shores Park / Marine Parade Dr | +20% | Sports Event | This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -142,14 +140,11 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| ['Game-changer': After landing McKenna, new-look Maple Leafs eyeing quick rebound](https://www.narcity.com/toronto/maple-leafs-looking-to-rebound-after-ugly-season) | 2026-09-29 | William Nylander was hanging out up top in a pr... | Increase bikes nearby |
-| [This real-life Hallmark town 1 hour from Toronto has cozy cafes and endless autumn charm](https://www.narcity.com/toronto/small-town-near-toronto-port-perry-fall-things-to-do-hallmark-movie) | 2026-09-28 | You don't have to go far from Toronto to feel l... | Increase bikes nearby |
-| [Former Toronto Raptors star Brandon Ingram has a serious injury](https://www.blogto.com/sports_play/2026/09/former-toronto-raptors-brandon-ingram-injury/) | 2026-09-29 | It seems the Toronto Raptors may have dodged a ... | Increase bikes nearby |
-| [What Kawhi Leonard said about his iconic laugh in return to Toronto](https://www.blogto.com/sports_play/2026/09/raptors-kawhi-leonard-laugh/) | 2026-09-29 | Hundreds of media members packed Toronto's Hote... | Increase bikes nearby |
-| [Canada issues urgent new warning for travellers headed to Mexico](https://www.blogto.com/travel/2026/09/canada-urgent-warning-travel-mexico/) | 2026-09-29 | Canadian travellers with upcoming trips to Mexi... | Increase bikes nearby |
-| [Toronto's iconic Distillery Winter Village 2026 returns this November](https://www.blogto.com/radar/2026/09/toronto-distillery-winter-village-returns-2026/) | 2026-09-29 | Nothing marks the start of the holiday season q... | Increase bikes nearby |
+| [I'm a lifelong Toronto local and I have beef with these 6 things everyone seems to love](https://www.narcity.com/toronto/overrated-toronto-spots-locals-might-disagree) | 2026-10-06 | There is no shortage of things to do in Toronto... | Increase bikes nearby |
+| [This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes](https://www.narcity.com/toronto/small-towns-near-toronto-st-marys-via-rail-tickets-weekend-getaway) | 2026-10-05 | You don't need a car to enjoy a small-town week... | Increase bikes nearby |
+| [North America's most European city is a road trip from Toronto and it's magical in the fall](https://www.narcity.com/toronto/quebec-city-road-trip-from-toronto-fall-getaway) | 2026-10-05 | A European-style fall getaway may be closer tha... | Increase bikes nearby |
 
-*Last updated: 2026-09-28 22:23 (Toronto Time)*
+*Last updated: 2026-10-05 23:03 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: 'Game-changer': After landing McKenna, new-look Maple Leafs eyeing quick rebound, This real-life Hallmark town 1 hour from Toronto has cozy cafes and endless autumn charm, Former Toronto Raptors star Brandon Ingram has a serious injury.... Stations near events receive adjusted predictions.*
+*Events analyzed: I'm a lifelong Toronto local and I have beef with these 6 things everyone seems to love, This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes, North America's most European city is a road trip from Toronto and it's magical in the fall. Stations near events receive adjusted predictions.*
 
