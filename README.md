@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-10-05 19:02 (Toronto Time)
+Updated: 2026-10-12 19:23 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,072 | +648 |
-| **Total docks available** | 12,317 | -462 |
-| **System utilization rate** | 36.5% | +3.0% |
-| **Active stations** | 1074/1074 (100%) | +3 |
-| **Average bikes per station** | 6.6 | +1 |
+| **Total bikes available** | 7,873 | +801 |
+| **Total docks available** | 12,319 | +2 |
+| **System utilization rate** | 39% | +2.5% |
+| **Active stations** | 1075/1075 (100%) | +1 |
+| **Average bikes per station** | 7.3 | +1 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 174 (16.2%) | -30 |
-| **Full stations** | 48 (4.5%) | +9 |
+| **Empty stations** | 126 (11.7%) | -48 |
+| **Full stations** | 53 (4.9%) | +5 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Kewbeach Ave / Kenilworth Ave | 55 | 61 |
-| Humber Bay Shores Park / Marine Parade Dr | 47 | 63 |
-| Queens Quay E / Lower Jarvis St  | 42 | 49 |
-| Alton Ave / Dundas St E (Greenwood Park) | 39 | 41 |
-| 2700 Eglinton Ave W | 39 | 43 |
-| Woodbine Ave / Lake Shore Blvd E | 38 | 43 |
-| Bay St / Dundas St W | 37 | 55 |
-| Temperance St Station | 36 | 55 |
-| King St E / Church St | 36 | 55 |
-| Hubbard Blvd / Balsam Av | 35 | 39 |
+| King St E / Church St | 50 | 55 |
+| Bay St / Albert St | 49 | 63 |
+| Bay St / Dundas St W | 48 | 55 |
+| Bremner Blvd / Rees St | 47 | 49 |
+| Queens Quay E / Lower Jarvis St  | 45 | 48 |
+| Toronto Inukshuk Park | 43 | 87 |
+| Niagara St / Richmond St W | 41 | 42 |
+| Union Station | 39 | 43 |
+| 265 Armadale Ave | 39 | 45 |
+| Mill St / Cherry St | 38 | 39 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 72 | 79 |
-| Wellington St W / Bay St | 47 | 55 |
-| York St / Queens Quay W | 47 | 57 |
-| Bremner Blvd / Rees St | 45 | 49 |
-| Cherry Beach | 45 | 49 |
-| Bloor St W / Manning Ave - SMART | 39 | 42 |
-| 439 Sherbourne St | 38 | 47 |
-| Bathurst St / Dundas St W | 36 | 41 |
-| Frederick St / King St E | 35 | 47 |
-| Queen St W / Ossington Ave | 34 | 43 |
+| Simcoe St / Pullan Pl | 66 | 79 |
+| Temperance St Station | 45 | 55 |
+| Wellington St W / Bay St | 43 | 55 |
+| 439 Sherbourne St | 43 | 47 |
+| Kewbeach Ave / Kenilworth Ave | 41 | 61 |
+| Humber Bay Shores Park / Marine Parade Dr | 41 | 63 |
+| Toronto Inukshuk Park | 40 | 87 |
+| Mill St / Tannery Rd | 38 | 39 |
+| Bathurst St / Dundas St W | 37 | 41 |
+| Cherry Beach | 37 | 49 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 174 |
-| Full       | 48 |
-| Available  | 852 |
+| Empty      | 126 |
+| Full       | 53 |
+| Available  | 896 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 32.2% with a standard deviation of 30.6%
-- The system is currently operating at 36% capacity
+- The mean availability is 35.9% with a standard deviation of 30.4%
+- The system is currently operating at 39% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,9 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Bay St / Albert St | +30% | Sports Event | This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes |
-| Simcoe St / Pullan Pl | +25% | Sports Event | This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes |
-| Humber Bay Shores Park / Marine Parade Dr | +20% | Sports Event | This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes |
+| Simcoe St / Pullan Pl | +30% | Concert | Backstreet Boys extend Toronto residency to 11 nights |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Concert | General prediction |
+| Toronto Inukshuk Park | +25% | Sports Event | Backstreet Boys extend Toronto residency to 11 nights |
+| Kewbeach Ave / Kenilworth Ave | +22% | Concert | General prediction |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -140,11 +141,13 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [I'm a lifelong Toronto local and I have beef with these 6 things everyone seems to love](https://www.narcity.com/toronto/overrated-toronto-spots-locals-might-disagree) | 2026-10-06 | There is no shortage of things to do in Toronto... | Increase bikes nearby |
-| [This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes](https://www.narcity.com/toronto/small-towns-near-toronto-st-marys-via-rail-tickets-weekend-getaway) | 2026-10-05 | You don't need a car to enjoy a small-town week... | Increase bikes nearby |
-| [North America's most European city is a road trip from Toronto and it's magical in the fall](https://www.narcity.com/toronto/quebec-city-road-trip-from-toronto-fall-getaway) | 2026-10-05 | A European-style fall getaway may be closer tha... | Increase bikes nearby |
+| [Toronto voters want action on affordability, housing ahead of municipal election](https://www.narcity.com/toronto/affordability-tops-voters-concerns-in-toronto) | 2026-10-13 | As Toronto's leading mayoral candidates criss-c... | Increase bikes nearby |
+| [Backstreet Boys extend Toronto residency to 11 nights](https://www.narcity.com/toronto/backstreet-boys-add-more-toronto-show-dates) | 2026-10-12 | Hit '90s boyband The Backstreet Boys are adding... | Increase bikes nearby |
+| [This Hallmark town 1 hour from Toronto has charming streets and lakeside boardwalks](https://www.narcity.com/toronto/small-town-near-toronto-orangeville-day-trip-things-to-do-hikes) | 2026-10-12 | Fall is the perfect time to visit a quaint smal... | Increase bikes nearby |
+| [This Toronto design studio used to operate out of a U-Haul truck](https://www.blogto.com/fashion_style/2026/10/beyond-space-toronto/) | 2026-10-13 | What began as a philosophical question in a hig... | Increase bikes nearby |
+| [This massive 10-acre Ontario corn maze is hiding a secret inside](https://www.blogto.com/travel/2026/10/buzzing-bees-farm-corn-maze/) | 2026-10-12 | You can literally get lost in the fall seasonal... | Increase bikes nearby |
 
-*Last updated: 2026-10-05 23:03 (Toronto Time)*
+*Last updated: 2026-10-12 23:25 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: I'm a lifelong Toronto local and I have beef with these 6 things everyone seems to love, This $38 train from Toronto takes you to a beautiful riverside town with cozy European vibes, North America's most European city is a road trip from Toronto and it's magical in the fall. Stations near events receive adjusted predictions.*
+*Events analyzed: Toronto voters want action on affordability, housing ahead of municipal election, Backstreet Boys extend Toronto residency to 11 nights, This Hallmark town 1 hour from Toronto has charming streets and lakeside boardwalks.... Stations near events receive adjusted predictions.*
 
