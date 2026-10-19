@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-10-12 19:23 (Toronto Time)
+Updated: 2026-10-19 17:20 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,873 | +801 |
-| **Total docks available** | 12,319 | +2 |
-| **System utilization rate** | 39% | +2.5% |
-| **Active stations** | 1075/1075 (100%) | +1 |
-| **Average bikes per station** | 7.3 | +1 |
+| **Total bikes available** | 6,297 | -1,576 |
+| **Total docks available** | 13,028 | +709 |
+| **System utilization rate** | 32.6% | -6.4% |
+| **Active stations** | 1069/1069 (100%) | -6 |
+| **Average bikes per station** | 5.9 | -1 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 126 (11.7%) | -48 |
-| **Full stations** | 53 (4.9%) | +5 |
+| **Empty stations** | 203 (19%) | +77 |
+| **Full stations** | 14 (1.3%) | -39 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| King St E / Church St | 50 | 55 |
+| Simcoe St / Pullan Pl | 63 | 79 |
+| Kewbeach Ave / Kenilworth Ave | 50 | 61 |
 | Bay St / Albert St | 49 | 63 |
-| Bay St / Dundas St W | 48 | 55 |
-| Bremner Blvd / Rees St | 47 | 49 |
-| Queens Quay E / Lower Jarvis St  | 45 | 48 |
-| Toronto Inukshuk Park | 43 | 87 |
-| Niagara St / Richmond St W | 41 | 42 |
-| Union Station | 39 | 43 |
-| 265 Armadale Ave | 39 | 45 |
-| Mill St / Cherry St | 38 | 39 |
+| Bay St / Dundas St W | 46 | 55 |
+| Wellington St W / Bay St | 44 | 55 |
+| Queens Quay E / Lower Jarvis St  | 44 | 48 |
+| Front St W / Yonge St (Hockey Hall of Fame) | 42 | 47 |
+| Temperance St Station | 40 | 55 |
+| Cherry Beach | 39 | 49 |
+| Union Station | 38 | 43 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 66 | 79 |
-| Temperance St Station | 45 | 55 |
-| Wellington St W / Bay St | 43 | 55 |
-| 439 Sherbourne St | 43 | 47 |
-| Kewbeach Ave / Kenilworth Ave | 41 | 61 |
-| Humber Bay Shores Park / Marine Parade Dr | 41 | 63 |
-| Toronto Inukshuk Park | 40 | 87 |
-| Mill St / Tannery Rd | 38 | 39 |
-| Bathurst St / Dundas St W | 37 | 41 |
-| Cherry Beach | 37 | 49 |
+| Toronto Inukshuk Park | 80 | 87 |
+| 439 Sherbourne St | 44 | 47 |
+| Bloor St W / Manning Ave - SMART | 40 | 42 |
+| Bathurst St / Dundas St W | 39 | 41 |
+| Jarvis St / Isabella St | 38 | 39 |
+| Fort York  Blvd / Capreol Ct | 36 | 47 |
+| York St / Queens Quay W | 36 | 57 |
+| University Ave / Elm St | 35 | 35 |
+| Yonge St / Orchard View Blvd | 35 | 35 |
+| King St W / Bay St (West Side) | 34 | 39 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 126 |
-| Full       | 53 |
-| Available  | 896 |
+| Empty      | 203 |
+| Full       | 14 |
+| Available  | 852 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 35.9% with a standard deviation of 30.4%
-- The system is currently operating at 39% capacity
+- The mean availability is 27.8% with a standard deviation of 26.8%
+- The system is currently operating at 33% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,10 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Concert | Backstreet Boys extend Toronto residency to 11 nights |
-| Humber Bay Shores Park / Marine Parade Dr | +28% | Concert | General prediction |
-| Toronto Inukshuk Park | +25% | Sports Event | Backstreet Boys extend Toronto residency to 11 nights |
-| Kewbeach Ave / Kenilworth Ave | +22% | Concert | General prediction |
+| Simcoe St / Pullan Pl | +30% | Concert | How community organizations are trying to fight voter apathy in this Toronto election |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
+| Kewbeach Ave / Kenilworth Ave | +22% | Sports Event | General prediction |
+| Bay St / Albert St | +20% | Concert | How community organizations are trying to fight voter apathy in this Toronto election |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -141,13 +141,12 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Toronto voters want action on affordability, housing ahead of municipal election](https://www.narcity.com/toronto/affordability-tops-voters-concerns-in-toronto) | 2026-10-13 | As Toronto's leading mayoral candidates criss-c... | Increase bikes nearby |
-| [Backstreet Boys extend Toronto residency to 11 nights](https://www.narcity.com/toronto/backstreet-boys-add-more-toronto-show-dates) | 2026-10-12 | Hit '90s boyband The Backstreet Boys are adding... | Increase bikes nearby |
-| [This Hallmark town 1 hour from Toronto has charming streets and lakeside boardwalks](https://www.narcity.com/toronto/small-town-near-toronto-orangeville-day-trip-things-to-do-hikes) | 2026-10-12 | Fall is the perfect time to visit a quaint smal... | Increase bikes nearby |
-| [This Toronto design studio used to operate out of a U-Haul truck](https://www.blogto.com/fashion_style/2026/10/beyond-space-toronto/) | 2026-10-13 | What began as a philosophical question in a hig... | Increase bikes nearby |
-| [This massive 10-acre Ontario corn maze is hiding a secret inside](https://www.blogto.com/travel/2026/10/buzzing-bees-farm-corn-maze/) | 2026-10-12 | You can literally get lost in the fall seasonal... | Increase bikes nearby |
+| [How community organizations are trying to fight voter apathy in this Toronto election](https://www.narcity.com/toronto/community-events-aim-to-engage-toronto-voters) | 2026-10-20 | Music blasted through speakers as people chatte... | Increase bikes nearby |
+| [Scottie Barnes was in a singing mood at Toronto Raptors Halloween party](https://www.blogto.com/sports_play/2026/10/scottie-barnes-toronto-raptors-halloween-party/) | 2026-10-20 | With the regular season set to tip off on Wedne... | Increase bikes nearby |
+| [Toronto Blue Jays expected to target Japanese power hitter in free agency](https://www.blogto.com/sports_play/2026/10/toronto-blue-jays-target-japanese-power-hitter/) | 2026-10-20 | There's another big-name Japanese star hitting ... | Increase bikes nearby |
+| [Toronto's favourite Christmas bar is going to be tastier than ever in 2026](https://www.blogto.com/eat_drink/2026/10/miracle-christmas-bar-toronto/) | 2026-10-20 | Toronto's Miracle Christmas Bar is bringing hol... | Increase bikes nearby |
 
-*Last updated: 2026-10-12 23:25 (Toronto Time)*
+*Last updated: 2026-10-19 21:20 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Toronto voters want action on affordability, housing ahead of municipal election, Backstreet Boys extend Toronto residency to 11 nights, This Hallmark town 1 hour from Toronto has charming streets and lakeside boardwalks.... Stations near events receive adjusted predictions.*
+*Events analyzed: How community organizations are trying to fight voter apathy in this Toronto election, Scottie Barnes was in a singing mood at Toronto Raptors Halloween party, Toronto Blue Jays expected to target Japanese power hitter in free agency.... Stations near events receive adjusted predictions.*
 
