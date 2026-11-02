@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-10-26 17:16 (Toronto Time)
+Updated: 2026-11-02 18:45 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 6,852 | +555 |
-| **Total docks available** | 12,820 | -208 |
-| **System utilization rate** | 34.8% | +2.2% |
-| **Active stations** | 1071/1071 (100%) | +2 |
-| **Average bikes per station** | 6.4 | +1 |
+| **Total bikes available** | 7,536 | +684 |
+| **Total docks available** | 12,216 | -604 |
+| **System utilization rate** | 38.2% | +3.3% |
+| **Active stations** | 1075/1075 (100%) | +4 |
+| **Average bikes per station** | 7 | +1 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 199 (18.6%) | -4 |
-| **Full stations** | 34 (3.2%) | +20 |
+| **Empty stations** | 164 (15.3%) | -35 |
+| **Full stations** | 47 (4.4%) | +13 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Toronto Inukshuk Park | 79 | 87 |
-| Bay St / Albert St | 54 | 63 |
-| Humber Bay Shores Park / Marine Parade Dr | 46 | 63 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 45 | 47 |
-| Kewbeach Ave / Kenilworth Ave | 44 | 61 |
-| Queen St E / Woodward Ave | 43 | 43 |
-| Alton Ave / Dundas St E (Greenwood Park) | 41 | 42 |
-| Woodbine Ave / Lake Shore Blvd E | 39 | 43 |
-| 2700 Eglinton Ave W | 39 | 43 |
-| Temperance St Station | 38 | 55 |
+| Kewbeach Ave / Kenilworth Ave | 60 | 61 |
+| Humber Bay Shores Park / Marine Parade Dr | 59 | 63 |
+| Atlantic Ave / Liberty St | 52 | 59 |
+| Frederick St / King St E | 47 | 47 |
+| Cherry Beach | 44 | 49 |
+| Alton Ave / Dundas St E (Greenwood Park) | 43 | 43 |
+| Woodbine Ave / Lake Shore Blvd E | 43 | 43 |
+| Queens Quay E / Lower Jarvis St  | 43 | 48 |
+| Temperance St Station | 42 | 55 |
+| Front St W / Yonge St (Hockey Hall of Fame) | 40 | 47 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
 | Simcoe St / Pullan Pl | 58 | 79 |
-| Queen St W / Ossington Ave | 41 | 43 |
-| Bloor St W / Manning Ave - SMART | 40 | 42 |
-| Bathurst St / Dundas St W | 39 | 41 |
-| Fort York  Blvd / Capreol Ct | 37 | 47 |
-| Niagara St / Richmond St W | 35 | 42 |
-| Frederick St / King St E | 35 | 47 |
-| Yonge St / Orchard View Blvd | 34 | 35 |
-| 439 Sherbourne St | 34 | 47 |
-| University Ave / Elm St | 33 | 35 |
+| Wellington St W / Bay St | 51 | 55 |
+| Toronto Inukshuk Park | 49 | 87 |
+| 439 Sherbourne St | 43 | 47 |
+| Bathurst St / Dundas St W | 40 | 41 |
+| Dundas St W / Crawford St | 39 | 47 |
+| Jarvis St / Isabella St | 38 | 39 |
+| Bay St / Dundas St W | 38 | 55 |
+| Bay St / Albert St | 37 | 63 |
+| Queen St W / Ossington Ave | 37 | 43 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 199 |
-| Full       | 33 |
-| Available  | 839 |
+| Empty      | 164 |
+| Full       | 47 |
+| Available  | 864 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 30.1% with a standard deviation of 29.2%
-- The system is currently operating at 35% capacity
+- The mean availability is 33.7% with a standard deviation of 30.8%
+- The system is currently operating at 38% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,10 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +20% | Outdoor Activity | Eric Bauza, Toronto-born voice of Bugs Bunny and Daffy Duck, dies at 46 |
-| Bay St / Albert St | +20% | Sports Event | Eric Bauza, Toronto-born voice of Bugs Bunny and Daffy Duck, dies at 46 |
-| Humber Bay Shores Park / Marine Parade Dr | +18% | Food Festival | General prediction |
-| Toronto Inukshuk Park | +15% | Art/Cultural Event | Eric Bauza, Toronto-born voice of Bugs Bunny and Daffy Duck, dies at 46 |
+| Toronto Inukshuk Park | +25% | Sports Event | Canada's most romantic city is a road trip from Toronto and has wintry European charm |
+| Simcoe St / Pullan Pl | +20% | Food Festival | Canada's most romantic city is a road trip from Toronto and has wintry European charm |
+| Bay St / Albert St | +20% | Sports Event | Canada's most romantic city is a road trip from Toronto and has wintry European charm |
+| Humber Bay Shores Park / Marine Parade Dr | +18% | Art/Cultural Event | General prediction |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -141,18 +141,12 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Eric Bauza, Toronto-born voice of Bugs Bunny and Daffy Duck, dies at 46](https://www.narcity.com/toronto/eric-bauza-toronto-born-voice-of-bugs-bunny-dies-at-46) | 2026-10-27 | Eric Bauza, the Toronto-born voice actor who br... | Increase bikes nearby |
-| [Man, 35, arrested in second-degree murder in Mississauga, Ont., homicide: police](https://www.narcity.com/toronto/police-id-suspect-in-mississauga-ont-homicide) | 2026-10-27 | Peel police say they have arrested and charged ... | Increase bikes nearby |
-| [Toronto votes in tight mayoral race as Chow looks to hold off Bradford](https://www.narcity.com/toronto/toronto-votes-in-tightly-contested-mayoral-race) | 2026-10-27 | The next leader of Toronto is set to be decided... | Increase bikes nearby |
-| [This $20 train from Toronto takes you to a riverside town with little cafes and quaint shops](https://www.narcity.com/toronto/via-rail-toronto-port-hope-tickets-things-to-do) | 2026-10-26 | You don't need a car to travel to a charming sm... | Increase bikes nearby |
-| [Spooky Halloween nail ideas to try this year](https://viewthevibe.com/spooky-halloween-nail-ideas-to-try-this-year/) | 2026-10-27 | Looking for Halloween nail inspo? You’ve come t... | Monitor usage |
-| [Halloween makeup essentials: What you need for a killer look](https://viewthevibe.com/halloween-makeup-essentials-what-you-need-for-a-killer-look/) | 2026-10-27 | Ready to bring your Halloween costume to life? ... | Monitor usage |
-| [Toronto temperatures are going to swing by nearly 20 C this week](https://www.blogto.com/city/2026/10/toronto-temperatures-swing-nearly-20-c/) | 2026-10-27 | The lead-up to Halloween has been relatively mi... | Increase bikes nearby |
-| [DJ John Summit just brunched at an unlikely Toronto restaurant](https://www.blogto.com/eat_drink/2026/10/john-summit-toronto-restaurant/) | 2026-10-27 | American DJ John Summit may have spent a sold-o... | Increase bikes nearby |
-| [Here's how this Toronto vendor market feels about the Phoenix Concert Theatre moving in](https://www.blogto.com/fashion_style/2026/10/phoenix-concert-hall-sunday-variety-market/) | 2026-10-27 | When news broke that Toronto Phoenix Concert Th... | Increase bikes nearby |
-| [Canada's biggest and oldest art fair comes Toronto this week](https://www.blogto.com/arts/2026/10/art-toronto-2026/) | 2026-10-27 | Canada's largest and oldest international art f... | Increase bikes nearby |
+| [Canada's most romantic city is a road trip from Toronto and has wintry European charm](https://www.narcity.com/toronto/canada-romantic-city-quebec-city-road-trip-from-toronto) | 2026-11-03 | You might get major butterflies in this dreamy ... | Increase bikes nearby |
+| [This European Christmas market 1 hour from Toronto has a twinkly harbour and cozy shops](https://www.narcity.com/toronto/friday-harbour-resort-christmas-market-2026) | 2026-11-02 | Europe is known for its beautiful Christmas mar... | Increase bikes nearby |
+| [Why card collectors won't want to miss eBay Live at Sport Card Expo Toronto](https://www.blogto.com/sports_play/2026/11/ebay-live-sport-card-expo/) | 2026-11-03 | The Sports Card Expo is going down from Nov. 5 ... | Increase bikes nearby |
+| [Massive Ontario winter festival returns with new offerings next month](https://www.blogto.com/radar/2026/11/river-lights-winter-festival-2026/) | 2026-11-03 | An Ontario town is getting ready to light up th... | Increase bikes nearby |
 
-*Last updated: 2026-10-26 21:18 (Toronto Time)*
+*Last updated: 2026-11-02 23:47 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Eric Bauza, Toronto-born voice of Bugs Bunny and Daffy Duck, dies at 46, Man, 35, arrested in second-degree murder in Mississauga, Ont., homicide: police, Toronto votes in tight mayoral race as Chow looks to hold off Bradford.... Stations near events receive adjusted predictions.*
+*Events analyzed: Canada's most romantic city is a road trip from Toronto and has wintry European charm, This European Christmas market 1 hour from Toronto has a twinkly harbour and cozy shops, Why card collectors won't want to miss eBay Live at Sport Card Expo Toronto.... Stations near events receive adjusted predictions.*
 
