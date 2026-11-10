@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-11-02 18:45 (Toronto Time)
+Updated: 2026-11-09 19:31 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,536 | +684 |
-| **Total docks available** | 12,216 | -604 |
-| **System utilization rate** | 38.2% | +3.3% |
-| **Active stations** | 1075/1075 (100%) | +4 |
-| **Average bikes per station** | 7 | +1 |
+| **Total bikes available** | 7,922 | +386 |
+| **Total docks available** | 11,769 | -447 |
+| **System utilization rate** | 40.2% | +2.1% |
+| **Active stations** | 1075/1075 (100%) |  |
+| **Average bikes per station** | 7.4 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 164 (15.3%) | -35 |
-| **Full stations** | 47 (4.4%) | +13 |
+| **Empty stations** | 149 (13.9%) | -15 |
+| **Full stations** | 51 (4.7%) | +4 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Kewbeach Ave / Kenilworth Ave | 60 | 61 |
-| Humber Bay Shores Park / Marine Parade Dr | 59 | 63 |
-| Atlantic Ave / Liberty St | 52 | 59 |
-| Frederick St / King St E | 47 | 47 |
-| Cherry Beach | 44 | 49 |
-| Alton Ave / Dundas St E (Greenwood Park) | 43 | 43 |
-| Woodbine Ave / Lake Shore Blvd E | 43 | 43 |
-| Queens Quay E / Lower Jarvis St  | 43 | 48 |
+| King St E / Church St | 48 | 55 |
+| Bremner Blvd / Rees St | 47 | 49 |
 | Temperance St Station | 42 | 55 |
+| Niagara St / Richmond St W | 42 | 42 |
+| Humber Bay Shores Park / Marine Parade Dr | 42 | 63 |
 | Front St W / Yonge St (Hockey Hall of Fame) | 40 | 47 |
+| Queen St E / Woodward Ave | 40 | 43 |
+| Toronto Inukshuk Park | 40 | 87 |
+| Queens Quay E / Lower Jarvis St  | 40 | 49 |
+| Bay St / Albert St | 39 | 63 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 58 | 79 |
-| Wellington St W / Bay St | 51 | 55 |
-| Toronto Inukshuk Park | 49 | 87 |
-| 439 Sherbourne St | 43 | 47 |
+| Simcoe St / Pullan Pl | 67 | 79 |
+| Toronto Inukshuk Park | 46 | 87 |
+| 439 Sherbourne St | 44 | 47 |
+| Wellington St W / Bay St | 42 | 55 |
 | Bathurst St / Dundas St W | 40 | 41 |
-| Dundas St W / Crawford St | 39 | 47 |
-| Jarvis St / Isabella St | 38 | 39 |
-| Bay St / Dundas St W | 38 | 55 |
-| Bay St / Albert St | 37 | 63 |
-| Queen St W / Ossington Ave | 37 | 43 |
+| Bay St / Dundas St W | 40 | 55 |
+| Jarvis St / Isabella St | 39 | 39 |
+| University Ave / Elm St | 35 | 35 |
+| Dundas St W / Crawford St | 35 | 47 |
+| Dundonald St / Church St | 34 | 39 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 164 |
-| Full       | 47 |
-| Available  | 864 |
+| Empty      | 149 |
+| Full       | 51 |
+| Available  | 875 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 33.7% with a standard deviation of 30.8%
-- The system is currently operating at 38% capacity
+- The mean availability is 35.5% with a standard deviation of 31.3%
+- The system is currently operating at 40% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,10 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Toronto Inukshuk Park | +25% | Sports Event | Canada's most romantic city is a road trip from Toronto and has wintry European charm |
-| Simcoe St / Pullan Pl | +20% | Food Festival | Canada's most romantic city is a road trip from Toronto and has wintry European charm |
-| Bay St / Albert St | +20% | Sports Event | Canada's most romantic city is a road trip from Toronto and has wintry European charm |
-| Humber Bay Shores Park / Marine Parade Dr | +18% | Art/Cultural Event | General prediction |
+| Simcoe St / Pullan Pl | +30% | Sports Event | Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations |
+| Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
+| Toronto Inukshuk Park | +25% | Concert | Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations |
+| Bay St / Albert St | +20% | Sports Event | Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -141,12 +141,12 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Canada's most romantic city is a road trip from Toronto and has wintry European charm](https://www.narcity.com/toronto/canada-romantic-city-quebec-city-road-trip-from-toronto) | 2026-11-03 | You might get major butterflies in this dreamy ... | Increase bikes nearby |
-| [This European Christmas market 1 hour from Toronto has a twinkly harbour and cozy shops](https://www.narcity.com/toronto/friday-harbour-resort-christmas-market-2026) | 2026-11-02 | Europe is known for its beautiful Christmas mar... | Increase bikes nearby |
-| [Why card collectors won't want to miss eBay Live at Sport Card Expo Toronto](https://www.blogto.com/sports_play/2026/11/ebay-live-sport-card-expo/) | 2026-11-03 | The Sports Card Expo is going down from Nov. 5 ... | Increase bikes nearby |
-| [Massive Ontario winter festival returns with new offerings next month](https://www.blogto.com/radar/2026/11/river-lights-winter-festival-2026/) | 2026-11-03 | An Ontario town is getting ready to light up th... | Increase bikes nearby |
+| [Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations](https://www.narcity.com/toronto/fact-file-ontario-blaze-not-linked-to-diwali) | 2026-11-10 | Several social media posts claimed celebratory ... | Increase bikes nearby |
+| [The world's largest Christmas store is a road trip from Toronto and it's absolutely massive](https://www.narcity.com/toronto/bronners-christmas-wonderland-christmas-store-frankenmuth) | 2026-11-10 | Bring on the Christmas cheer ! This massive hol... | Increase bikes nearby |
+| [Toronto Maple Leafs' new $68M addition leads NHL in this unlucky stat](https://www.blogto.com/sports_play/2026/11/toronto-maple-leafs-raddysh-unlucky-stat/) | 2026-11-10 | The Toronto Maple Leafs brought in defenceman D... | Increase bikes nearby |
+| [Toronto FC fire head coach and three others after another losing season](https://www.blogto.com/sports_play/2026/11/toronto-fc-fire-head-coach-and-others/) | 2026-11-10 | There's a big shakeup coming to the Toronto FC ... | Increase bikes nearby |
 
-*Last updated: 2026-11-02 23:47 (Toronto Time)*
+*Last updated: 2026-11-10 00:32 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Canada's most romantic city is a road trip from Toronto and has wintry European charm, This European Christmas market 1 hour from Toronto has a twinkly harbour and cozy shops, Why card collectors won't want to miss eBay Live at Sport Card Expo Toronto.... Stations near events receive adjusted predictions.*
+*Events analyzed: Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations, The world's largest Christmas store is a road trip from Toronto and it's absolutely massive, Toronto Maple Leafs' new $68M addition leads NHL in this unlucky stat.... Stations near events receive adjusted predictions.*
 
