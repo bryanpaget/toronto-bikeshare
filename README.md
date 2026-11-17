@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-11-09 19:31 (Toronto Time)
+Updated: 2026-11-16 19:36 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,922 | +386 |
-| **Total docks available** | 11,769 | -447 |
-| **System utilization rate** | 40.2% | +2.1% |
-| **Active stations** | 1075/1075 (100%) |  |
+| **Total bikes available** | 7,902 | -20 |
+| **Total docks available** | 11,778 | +9 |
+| **System utilization rate** | 40.2% | -0.1% |
+| **Active stations** | 1068/1068 (100%) | -7 |
 | **Average bikes per station** | 7.4 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 149 (13.9%) | -15 |
-| **Full stations** | 51 (4.7%) | +4 |
+| **Empty stations** | 134 (12.5%) | -15 |
+| **Full stations** | 52 (4.9%) | +1 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| King St E / Church St | 48 | 55 |
-| Bremner Blvd / Rees St | 47 | 49 |
-| Temperance St Station | 42 | 55 |
-| Niagara St / Richmond St W | 42 | 42 |
-| Humber Bay Shores Park / Marine Parade Dr | 42 | 63 |
-| Front St W / Yonge St (Hockey Hall of Fame) | 40 | 47 |
-| Queen St E / Woodward Ave | 40 | 43 |
-| Toronto Inukshuk Park | 40 | 87 |
-| Queens Quay E / Lower Jarvis St  | 40 | 49 |
-| Bay St / Albert St | 39 | 63 |
+| Humber Bay Shores Park / Marine Parade Dr | 63 | 63 |
+| King St E / Church St | 53 | 54 |
+| Kewbeach Ave / Kenilworth Ave | 53 | 60 |
+| Toronto Inukshuk Park | 51 | 87 |
+| Frederick St / King St E | 45 | 47 |
+| Bay St / Dundas St W | 44 | 55 |
+| Queen St E / Woodward Ave | 43 | 43 |
+| Woodbine Ave / Lake Shore Blvd E | 42 | 43 |
+| Alton Ave / Dundas St E (Greenwood Park) | 41 | 42 |
+| 800 Fleet St (South) | 39 | 43 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 67 | 79 |
-| Toronto Inukshuk Park | 46 | 87 |
-| 439 Sherbourne St | 44 | 47 |
-| Wellington St W / Bay St | 42 | 55 |
-| Bathurst St / Dundas St W | 40 | 41 |
-| Bay St / Dundas St W | 40 | 55 |
-| Jarvis St / Isabella St | 39 | 39 |
-| University Ave / Elm St | 35 | 35 |
-| Dundas St W / Crawford St | 35 | 47 |
-| Dundonald St / Church St | 34 | 39 |
+| Simcoe St / Pullan Pl | 60 | 79 |
+| Wellington St W / Bay St | 48 | 55 |
+| Bay St / Albert St | 47 | 63 |
+| 439 Sherbourne St | 42 | 47 |
+| Jarvis St / Isabella St | 38 | 39 |
+| Mill St / Tannery Rd | 38 | 39 |
+| Bathurst St / Dundas St W | 37 | 41 |
+| Fort York  Blvd / Capreol Ct | 36 | 47 |
+| Bond St / Queen St E | 36 | 37 |
+| Toronto Inukshuk Park | 36 | 87 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 149 |
-| Full       | 51 |
-| Available  | 875 |
+| Empty      | 134 |
+| Full       | 52 |
+| Available  | 882 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,7 +79,7 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 35.5% with a standard deviation of 31.3%
+- The mean availability is 35.8% with a standard deviation of 31.3%
 - The system is currently operating at 40% capacity
 
 ## ℹ️ Data Source
@@ -130,10 +130,9 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Sports Event | Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations |
+| Simcoe St / Pullan Pl | +30% | Sports Event | Police link 17-year-old Toronto suspect to two alleged teen murders |
 | Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
-| Toronto Inukshuk Park | +25% | Concert | Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations |
-| Bay St / Albert St | +20% | Sports Event | Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations |
+| Toronto Inukshuk Park | +15% | Art/Cultural Event | Police link 17-year-old Toronto suspect to two alleged teen murders |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -141,12 +140,11 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations](https://www.narcity.com/toronto/fact-file-ontario-blaze-not-linked-to-diwali) | 2026-11-10 | Several social media posts claimed celebratory ... | Increase bikes nearby |
-| [The world's largest Christmas store is a road trip from Toronto and it's absolutely massive](https://www.narcity.com/toronto/bronners-christmas-wonderland-christmas-store-frankenmuth) | 2026-11-10 | Bring on the Christmas cheer ! This massive hol... | Increase bikes nearby |
-| [Toronto Maple Leafs' new $68M addition leads NHL in this unlucky stat](https://www.blogto.com/sports_play/2026/11/toronto-maple-leafs-raddysh-unlucky-stat/) | 2026-11-10 | The Toronto Maple Leafs brought in defenceman D... | Increase bikes nearby |
-| [Toronto FC fire head coach and three others after another losing season](https://www.blogto.com/sports_play/2026/11/toronto-fc-fire-head-coach-and-others/) | 2026-11-10 | There's a big shakeup coming to the Toronto FC ... | Increase bikes nearby |
+| [Police link 17-year-old Toronto suspect to two alleged teen murders](https://www.narcity.com/toronto/police-link-17-year-old-suspect-to-two-killings) | 2026-11-17 | Toronto police are searching for a 17-year-old ... | Increase bikes nearby |
+| [Meet some of the young cowboys taking over the future of bull and bronc riding](https://www.narcity.com/toronto/meet-some-cowboys-dominating-bull-and-bronc-riding) | 2026-11-17 | Dozens of cowboys and cowgirls from across Cana... | Increase bikes nearby |
+| [Which foods at Toronto's Distillery Winter Village are actually worth your money?](https://www.blogto.com/eat_drink/2026/11/which-foods-torontos-distillery-winter-village-worth-your-money/) | 2026-11-17 | The Distillery District Winter Village has desc... | Increase bikes nearby |
 
-*Last updated: 2026-11-10 00:32 (Toronto Time)*
+*Last updated: 2026-11-17 00:36 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Fact File: Police say fire in Milton, Ont., unrelated to Diwali celebrations, The world's largest Christmas store is a road trip from Toronto and it's absolutely massive, Toronto Maple Leafs' new $68M addition leads NHL in this unlucky stat.... Stations near events receive adjusted predictions.*
+*Events analyzed: Police link 17-year-old Toronto suspect to two alleged teen murders, Meet some of the young cowboys taking over the future of bull and bronc riding, Which foods at Toronto's Distillery Winter Village are actually worth your money?. Stations near events receive adjusted predictions.*
 
