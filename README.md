@@ -1,6 +1,6 @@
 # 🚲 Toronto Bike Share Analytics
 
-Updated: 2026-11-16 19:36 (Toronto Time)
+Updated: 2026-11-23 22:08 (Toronto Time)
 
 ## 🖥️ Live Dashboard
 View the interactive dashboard with the full history of bike availability: [https://bryanpaget.github.io/toronto-bikeshare/](https://bryanpaget.github.io/toronto-bikeshare/)
@@ -8,49 +8,49 @@ View the interactive dashboard with the full history of bike availability: [http
 ## 📊 System Overview
 | Metric | Value | Change |
 |--------|-------|--------|
-| **Total bikes available** | 7,902 | -20 |
-| **Total docks available** | 11,778 | +9 |
-| **System utilization rate** | 40.2% | -0.1% |
-| **Active stations** | 1068/1068 (100%) | -7 |
-| **Average bikes per station** | 7.4 | +0 |
+| **Total bikes available** | 8,040 | +138 |
+| **Total docks available** | 11,547 | -231 |
+| **System utilization rate** | 41% | +0.9% |
+| **Active stations** | 1074/1074 (100%) | +6 |
+| **Average bikes per station** | 7.5 | +0 |
 | **Median station capacity** | 17 | - |
-| **Empty stations** | 134 (12.5%) | -15 |
-| **Full stations** | 52 (4.9%) | +1 |
+| **Empty stations** | 164 (15.3%) | +30 |
+| **Full stations** | 59 (5.5%) | +7 |
 
 ## 🏆 Top 10 Stations by Bike Availability
 | Station | Bikes Available | Capacity |
 |---------|-----------------|----------|
-| Humber Bay Shores Park / Marine Parade Dr | 63 | 63 |
-| King St E / Church St | 53 | 54 |
-| Kewbeach Ave / Kenilworth Ave | 53 | 60 |
-| Toronto Inukshuk Park | 51 | 87 |
-| Frederick St / King St E | 45 | 47 |
-| Bay St / Dundas St W | 44 | 55 |
-| Queen St E / Woodward Ave | 43 | 43 |
+| Kewbeach Ave / Kenilworth Ave | 60 | 60 |
+| Humber Bay Shores Park / Marine Parade Dr | 57 | 63 |
+| Atlantic Ave / Liberty St | 50 | 59 |
+| Toronto Inukshuk Park | 48 | 87 |
 | Woodbine Ave / Lake Shore Blvd E | 42 | 43 |
+| 144 Harrison St | 41 | 50 |
+| Queen St E / Woodward Ave | 41 | 43 |
 | Alton Ave / Dundas St E (Greenwood Park) | 41 | 42 |
-| 800 Fleet St (South) | 39 | 43 |
+| Niagara St / Richmond St W | 40 | 42 |
+| Northern Dancer Blvd / Lake Shore Blvd E | 40 | 41 |
 
 ## 🏆 Top 10 Stations by Dock Availability
 | Station | Docks Available | Capacity |
 |---------|-----------------|----------|
-| Simcoe St / Pullan Pl | 60 | 79 |
-| Wellington St W / Bay St | 48 | 55 |
-| Bay St / Albert St | 47 | 63 |
-| 439 Sherbourne St | 42 | 47 |
-| Jarvis St / Isabella St | 38 | 39 |
-| Mill St / Tannery Rd | 38 | 39 |
-| Bathurst St / Dundas St W | 37 | 41 |
-| Fort York  Blvd / Capreol Ct | 36 | 47 |
-| Bond St / Queen St E | 36 | 37 |
-| Toronto Inukshuk Park | 36 | 87 |
+| Simcoe St / Pullan Pl | 69 | 79 |
+| Bloor St W / Manning Ave - SMART | 41 | 42 |
+| Bathurst St / Dundas St W | 39 | 41 |
+| Wellington St W / Bay St | 39 | 55 |
+| Toronto Inukshuk Park | 38 | 87 |
+| Bremner Blvd / Rees St | 36 | 49 |
+| Cherry Beach | 35 | 49 |
+| 439 Sherbourne St | 35 | 47 |
+| Huron St / Harbord St | 34 | 39 |
+| Spadina Ave / Harbord St - SMART | 34 | 36 |
 
 ## 📊 Station Status Distribution
 | Status     | Number of Stations |
 |------------|-------------------:|
-| Empty      | 134 |
-| Full       | 52 |
-| Available  | 882 |
+| Empty      | 164 |
+| Full       | 59 |
+| Available  | 851 |
 
 ## 📍 Bike Locations
 ![Bike Locations](docs/plots/location_plot.png)
@@ -79,8 +79,8 @@ The data is collected from the Toronto Bike Share GBFS API at a single point in 
 
 ### Statistical Notes
 - The distribution of bikes across stations follows a right-skewed distribution
-- The mean availability is 35.8% with a standard deviation of 31.3%
-- The system is currently operating at 40% capacity
+- The mean availability is 36% with a standard deviation of 32.2%
+- The system is currently operating at 41% capacity
 
 ## ℹ️ Data Source
 Data is sourced from the [Toronto Bike Share GBFS API](https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_status)
@@ -130,9 +130,10 @@ Based on upcoming events and historical patterns, here are the predicted changes
 ### 📈 High Demand Predictions (Add Bikes)
 | Station | Predicted Increase | Event Impact | Associated Event |
 |---------|-------------------|--------------|------------------|
-| Simcoe St / Pullan Pl | +30% | Sports Event | Police link 17-year-old Toronto suspect to two alleged teen murders |
 | Humber Bay Shores Park / Marine Parade Dr | +28% | Sports Event | General prediction |
-| Toronto Inukshuk Park | +15% | Art/Cultural Event | Police link 17-year-old Toronto suspect to two alleged teen murders |
+| Toronto Inukshuk Park | +25% | Concert | Olivia Chow uses strong mayor powers to replace Toronto's city manager |
+| Kewbeach Ave / Kenilworth Ave | +22% | Sports Event | General prediction |
+| Simcoe St / Pullan Pl | +20% | Art/Cultural Event | Olivia Chow uses strong mayor powers to replace Toronto's city manager |
 
 ### 📉 No Low Demand Predictions
 No stations are predicted to have significantly decreased demand based on upcoming events.
@@ -140,11 +141,16 @@ No stations are predicted to have significantly decreased demand based on upcomi
 ### 📅 Upcoming Events Influencing Predictions
 | Event | Date | Description | Recommended Action |
 |-------|------|-------------|-------------------|
-| [Police link 17-year-old Toronto suspect to two alleged teen murders](https://www.narcity.com/toronto/police-link-17-year-old-suspect-to-two-killings) | 2026-11-17 | Toronto police are searching for a 17-year-old ... | Increase bikes nearby |
-| [Meet some of the young cowboys taking over the future of bull and bronc riding](https://www.narcity.com/toronto/meet-some-cowboys-dominating-bull-and-bronc-riding) | 2026-11-17 | Dozens of cowboys and cowgirls from across Cana... | Increase bikes nearby |
-| [Which foods at Toronto's Distillery Winter Village are actually worth your money?](https://www.blogto.com/eat_drink/2026/11/which-foods-torontos-distillery-winter-village-worth-your-money/) | 2026-11-17 | The Distillery District Winter Village has desc... | Increase bikes nearby |
+| [Burlington Lions Brighten Waterfront With Expanded Festival of Lights](https://www.narcity.com/toronto/burlington-lions-brighten-waterfront-with-expanded-festival-of-lights) | 2026-11-24 | The Burlington Lions Club will bring its Festiv... | Increase bikes nearby |
+| [Olivia Chow uses strong mayor powers to replace Toronto's city manager](https://www.narcity.com/toronto/chow-uses-strong-mayor-powers-to-swap-city-manager) | 2026-11-24 | Toronto Mayor Olivia Chow is using her strong m... | Increase bikes nearby |
+| [Police identify two teens killed in triple shooting at Toronto gas station](https://www.narcity.com/toronto/police-identify-teen-victims-of-toronto-shooting) | 2026-11-24 | Toronto police have identified two teenagers ki... | Monitor usage |
+| [Here are all the classic Christmas movies perfect for a holiday marathon](https://viewthevibe.com/6-holiday-movies-to-binge-watch-on-netflix-this-christmas/) | 2026-11-24 | It’s time to get in the holiday spirit! Go get ... | Increase bikes nearby |
+| [6 coaches the Maple Leafs could hire if Toronto makes a change](https://www.blogto.com/sports_play/2026/11/6-coaches-maple-leafs-could-hire-if-toronto-makes-change/) | 2026-11-24 | All is not well for the Toronto Maple Leafs, it... | Increase bikes nearby |
+| [Former airplane hangar in Toronto transforms into free skating rink next month](https://www.blogto.com/radar/2026/11/hangar-skate-2026-toronto/) | 2026-11-24 | Toronto's YZD Hangar Skate returns next month f... | Increase bikes nearby |
+| [North America's leading event for the built environment is taking place in Toronto](https://www.blogto.com/tech/2026/11/buildings-show-toronto/) | 2026-11-24 | The Buildings Show by Informa is taking place i... | Increase bikes nearby |
+| [Toronto's oldest homes that are somehow still standing](https://www.blogto.com/real-estate-toronto/2026/11/torontos-oldest-homes-are-still-standing/) | 2026-11-24 | Toronto isn't exactly a city known for hanging ... | Increase bikes nearby |
 
-*Last updated: 2026-11-17 00:36 (Toronto Time)*
+*Last updated: 2026-11-24 03:10 (Toronto Time)*
 *Model confidence: Based on historical patterns and upcoming events from multiple RSS feeds (Narcity Toronto, View The Vibe, YYZ Deals).*
-*Events analyzed: Police link 17-year-old Toronto suspect to two alleged teen murders, Meet some of the young cowboys taking over the future of bull and bronc riding, Which foods at Toronto's Distillery Winter Village are actually worth your money?. Stations near events receive adjusted predictions.*
+*Events analyzed: Burlington Lions Brighten Waterfront With Expanded Festival of Lights, Olivia Chow uses strong mayor powers to replace Toronto's city manager, Police identify two teens killed in triple shooting at Toronto gas station.... Stations near events receive adjusted predictions.*
 
